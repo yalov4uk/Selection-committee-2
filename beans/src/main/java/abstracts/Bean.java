@@ -1,13 +1,14 @@
 package abstracts;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by valera on 4/30/17.
  */
 @MappedSuperclass
 @Access(AccessType.PROPERTY)
-public abstract class Bean {
+public abstract class Bean implements Serializable {
 
     protected Integer id;
 

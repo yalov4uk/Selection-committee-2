@@ -2,7 +2,6 @@ package dao;
 
 import abstracts.BaseDao;
 import beans.Faculty;
-import exceptions.DaoUncheckedException;
 import interfaces.IFacultyDao;
 import org.hibernate.Session;
 

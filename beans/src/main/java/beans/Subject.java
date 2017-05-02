@@ -3,6 +3,7 @@ package beans;
 import abstracts.Bean;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Created by valera on 4/30/17.
@@ -62,21 +63,15 @@ public class Subject extends Bean {
         if (this == o) return true;
         if (!(o instanceof Subject)) return false;
         if (!super.equals(o)) return false;
-
         Subject subject = (Subject) o;
-
-        if (value != subject.value) return false;
-        if (subjectName != null ? !subjectName.equals(subject.subjectName) : subject.subjectName != null) return false;
-        return user != null ? user.equals(subject.user) : subject.user == null;
+        return Objects.equals(value, subject.value) &&
+                Objects.equals(subjectName, subject.subjectName) &&
+                Objects.equals(user, subject.user);
     }
 
     @Override
     public int hashCode() {
-        Integer result = super.hashCode();
-        result = 31 * result + value;
-        result = 31 * result + (subjectName != null ? subjectName.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), value, subjectName, user);
     }
 
     @Override

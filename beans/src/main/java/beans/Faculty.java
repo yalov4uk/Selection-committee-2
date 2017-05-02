@@ -3,6 +3,8 @@ package beans;
 import abstracts.Bean;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -15,8 +17,8 @@ public class Faculty extends Bean {
     private String name;
     private Integer maxSize;
 
-    private Set<SubjectName> requiredSubjects;
-    private Set<User> registeredUsers;
+    private Set<SubjectName> requiredSubjects = new HashSet<>();
+    private Set<User> registeredUsers = new HashSet<>();
 
     public Faculty() {
     }
@@ -77,24 +79,14 @@ public class Faculty extends Bean {
         if (this == o) return true;
         if (!(o instanceof Faculty)) return false;
         if (!super.equals(o)) return false;
-
         Faculty faculty = (Faculty) o;
-
-        if (maxSize != faculty.maxSize) return false;
-        if (name != null ? !name.equals(faculty.name) : faculty.name != null) return false;
-        if (requiredSubjects != null ? !requiredSubjects.equals(faculty.requiredSubjects) : faculty.requiredSubjects != null)
-            return false;
-        return registeredUsers != null ? registeredUsers.equals(faculty.registeredUsers) : faculty.registeredUsers == null;
+        return Objects.equals(name, faculty.name) &&
+                Objects.equals(maxSize, faculty.maxSize);
     }
 
     @Override
     public int hashCode() {
-        Integer result = super.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + maxSize;
-        result = 31 * result + (requiredSubjects != null ? requiredSubjects.hashCode() : 0);
-        result = 31 * result + (registeredUsers != null ? registeredUsers.hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), name, maxSize);
     }
 
     @Override
@@ -103,8 +95,6 @@ public class Faculty extends Bean {
                 super.toString() +
                 ", name='" + name + '\'' +
                 ", maxSize=" + maxSize +
-                ", requiredSubjects=" + requiredSubjects +
-                ", registeredUsers=" + registeredUsers +
                 '}';
     }
 }

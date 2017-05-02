@@ -1,11 +1,10 @@
 package beans;
 
 import abstracts.Bean;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -17,6 +16,8 @@ public class SubjectName extends Bean {
 
     private String name;
 
+    private Set<Faculty> faculties = new HashSet<>();
+
     public SubjectName() {
     }
 
@@ -27,6 +28,15 @@ public class SubjectName extends Bean {
     public SubjectName(int id, String name) {
         super(id);
         this.name = name;
+    }
+
+    @ManyToMany(mappedBy = "requiredSubjects", fetch = FetchType.LAZY)
+    public Set<Faculty> getFaculties() {
+        return faculties;
+    }
+
+    public void setFaculties(Set<Faculty> faculties) {
+        this.faculties = faculties;
     }
 
     @Column(name = "name")
@@ -43,17 +53,13 @@ public class SubjectName extends Bean {
         if (this == o) return true;
         if (!(o instanceof SubjectName)) return false;
         if (!super.equals(o)) return false;
-
         SubjectName that = (SubjectName) o;
-
-        return name != null ? name.equals(that.name) : that.name == null;
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), name);
     }
 
     @Override

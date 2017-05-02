@@ -3,6 +3,7 @@ package beans;
 import abstracts.Bean;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,7 +20,8 @@ public class User extends Bean {
 
     private Role role;
 
-    private Set<Subject> subjects;
+    private Set<Subject> subjects = new HashSet<>();
+    private Set<Faculty> faculties = new HashSet<>();
 
     public Integer getAverageScore(Faculty faculty) {
         Integer result = 0;
@@ -84,6 +86,7 @@ public class User extends Bean {
         this.role = role;
     }
 
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     public Set<Subject> getSubjects() {
         return subjects;
@@ -91,6 +94,15 @@ public class User extends Bean {
 
     public void setSubjects(Set<Subject> subjects) {
         this.subjects = subjects;
+    }
+
+    @ManyToMany(mappedBy = "registeredUsers", fetch = FetchType.LAZY)
+    public Set<Faculty> getFaculties() {
+        return faculties;
+    }
+
+    public void setFaculties(Set<Faculty> faculties) {
+        this.faculties = faculties;
     }
 
     @Override
@@ -102,13 +114,12 @@ public class User extends Bean {
         return Objects.equals(name, user.name) &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(role, user.role) &&
-                Objects.equals(subjects, user.subjects);
+                Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, login, password, role, subjects);
+        return Objects.hash(super.hashCode(), name, login, password, role);
     }
 
     @Override
@@ -119,7 +130,6 @@ public class User extends Bean {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", subjects=" + subjects +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import abstracts.Bean;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by valera on 4/30/17.
@@ -71,21 +72,15 @@ public class Statement extends Bean implements Comparable<Object> {
         if (this == o) return true;
         if (!(o instanceof Statement)) return false;
         if (!super.equals(o)) return false;
-
         Statement statement = (Statement) o;
-
-        if (date != null ? !date.equals(statement.date) : statement.date != null) return false;
-        if (user != null ? !user.equals(statement.user) : statement.user != null) return false;
-        return faculty != null ? faculty.equals(statement.faculty) : statement.faculty == null;
+        return Objects.equals(date, statement.date) &&
+                Objects.equals(user, statement.user) &&
+                Objects.equals(faculty, statement.faculty);
     }
 
     @Override
     public int hashCode() {
-        Integer result = super.hashCode();
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (faculty != null ? faculty.hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), date, user, faculty);
     }
 
     @Override

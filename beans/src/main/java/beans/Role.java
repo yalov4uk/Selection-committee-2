@@ -2,9 +2,10 @@ package beans;
 
 import abstracts.Bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by valera on 4/30/17.
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 public class Role extends Bean {
 
     private String name;
+
+    private Set<User> users = new HashSet<>();
 
     public Role() {
     }
@@ -36,22 +39,27 @@ public class Role extends Bean {
         this.name = name;
     }
 
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         if (!super.equals(o)) return false;
-
         Role role = (Role) o;
-
-        return name != null ? name.equals(role.name) : role.name == null;
+        return Objects.equals(name, role.name);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), name);
     }
 
     @Override
