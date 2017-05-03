@@ -24,11 +24,6 @@ public class Subject extends Bean {
         this.value = value;
     }
 
-    public Subject(Integer id, Integer value) {
-        super(id);
-        this.value = value;
-    }
-
     @Column(name = "value")
     public Integer getValue() {
         return value;

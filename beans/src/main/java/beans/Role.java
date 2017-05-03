@@ -25,11 +25,6 @@ public class Role extends Bean {
         this.name = name;
     }
 
-    public Role(int id, String name) {
-        super(id);
-        this.name = name;
-    }
-
     @Column(name = "name")
     public String getName() {
         return name;

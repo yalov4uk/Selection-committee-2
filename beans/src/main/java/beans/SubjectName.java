@@ -25,11 +25,6 @@ public class SubjectName extends Bean {
         this.name = name;
     }
 
-    public SubjectName(int id, String name) {
-        super(id);
-        this.name = name;
-    }
-
     @ManyToMany(mappedBy = "requiredSubjects", fetch = FetchType.LAZY)
     public Set<Faculty> getFaculties() {
         return faculties;

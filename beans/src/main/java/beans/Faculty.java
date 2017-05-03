@@ -28,12 +28,6 @@ public class Faculty extends Bean {
         this.maxSize = maxSize;
     }
 
-    public Faculty(Integer id, String name, Integer maxSize) {
-        super(id);
-        this.name = name;
-        this.maxSize = maxSize;
-    }
-
     @Column(name = "name")
     public String getName() {
         return name;

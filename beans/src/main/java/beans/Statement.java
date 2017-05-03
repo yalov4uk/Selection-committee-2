@@ -31,11 +31,6 @@ public class Statement extends Bean implements Comparable<Object> {
         this.date = date;
     }
 
-    public Statement(Integer id, Date date) {
-        super(id);
-        this.date = date;
-    }
-
     @Column(name = "date")
     @Temporal(value = TemporalType.DATE)
     public Date getDate() {

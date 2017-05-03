@@ -36,14 +36,7 @@ public class User extends Bean {
     public User() {
     }
 
-    public User(String name, String login, String password, Integer roleId) {
-        this.name = name;
-        this.login = login;
-        this.password = password;
-    }
-
-    public User(Integer id, String name, String login, String password, Integer roleId) {
-        super(id);
+    public User(String name, String login, String password) {
         this.name = name;
         this.login = login;
         this.password = password;
