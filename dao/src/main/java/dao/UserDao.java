@@ -6,6 +6,7 @@ import exceptions.DaoUncheckedException;
 import interfaces.IUserDao;
 import org.hibernate.Session;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -23,7 +24,10 @@ public class UserDao extends BaseDao<User> implements IUserDao {
             Query query = session.createQuery("from User user where user.login = :login");
             query.setParameter("login", login);
             return (User) query.getSingleResult();
-        } catch (Exception e) {
+        } catch (NoResultException e) {
+            return null;
+        } catch (
+                Exception e) {
             throw new DaoUncheckedException(e);
         }
     }
