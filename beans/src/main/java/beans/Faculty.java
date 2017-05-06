@@ -3,9 +3,7 @@ package beans;
 import abstracts.Bean;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by valera on 4/30/17.
@@ -19,6 +17,7 @@ public class Faculty extends Bean {
 
     private Set<SubjectName> requiredSubjects = new HashSet<>();
     private Set<User> registeredUsers = new HashSet<>();
+    private List<Statement> statements = new ArrayList<>();
 
     public Faculty() {
     }
@@ -66,6 +65,15 @@ public class Faculty extends Bean {
 
     public void setRegisteredUsers(Set<User> registeredUsers) {
         this.registeredUsers = registeredUsers;
+    }
+
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY)
+    public List<Statement> getStatements() {
+        return statements;
+    }
+
+    public void setStatements(List<Statement> statements) {
+        this.statements = statements;
     }
 
     @Override

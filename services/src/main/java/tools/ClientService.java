@@ -5,11 +5,12 @@ import beans.Role;
 import beans.User;
 import dao.RoleDao;
 import dao.UserDao;
+import interfaces.IClientService;
 
 /**
  * Created by valera on 5/3/17.
  */
-public class ClientService extends BaseService {
+public class ClientService extends BaseService implements IClientService {
 
     public User register(String name, String login, String password) {
         return baseCommand(() -> {

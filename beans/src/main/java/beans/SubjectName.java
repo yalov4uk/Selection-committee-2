@@ -17,6 +17,7 @@ public class SubjectName extends Bean {
     private String name;
 
     private Set<Faculty> faculties = new HashSet<>();
+    private Set<Subject> subjects = new HashSet<>();
 
     public SubjectName() {
     }
@@ -41,6 +42,15 @@ public class SubjectName extends Bean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @OneToMany(mappedBy = "subjectName", fetch = FetchType.LAZY)
+    public Set<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = subjects;
     }
 
     @Override

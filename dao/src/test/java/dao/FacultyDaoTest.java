@@ -44,11 +44,11 @@ public class FacultyDaoTest {
 
     @Test
     public void findByName() throws Exception {
-        Faculty faculty = new Faculty("test", 2);
-        facultyDao.save(faculty);
-        Faculty faculty2 = facultyDao.findByName(faculty.getName());
-        assertNotNull("Faculty not found", faculty2);
-        assertEquals("Faculty name doesn't match", faculty.getName(), faculty2.getName());
+        Faculty expectedFaculty = new Faculty("test", 2);
+        facultyDao.save(expectedFaculty);
+        Faculty actualFaculty = facultyDao.findByName(expectedFaculty.getName());
+        assertNotNull("Faculty not found", actualFaculty);
+        assertEquals("Faculty name doesn't match", expectedFaculty.getName(), actualFaculty.getName());
     }
 
 }

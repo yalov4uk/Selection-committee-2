@@ -48,16 +48,16 @@ public class UserDaoTest {
 
     @Test
     public void findByLogin() throws Exception {
-        User user = new User("test", "test", "test");
+        User expectedUser = new User("test", "test", "test");
         Role role = new Role("test");
-        user.setRole(role);
+        expectedUser.setRole(role);
 
         roleDao.save(role);
-        userDao.save(user);
-        User user2 = userDao.findByLogin(user.getLogin());
+        userDao.save(expectedUser);
+        User actualUser = userDao.findByLogin(expectedUser.getLogin());
 
-        assertNotNull("User not found", user2);
-        assertEquals("User name doesn't match", user.getLogin(), user2.getLogin());
+        assertNotNull("User not found", actualUser);
+        assertEquals("User name doesn't match", expectedUser.getLogin(), actualUser.getLogin());
     }
 
 }

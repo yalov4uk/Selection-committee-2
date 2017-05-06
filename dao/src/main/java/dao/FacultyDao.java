@@ -3,6 +3,7 @@ package dao;
 import abstracts.BaseDao;
 import beans.Faculty;
 import interfaces.IFacultyDao;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 
 import javax.persistence.NoResultException;

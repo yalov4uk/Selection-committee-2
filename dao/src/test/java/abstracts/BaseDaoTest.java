@@ -72,64 +72,68 @@ public class BaseDaoTest {
 
     @Test
     public void persist() throws Exception {
-        Role role = new Role("test");
-        roleDao.persist(role);
-        assertNotNull("Object id is null", role.getId());
-        assertEquals("Object id isn't null, but object not persisted", roleDao.find(role.getId()), role);
+        Role expectedRole = new Role("test");
+        roleDao.persist(expectedRole);
+        assertNotNull("Object id is null", expectedRole.getId());
+        Role actualRole = roleDao.find(expectedRole.getId());
+        assertEquals("Object id isn't null, but object not persisted", expectedRole, actualRole);
     }
 
     @Test
     public void update() throws Exception {
-        Faculty faculty = new Faculty("test", 1);
+        Faculty expectedFaculty = new Faculty("test", 1);
 
         User user = new User("test", "test", "test");
         Role role = new Role("test");
         user.setRole(role);
 
         Statement statement = new Statement();
-        statement.setFaculty(faculty);
+        statement.setFaculty(expectedFaculty);
         statement.setUser(user);
 
-        facultyDao.save(faculty);
+        facultyDao.save(expectedFaculty);
         roleDao.save(role);
         userDao.save(user);
         statementDao.save(statement);
 
-        Faculty newFaculty = new Faculty("test2", 2);
-        statement.setFaculty(newFaculty);
+        Faculty actualFaculty = new Faculty("test2", 2);
+        statement.setFaculty(actualFaculty);
         statementDao.update(statement);
 
-        assertEquals("Object not updated", statement.getFaculty().getName(), "test2");
+        String expectedName = statement.getFaculty().getName();
+        assertEquals("Object not updated", expectedName, actualFaculty.getName());
     }
 
     @Test
     public void find() throws Exception {
-        Subject subject = new Subject(34);
+        Subject expectedSubject = new Subject(34);
 
         SubjectName subjectName = new SubjectName("test");
-        subject.setSubjectName(subjectName);
+        expectedSubject.setSubjectName(subjectName);
 
         User user = new User("test", "test", "test");
         Role role = new Role("test");
         user.setRole(role);
-        subject.setUser(user);
+        expectedSubject.setUser(user);
 
         subjectNameDao.save(subjectName);
         roleDao.save(role);
         userDao.save(user);
-        Serializable subjectId = subjectDao.save(subject);
+        Serializable subjectId = subjectDao.save(expectedSubject);
 
-        Subject subject2 = subjectDao.find((Integer) subjectId);
-        assertEquals("Object not found", subject, subject2);
-        assertEquals("Object found, but references not found", subject.getUser(), subject2.getUser());
+        Subject actualSubject = subjectDao.find((Integer) subjectId);
+        assertEquals("Object not found", expectedSubject, actualSubject);
+        assertEquals("Object found, but references not found", expectedSubject.getUser(),
+                actualSubject.getUser());
     }
 
     @Test
     public void delete() throws Exception {
-        SubjectName subjectName = new SubjectName("test");
-        Serializable subjectNameId = subjectNameDao.save(subjectName);
+        SubjectName expectedSubjectName = new SubjectName("test");
+        Serializable subjectNameId = subjectNameDao.save(expectedSubjectName);
         subjectNameDao.delete((Integer) subjectNameId);
-        assertNull("Object not deleted", subjectNameDao.find((Integer) subjectNameId));
+        SubjectName actualSubjectName = subjectNameDao.find((Integer) subjectNameId);
+        assertNull("Object not deleted", actualSubjectName);
     }
 
     @Test
@@ -149,7 +153,7 @@ public class BaseDaoTest {
 
         List<User> users = userDao.getAll();
         assertTrue("List<Object> doesn't contain added object1", users.contains(user1));
-        assertTrue("List<Object> doesn't contain added object2", users.contains(user1));
+        assertTrue("List<Object> doesn't contain added object2", users.contains(user2));
     }
 
 }

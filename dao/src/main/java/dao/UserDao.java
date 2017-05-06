@@ -26,9 +26,6 @@ public class UserDao extends BaseDao<User> implements IUserDao {
             return (User) query.getSingleResult();
         } catch (NoResultException e) {
             return null;
-        } catch (
-                Exception e) {
-            throw new DaoUncheckedException(e);
         }
     }
 }
