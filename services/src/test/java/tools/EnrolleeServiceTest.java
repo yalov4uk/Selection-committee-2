@@ -78,6 +78,9 @@ public class EnrolleeServiceTest {
         enrolleeService.registerToFaculty(user, faculty1, actualSubjectNames1, values1);
         assertTrue("User doesn't registered to faculty1", faculty1.getRegisteredUsers().contains(user));
 
+        List<SubjectName> thisShouldBeNull = enrolleeService.getRequiredSubjectNames(user, faculty1);
+        assertNull("Enrollee can twice register to the same faculty", thisShouldBeNull);
+
         List<SubjectName> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2);
         assertFalse("List contains subjectName1", actualSubjectNames2.contains(subjectName1));
         assertFalse("List contains subjectName2", actualSubjectNames2.contains(subjectName2));
@@ -88,6 +91,12 @@ public class EnrolleeServiceTest {
         enrolleeService.registerToFaculty(user, faculty2, actualSubjectNames2, values2);
         assertTrue("User doesn't registered to faculty2", faculty2.getRegisteredUsers().contains(user));
 
+        faculty1.setRequiredSubjects(new HashSet<>());
+        faculty2.setRequiredSubjects(new HashSet<>());
+        faculty1.setRegisteredUsers(new HashSet<>());
+        faculty2.setRegisteredUsers(new HashSet<>());
+        crudService.update(faculty1);
+        crudService.update(faculty2);
         user.getSubjects().forEach(subject -> crudService.delete(subject));
         crudService.delete(faculty1);
         crudService.delete(faculty2);

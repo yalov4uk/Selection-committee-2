@@ -34,8 +34,6 @@ public abstract class BaseService implements IBaseService {
         } catch (HibernateException e) {
             transaction.rollback();
             throw new ServiceUncheckedException(e);
-        } finally {
-
         }
         return object;
     }

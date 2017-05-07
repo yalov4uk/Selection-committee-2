@@ -80,19 +80,19 @@ public class CRUDServiceTest {
 
         crudService.delete(user1);
         User actualUser1 = crudService.read(user1.getId(), User.class);
-        assertNull("object doesn't deleted", actualUser1);
+        assertNull("User1 doesn't deleted", actualUser1);
 
         crudService.delete(user2);
         User actualUser2 = crudService.read(user2.getId(), User.class);
-        assertNull("object doesn't deleted", actualUser2);
+        assertNull("User2 doesn't deleted", actualUser2);
 
         crudService.delete(expectedRole1);
         actualRole1 = crudService.read(expectedRole1.getId(), Role.class);
-        assertNull("object doesn't deleted", actualRole1);
+        assertNull("Role1 doesn't deleted", actualRole1);
 
         crudService.delete(expectedRole2);
         actualRole2 = crudService.read(expectedRole2.getId(), Role.class);
-        assertNull("object doesn't deleted", actualRole2);
+        assertNull("Role2 doesn't deleted", actualRole2);
     }
 
 }
