@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>beans</artifactId>
-    <name>beans</name>
+    <artifactId>com.yalov4uk.beans</artifactId>
+    <name>com.yalov4uk.beans</name>
 
     <dependencies>
 

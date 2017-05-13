@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>services</artifactId>
-    <name>services</name>
+    <artifactId>com.yalov4uk.services</artifactId>
+    <name>com.yalov4uk.services</name>
 
     <dependencies>
         <dependency>
@@ -22,13 +22,13 @@
 
         <dependency>
             <groupId>by.training.nc.dev3</groupId>
-            <artifactId>beans</artifactId>
+            <artifactId>com.yalov4uk.beans</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>by.training.nc.dev3</groupId>
-            <artifactId>dao</artifactId>
+            <artifactId>com.yalov4uk.dao</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
