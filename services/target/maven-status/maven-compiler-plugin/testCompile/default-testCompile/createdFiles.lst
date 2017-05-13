@@ -1,0 +1,4 @@
+services/CRUDServiceTest.class
+services/ClientServiceTest.class
+services/AdminServiceTest.class
+services/EnrolleeServiceTest.class

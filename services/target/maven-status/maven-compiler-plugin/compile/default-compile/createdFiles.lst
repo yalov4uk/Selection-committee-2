@@ -1,0 +1,11 @@
+services/ClientService.class
+services/EnrolleeService.class
+interfaces/IClientService.class
+abstracts/BaseService.class
+services/AdminService.class
+interfaces/ICRUDService.class
+interfaces/IEnrolleeService.class
+interfaces/IAdminService.class
+exceptions/ServiceUncheckedException.class
+services/CRUDService.class
+interfaces/IBaseService.class

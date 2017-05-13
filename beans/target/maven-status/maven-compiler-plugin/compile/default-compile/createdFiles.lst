@@ -1,0 +1,7 @@
+beans/SubjectName.class
+beans/Statement.class
+beans/User.class
+abstracts/Bean.class
+beans/Subject.class
+beans/Faculty.class
+beans/Role.class

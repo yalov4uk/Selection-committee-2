@@ -1,0 +1,5 @@
+core/controllers/HelloWorldController.class
+core/BeanConfig.class
+core/ApplicationInitializer.class
+core/Application.class
+core/WebConfig.class

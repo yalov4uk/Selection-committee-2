@@ -1,0 +1,11 @@
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/services/CRUDService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/interfaces/ICRUDService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/interfaces/IEnrolleeService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/interfaces/IClientService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/interfaces/IAdminService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/services/AdminService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/abstracts/BaseService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/interfaces/IBaseService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/services/EnrolleeService.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/exceptions/ServiceUncheckedException.java
+/home/valera/Projects/Java/SelectionCommittee/services/src/main/java/services/ClientService.java
