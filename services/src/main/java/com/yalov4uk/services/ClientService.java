@@ -8,7 +8,6 @@ import com.yalov4uk.interfaces.IRoleDao;
 import com.yalov4uk.interfaces.IUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by valera on 5/3/17.

@@ -2,7 +2,6 @@ package com.yalov4uk.core.controllers;
 
 import com.yalov4uk.beans.Role;
 import com.yalov4uk.interfaces.ICRUDService;
-import com.yalov4uk.beans.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

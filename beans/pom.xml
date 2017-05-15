@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>com.yalov4uk.beans</artifactId>
-    <name>com.yalov4uk.beans</name>
+    <name>beans</name>
 
     <dependencies>
 

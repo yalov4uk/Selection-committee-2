@@ -2,7 +2,6 @@ package com.yalov4uk.interfaces;
 
 import com.yalov4uk.abstracts.Bean;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
