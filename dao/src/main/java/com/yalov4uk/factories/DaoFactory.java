@@ -37,10 +37,7 @@ public class DaoFactory implements IDaoFactory {
     }
 
     public IBaseDao getDao(Class name) {
-        if (name != null && map.containsKey(name)) {
-            return map.get(name);
-        }
-        return null;
+        return map.get(name);
     }
 
     private Map<Class, IBaseDao> initializeMap() {

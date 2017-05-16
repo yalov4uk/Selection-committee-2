@@ -25,8 +25,8 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
     }
 
     @Override
-    public void update(T object) {
-        entityManager.merge(object);
+    public T update(T object) {
+        return entityManager.merge(object);
     }
 
     @Override

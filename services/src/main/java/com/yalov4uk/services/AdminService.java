@@ -19,10 +19,14 @@ import java.util.stream.Collectors;
 @Service
 public class AdminService extends BaseService implements IAdminService {
 
+    private final IStatementDao statementDao;
+    private final IFacultyDao facultyDao;
+
     @Autowired
-    private IStatementDao statementDao;
-    @Autowired
-    private IFacultyDao facultyDao;
+    public AdminService(IStatementDao statementDao, IFacultyDao facultyDao) {
+        this.statementDao = statementDao;
+        this.facultyDao = facultyDao;
+    }
 
     public Statement registerStatement(User user, Faculty faculty) {
         Statement statement = new Statement();

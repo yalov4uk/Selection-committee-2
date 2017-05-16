@@ -21,12 +21,16 @@ import java.util.List;
 @Service
 public class EnrolleeService extends BaseService implements IEnrolleeService {
 
+    private final ISubjectDao subjectDao;
+    private final IFacultyDao facultyDao;
+    private final IUserDao userDao;
+
     @Autowired
-    private ISubjectDao subjectDao;
-    @Autowired
-    private IFacultyDao facultyDao;
-    @Autowired
-    private IUserDao userDao;
+    public EnrolleeService(ISubjectDao subjectDao, IFacultyDao facultyDao, IUserDao userDao) {
+        this.subjectDao = subjectDao;
+        this.facultyDao = facultyDao;
+        this.userDao = userDao;
+    }
 
     public List<SubjectName> getRequiredSubjectNames(User user, Faculty faculty) {
         if (faculty == null || faculty.getRegisteredUsers().contains(user)) {

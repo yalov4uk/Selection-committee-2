@@ -15,10 +15,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService extends BaseService implements IClientService {
 
+    private final IUserDao userDao;
+    private final IRoleDao roleDao;
+
     @Autowired
-    private IUserDao userDao;
-    @Autowired
-    private IRoleDao roleDao;
+    public ClientService(IUserDao userDao, IRoleDao roleDao) {
+        this.userDao = userDao;
+        this.roleDao = roleDao;
+    }
 
     public User register(String name, String login, String password) {
         if (userDao.findByLogin(login) != null) {

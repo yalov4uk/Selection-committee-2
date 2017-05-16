@@ -13,7 +13,7 @@ public interface IBaseDao<T extends Bean> {
 
     T find(Integer key);
 
-    void update(T object);
+    T update(T object);
 
     void delete(Integer key);
 

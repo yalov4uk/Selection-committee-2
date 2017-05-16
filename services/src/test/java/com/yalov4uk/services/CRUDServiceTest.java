@@ -31,10 +31,8 @@ public class CRUDServiceTest {
 
     private User user1;
     private Role expectedRole1;
-    private Role actualRole1;
     private User user2;
     private Role expectedRole2;
-    private Role actualRole2;
 
     @Before
     public void setUp() throws Exception {
@@ -46,11 +44,11 @@ public class CRUDServiceTest {
     @Test
     public void create() throws Exception {
         try {
-            actualRole = crudService.create(expectedRole);
-            assertEquals("Object doesn't created", expectedRole, actualRole);
+            crudService.create(expectedRole);
+            assertNotNull("Object doesn't created", expectedRole.getId());
 
-            actualUser = crudService.create(expectedUser);
-            assertEquals("Object doesn't created", expectedUser, actualUser);
+            crudService.create(expectedUser);
+            assertNotNull("Object doesn't created", expectedUser.getId());
         } finally {
             clearDbAfterCreate();
         }
@@ -101,13 +99,13 @@ public class CRUDServiceTest {
             expectedRole1 = new Role("test1");
             user1.setRole(expectedRole1);
 
-            actualRole1 = crudService.create(expectedRole1);
+            crudService.create(expectedRole1);
 
             user2 = new User("test2", "test2", "test2");
             expectedRole2 = new Role("test2");
             user2.setRole(expectedRole2);
 
-            actualRole2 = crudService.create(expectedRole2);
+            crudService.create(expectedRole2);
 
             crudService.create(user1);
             crudService.create(user2);

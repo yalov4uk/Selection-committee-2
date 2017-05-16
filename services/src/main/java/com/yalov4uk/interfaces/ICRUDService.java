@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface ICRUDService extends IBaseService {
 
-    <T extends Bean> T create(T object);
+    <T extends Bean> void create(T object);
 
     <T extends Bean> T read(Integer key, Class<T> name);
 
     <T extends Bean> T update(T object);
 
-    <T extends Bean> T delete(T object);
+    <T extends Bean> void delete(T object);
 
     <T extends Bean> List<T> getAll(Class<T> name);
 }

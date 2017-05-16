@@ -16,13 +16,16 @@ import java.util.List;
 @Service
 public class CRUDService extends BaseService implements ICRUDService {
 
-    @Autowired
-    private IDaoFactory daoFactory;
+    private final IDaoFactory daoFactory;
 
-    public <T extends Bean> T create(T object) {
+    @Autowired
+    public CRUDService(IDaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
+
+    public <T extends Bean> void create(T object) {
         IBaseDao<T> dao = daoFactory.getDao(object.getClass());
         dao.persist(object);
-        return object;
     }
 
     public <T extends Bean> T read(Integer key, Class<T> name) {
@@ -32,14 +35,12 @@ public class CRUDService extends BaseService implements ICRUDService {
 
     public <T extends Bean> T update(T object) {
         IBaseDao<T> dao = daoFactory.getDao(object.getClass());
-        dao.update(object);
-        return object;
+        return dao.update(object);
     }
 
-    public <T extends Bean> T delete(T object) {
+    public <T extends Bean> void delete(T object) {
         IBaseDao<T> dao = daoFactory.getDao(object.getClass());
         dao.delete(object.getId());
-        return object;
     }
 
     public <T extends Bean> List<T> getAll(Class<T> name) {
