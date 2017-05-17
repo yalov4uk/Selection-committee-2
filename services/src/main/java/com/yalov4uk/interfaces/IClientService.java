@@ -1,6 +1,7 @@
 package com.yalov4uk.interfaces;
 
 import com.yalov4uk.beans.User;
+import com.yalov4uk.interfaces.abstracts.IBaseService;
 
 /**
  * Created by valera on 5/6/17.

@@ -26,6 +26,7 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
 
     @Override
     public T update(T object) {
+        if (find(object.getId()) == null) return null;
         return entityManager.merge(object);
     }
 

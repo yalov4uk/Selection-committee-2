@@ -1,11 +1,12 @@
 package com.yalov4uk.interfaces;
 
 import com.yalov4uk.abstracts.Bean;
+import com.yalov4uk.interfaces.abstracts.IBaseService;
 
 import java.util.List;
 
 /**
- * Created by valera on 5/6/17.
+ * Created by valera on 5/17/17.
  */
 public interface ICRUDService extends IBaseService {
 

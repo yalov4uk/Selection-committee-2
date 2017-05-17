@@ -1,6 +1,6 @@
 package com.yalov4uk.abstracts;
 
-import com.yalov4uk.interfaces.IBaseService;
+import com.yalov4uk.interfaces.abstracts.IBaseService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(rollbackFor = Exception.class)
 public abstract class BaseService implements IBaseService {
+
 }
