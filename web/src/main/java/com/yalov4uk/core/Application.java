@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * Created by valera on 5/7/17.
  */
+//maven + log4g + spring security
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.yalov4uk"})
 @EntityScan(basePackages = "com.yalov4uk")
