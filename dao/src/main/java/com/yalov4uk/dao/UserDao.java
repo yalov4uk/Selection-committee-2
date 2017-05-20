@@ -5,6 +5,8 @@ import com.yalov4uk.beans.User;
 import com.yalov4uk.interfaces.IUserDao;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
+
 /**
  * Created by valera on 5/1/17.
  */
@@ -16,8 +18,12 @@ public class UserDao extends BaseDao<User> implements IUserDao {
     }
 
     public User findByLogin(String login) {
-        return (User) entityManager.createQuery("from User user where user.login = :login")
-                .setParameter("login", login)
-                .getSingleResult();
+        try {
+            return (User) entityManager.createQuery("from User user where user.login = :login")
+                    .setParameter("login", login)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

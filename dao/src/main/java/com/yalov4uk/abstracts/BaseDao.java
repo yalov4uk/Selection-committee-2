@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Created by valera on 4/30/17.
  */
-@SuppressWarnings("unchecked")
 public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
 
     @PersistenceContext

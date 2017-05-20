@@ -2,13 +2,15 @@ package com.yalov4uk.services;
 
 import com.yalov4uk.beans.Role;
 import com.yalov4uk.beans.User;
-import com.yalov4uk.interfaces.ICRUDService;
+import com.yalov4uk.interfaces.beans.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,22 +19,25 @@ import static org.junit.Assert.*;
 /**
  * Created by valera on 5/6/17.
  */
+@ContextConfiguration("/test_config.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest//(classes = Application.class)
+@Transactional
 public class CRUDServiceTest {
 
     @Autowired
-    private ICRUDService crudService;
+    private IRoleService roleService;
+    @Autowired
+    private IUserService userService;
 
     private User expectedUser;
     private Role expectedRole;
-    private Role actualRole;
     private User actualUser;
 
     private User user1;
     private Role expectedRole1;
     private User user2;
     private Role expectedRole2;
+    private Role actualRole;
 
     @Before
     public void setUp() throws Exception {
@@ -42,92 +47,71 @@ public class CRUDServiceTest {
     }
 
     @Test
+    @Rollback
     public void create() throws Exception {
-        try {
-            crudService.create(expectedRole);
-            assertNotNull("Object doesn't created", expectedRole.getId());
+        roleService.create(expectedRole);
+        assertNotNull("Object doesn't created", expectedRole.getId());
 
-            crudService.create(expectedUser);
-            assertNotNull("Object doesn't created", expectedUser.getId());
-        } finally {
-            clearDbAfterCreate();
-        }
+        userService.create(expectedUser);
+        assertNotNull("Object doesn't created", expectedUser.getId());
     }
 
     @Test
+    @Rollback
     public void read() throws Exception {
-        try {
-            create();
-            actualUser = crudService.read(expectedUser.getId(), User.class);
-            assertEquals("Object doesn't read", expectedUser, actualUser);
-        } finally {
-            clearDbAfterCreate();
-        }
+        createProc();
+        actualUser = userService.read(expectedUser.getId());
+        assertEquals("Object doesn't read", expectedUser, actualUser);
     }
 
     @Test
+    @Rollback
     public void update() throws Exception {
-        try {
-            create();
-            expectedUser.setName("test1");
-            actualUser = crudService.update(expectedUser);
-            assertEquals("Object doesn't updated", expectedUser, actualUser);
-        } finally {
-            clearDbAfterCreate();
-        }
+        createProc();
+        expectedUser.setName("test1");
+        actualUser = userService.update(expectedUser);
+        assertEquals("Object doesn't updated", expectedUser, actualUser);
     }
 
     @Test
+    @Rollback
     public void delete() throws Exception {
-        try {
-            create();
-        } finally {
-            crudService.delete(expectedUser);
-            actualUser = crudService.read(expectedUser.getId(), User.class);
-            assertNull("object doesn't deleted", actualUser);
+        createProc();
+        userService.delete(expectedUser);
+        actualUser = userService.read(expectedUser.getId());
+        assertNull("object doesn't deleted", actualUser);
 
-            crudService.delete(expectedRole);
-            actualRole = crudService.read(expectedRole.getId(), Role.class);
-            assertNull("object doesn't deleted", actualRole);
-        }
+        roleService.delete(expectedRole);
+        actualRole = roleService.read(expectedRole.getId());
+        assertNull("object doesn't deleted", actualRole);
     }
 
     @Test
+    @Rollback
     public void getAll() throws Exception {
-        try {
-            user1 = new User("test1", "test1", "test1");
-            expectedRole1 = new Role("test1");
-            user1.setRole(expectedRole1);
+        user1 = new User("test1", "test1", "test1");
+        expectedRole1 = new Role("test1");
+        user1.setRole(expectedRole1);
 
-            crudService.create(expectedRole1);
+        roleService.create(expectedRole1);
 
-            user2 = new User("test2", "test2", "test2");
-            expectedRole2 = new Role("test2");
-            user2.setRole(expectedRole2);
+        user2 = new User("test2", "test2", "test2");
+        expectedRole2 = new Role("test2");
+        user2.setRole(expectedRole2);
 
-            crudService.create(expectedRole2);
+        roleService.create(expectedRole2);
 
-            crudService.create(user1);
-            crudService.create(user2);
+        userService.create(user1);
+        userService.create(user2);
 
-            List<User> users = crudService.getAll(User.class);
-            assertNotNull("List in null", users);
-            assertTrue("List doesn't contains user1", users.contains(user1));
-            assertTrue("List doesn't contains user2", users.contains(user2));
-        } finally {
-            crudService.delete(user1);
-            crudService.delete(user2);
-            crudService.delete(expectedRole1);
-            crudService.delete(expectedRole2);
-        }
+        List<User> users = userService.getAll();
+        assertNotNull("List in null", users);
+        assertTrue("List doesn't contains user1", users.contains(user1));
+        assertTrue("List doesn't contains user2", users.contains(user2));
     }
 
-    private void clearDbAfterCreate() {
-        crudService.delete(expectedUser);
-        actualUser = crudService.read(expectedUser.getId(), User.class);
-
-        crudService.delete(expectedRole);
-        actualRole = crudService.read(expectedRole.getId(), Role.class);
+    private void createProc(){
+        roleService.create(expectedRole);
+        userService.create(expectedUser);
     }
-
 }

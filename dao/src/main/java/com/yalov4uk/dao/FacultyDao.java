@@ -5,6 +5,8 @@ import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.interfaces.IFacultyDao;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
+
 /**
  * Created by valera on 5/1/17.
  */
@@ -16,8 +18,13 @@ public class FacultyDao extends BaseDao<Faculty> implements IFacultyDao {
     }
 
     public Faculty findByName(String name) {
-        return (Faculty) entityManager.createQuery("from Faculty faculty where faculty.name = :name")
-                .setParameter("name", name)
-                .getSingleResult();
+        try {
+            return (Faculty) entityManager.createQuery("from Faculty faculty where faculty.name = :name")
+                    .setParameter("name", name)
+                    .getSingleResult();
+
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

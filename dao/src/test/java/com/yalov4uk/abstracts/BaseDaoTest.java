@@ -2,17 +2,14 @@ package com.yalov4uk.abstracts;
 
 import com.yalov4uk.beans.*;
 import com.yalov4uk.interfaces.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -20,12 +17,11 @@ import static org.junit.Assert.*;
 /**
  * Created by valera on 5/3/17.
  */
+@ContextConfiguration("/test_config.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest//(classes = Application.class)
+@Transactional
 public class BaseDaoTest {
 
-    @PersistenceContext
-    private EntityManager entityManager;
     @Autowired
     private IFacultyDao facultyDao;
     @Autowired
@@ -39,19 +35,8 @@ public class BaseDaoTest {
     @Autowired
     private IUserDao userDao;
 
-    private EntityTransaction transaction = entityManager.getTransaction();
-
-    @Before
-    public void setUp() throws Exception {
-        transaction.begin();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        transaction.rollback();
-    }
-
     @Test
+    @Rollback
     public void persist() throws Exception {
         Role expectedRole = new Role("test");
         roleDao.persist(expectedRole);
@@ -61,6 +46,7 @@ public class BaseDaoTest {
     }
 
     @Test
+    @Rollback
     public void update() throws Exception {
         Faculty expectedFaculty = new Faculty("test", 1);
 
@@ -86,6 +72,7 @@ public class BaseDaoTest {
     }
 
     @Test
+    @Rollback
     public void find() throws Exception {
         Subject expectedSubject = new Subject(34);
 
@@ -109,6 +96,7 @@ public class BaseDaoTest {
     }
 
     @Test
+    @Rollback
     public void delete() throws Exception {
         SubjectName expectedSubjectName = new SubjectName("test");
         subjectNameDao.persist(expectedSubjectName);
@@ -118,6 +106,7 @@ public class BaseDaoTest {
     }
 
     @Test
+    @Rollback
     public void getAll() throws Exception {
         User user1 = new User("test1", "test1", "test1");
         User user2 = new User("test2", "test2", "test2");

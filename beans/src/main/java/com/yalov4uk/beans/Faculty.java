@@ -36,7 +36,7 @@ public class Faculty extends Bean {
         this.name = name;
     }
 
-    @Column(name = "maxSize")
+    @Column(name = "max_size")
     public Integer getMaxSize() {
         return maxSize;
     }

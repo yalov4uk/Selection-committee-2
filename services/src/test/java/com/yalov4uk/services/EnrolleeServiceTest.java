@@ -4,15 +4,16 @@ import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.Role;
 import com.yalov4uk.beans.SubjectName;
 import com.yalov4uk.beans.User;
-import com.yalov4uk.interfaces.ICRUDService;
 import com.yalov4uk.interfaces.IEnrolleeService;
-import org.junit.After;
+import com.yalov4uk.interfaces.beans.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,14 +25,22 @@ import static org.junit.Assert.*;
 /**
  * Created by valera on 5/6/17.
  */
+@ContextConfiguration("/test_config.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest//(classes = Application.class)
+@Transactional
 public class EnrolleeServiceTest {
 
     @Autowired
     private IEnrolleeService enrolleeService;
+
     @Autowired
-    private ICRUDService crudService;
+    private IFacultyService facultyService;
+    @Autowired
+    private IRoleService roleService;
+    @Autowired
+    private ISubjectNameService subjectNameService;
+    @Autowired
+    private IUserService userService;
 
     private User user;
     private Role role;
@@ -46,8 +55,8 @@ public class EnrolleeServiceTest {
         user = new User("test", "test", "test");
         role = new Role("test");
         user.setRole(role);
-        crudService.create(role);
-        crudService.create(user);
+        roleService.create(role);
+        userService.create(user);
 
         faculty1 = new Faculty("test1", 10);
         faculty2 = new Faculty("test2", 8);
@@ -58,9 +67,9 @@ public class EnrolleeServiceTest {
         subjectName1 = new SubjectName("test1");
         subjectName2 = new SubjectName("test2");
         subjectName3 = new SubjectName("test3");
-        crudService.create(subjectName1);
-        crudService.create(subjectName2);
-        crudService.create(subjectName3);
+        subjectNameService.create(subjectName1);
+        subjectNameService.create(subjectName2);
+        subjectNameService.create(subjectName3);
 
         subjectNames1.add(subjectName1);
         subjectNames1.add(subjectName2);
@@ -71,29 +80,12 @@ public class EnrolleeServiceTest {
 
         faculty1.setRequiredSubjects(subjectNames1);
         faculty2.setRequiredSubjects(subjectNames2);
-        crudService.create(faculty1);
-        crudService.create(faculty2);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        faculty1.setRequiredSubjects(new HashSet<>());
-        faculty2.setRequiredSubjects(new HashSet<>());
-        faculty1.setRegisteredUsers(new HashSet<>());
-        faculty2.setRegisteredUsers(new HashSet<>());
-        crudService.update(faculty1);
-        crudService.update(faculty2);
-        user.getSubjects().forEach(subject -> crudService.delete(subject));
-        crudService.delete(faculty1);
-        crudService.delete(faculty2);
-        crudService.delete(subjectName1);
-        crudService.delete(subjectName2);
-        crudService.delete(subjectName3);
-        crudService.delete(user);
-        crudService.delete(role);
+        facultyService.create(faculty1);
+        facultyService.create(faculty2);
     }
 
     @Test
+    @Rollback
     public void getRequiredSubjectNames() throws Exception {
         List<SubjectName> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1);
         assertTrue("List doesn't contains subjectName1", actualSubjectNames1.contains(subjectName1));
@@ -114,6 +106,7 @@ public class EnrolleeServiceTest {
     }
 
     @Test
+    @Rollback
     public void registerToFaculty() throws Exception {
         List<SubjectName> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1);
 
