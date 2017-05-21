@@ -1,11 +1,10 @@
-package com.yalov4uk.core.controllers.beans;
+package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.beans.Statement;
-import com.yalov4uk.core.controllers.abstracts.CrudController;
+import com.yalov4uk.controllers.abstracts.BaseCrudController;
 import com.yalov4uk.dto.StatementDto;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IStatementService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,16 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/statements")
-public class StatementController extends CrudController<Statement> {
+public class StatementController extends BaseCrudController<Statement, StatementDto> {
 
     private final IStatementService statementService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public StatementController(IStatementService statementService, ModelMapper modelMapper) {
-        super(Statement.class);
+    public StatementController(IStatementService statementService) {
         this.statementService = statementService;
-        this.modelMapper = modelMapper;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -49,7 +45,11 @@ public class StatementController extends CrudController<Statement> {
         return statementService;
     }
 
-    protected ModelMapper getMapper() {
-        return modelMapper;
+    protected Class<Statement> getBeanClass() {
+        return Statement.class;
+    }
+
+    protected Class<StatementDto> getDtoClass() {
+        return StatementDto.class;
     }
 }

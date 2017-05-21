@@ -35,6 +35,8 @@ public class AdminServiceTest {
     @Autowired
     private IRoleService roleService;
     @Autowired
+    private IStatementService statementService;
+    @Autowired
     private ISubjectService subjectService;
     @Autowired
     private ISubjectNameService subjectNameService;
@@ -113,8 +115,7 @@ public class AdminServiceTest {
     @Rollback
     public void calculateEntrants() throws Exception {
         registerStatement();
-        List<Statement> statements = faculty.getStatements();
-        statements = adminService.calculateEntrants(statements);
+        List<Statement> statements = adminService.calculateEntrants(faculty);
         assertTrue("Size > faculty maxSize", statements.size() <= faculty.getMaxSize());
         assertEquals("Temp1.averageScore > temp2.averageScore", statements.get(0).getUser(), user2);
     }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by valera on 5/3/17.
@@ -56,26 +57,21 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
         }
     }
 
-    public Boolean registerToFaculty(User user, Faculty faculty, List<SubjectName> subjectNames,
-                                     List<Integer> values) {
+    public boolean registerToFaculty(User user, Faculty faculty) {
         try {
-            if (faculty == null) {
+            Set<Subject> subjects = user.getSubjects();
+            Set<SubjectName> requiredSubjects = faculty.getRequiredSubjects();
+            if (subjects
+                    .stream()
+                    .allMatch(subject -> requiredSubjects.contains(subject.getSubjectName()))) {
+                faculty.getRegisteredUsers().add(user);
+                facultyDao.update(faculty);
+                logger.info("registered to faculty");
+                return true;
+            } else {
                 return false;
             }
-            for (int i = 0; i < subjectNames.size() && i < values.size(); i++) {
-                Subject subject = new Subject(values.get(i));
-                subject.setSubjectName(subjectNames.get(i));
-                subject.setUser(user);
-                subjectDao.persist(subject);
-
-                user.getSubjects().add(subject);
-                userDao.update(user);
-            }
-            faculty.getRegisteredUsers().add(user);
-            facultyDao.update(faculty);
-            logger.info("registered to faculty");
-            return true;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             logger.error("not registered to faculty");
             throw new ServiceUncheckedException(e);
         }

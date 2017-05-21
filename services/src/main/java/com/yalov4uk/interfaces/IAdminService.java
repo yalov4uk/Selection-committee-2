@@ -14,5 +14,5 @@ public interface IAdminService extends IBaseService {
 
     Statement registerStatement(User user, Faculty faculty);
 
-    List<Statement> calculateEntrants(List<Statement> statements);
+    List<Statement> calculateEntrants(Faculty faculty);
 }

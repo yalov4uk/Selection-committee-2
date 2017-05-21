@@ -10,6 +10,7 @@
         <module>dao</module>
         <module>services</module>
         <module>web</module>
+        <module>core</module>
     </modules>
     <name>SelectionCommittee maven web app</name>
     <url>http://maven.apache.org</url>
@@ -88,6 +89,11 @@
             <dependency>
                 <groupId>by.training.nc.dev3</groupId>
                 <artifactId>com.yalov4uk.services</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>by.training.nc.dev3</groupId>
+                <artifactId>com.yalov4uk.web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

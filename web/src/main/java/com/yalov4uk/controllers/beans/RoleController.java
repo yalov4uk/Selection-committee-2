@@ -1,11 +1,10 @@
-package com.yalov4uk.core.controllers.beans;
+package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.beans.Role;
-import com.yalov4uk.core.controllers.abstracts.CrudController;
+import com.yalov4uk.controllers.abstracts.BaseCrudController;
 import com.yalov4uk.dto.RoleDto;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IRoleService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,16 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/roles")
-public class RoleController extends CrudController<Role> {
+public class RoleController extends BaseCrudController<Role, RoleDto> {
 
     private final IRoleService roleService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public RoleController(IRoleService roleService, ModelMapper modelMapper) {
-        super(Role.class);
+    public RoleController(IRoleService roleService) {
         this.roleService = roleService;
-        this.modelMapper = modelMapper;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -49,7 +45,11 @@ public class RoleController extends CrudController<Role> {
         return roleService;
     }
 
-    protected ModelMapper getMapper() {
-        return modelMapper;
+    protected Class<Role> getBeanClass() {
+        return Role.class;
+    }
+
+    protected Class<RoleDto> getDtoClass() {
+        return RoleDto.class;
     }
 }

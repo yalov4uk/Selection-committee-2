@@ -47,16 +47,17 @@ public class AdminService extends BaseService implements IAdminService {
         }
     }
 
-    public List<Statement> calculateEntrants(List<Statement> statements) {
+    public List<Statement> calculateEntrants(Faculty faculty) {
         try {
-            List<Statement> objects =  statements
+            List<Statement> objects =  statementDao.getAll()
                     .stream()
+                    .filter(statement -> statement.getFaculty() == faculty)
                     .sorted((a, b) -> {
                         int x = a.getUser().getAverageScore(a.getFaculty());
                         int y = b.getUser().getAverageScore(b.getFaculty());
                         return y - x;
                     })
-                    .limit(statements.size() > 0 ? statements.get(0).getFaculty().getMaxSize() : 0)
+                    .limit(faculty.getMaxSize())
                     .collect(Collectors.toList());
             logger.info("calculated entrants");
             return objects;

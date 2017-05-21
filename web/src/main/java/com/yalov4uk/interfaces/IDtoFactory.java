@@ -1,4 +1,4 @@
-package com.yalov4uk.core.interfaces;
+package com.yalov4uk.interfaces;
 
 /**
  * Created by valera on 5/17/17.

@@ -14,5 +14,5 @@ public interface IEnrolleeService extends IBaseService {
 
     List<SubjectName> getRequiredSubjectNames(User user, Faculty faculty);
 
-    Boolean registerToFaculty(User user, Faculty faculty, List<SubjectName> subjectNames, List<Integer> values);
+    boolean registerToFaculty(User user, Faculty faculty);
 }

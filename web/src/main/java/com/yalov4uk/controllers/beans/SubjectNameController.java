@@ -1,11 +1,10 @@
-package com.yalov4uk.core.controllers.beans;
+package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.beans.SubjectName;
-import com.yalov4uk.core.controllers.abstracts.CrudController;
+import com.yalov4uk.controllers.abstracts.BaseCrudController;
 import com.yalov4uk.dto.SubjectNameDto;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.ISubjectNameService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,16 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/subjectNames")
-public class SubjectNameController extends CrudController<SubjectName> {
+public class SubjectNameController extends BaseCrudController<SubjectName, SubjectNameDto> {
 
     private final ISubjectNameService subjectNameService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public SubjectNameController(ISubjectNameService subjectNameService, ModelMapper modelMapper) {
-        super(SubjectName.class);
+    public SubjectNameController(ISubjectNameService subjectNameService) {
         this.subjectNameService = subjectNameService;
-        this.modelMapper = modelMapper;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -49,7 +45,11 @@ public class SubjectNameController extends CrudController<SubjectName> {
         return subjectNameService;
     }
 
-    protected ModelMapper getMapper() {
-        return modelMapper;
+    protected Class<SubjectName> getBeanClass() {
+        return SubjectName.class;
+    }
+
+    protected Class<SubjectNameDto> getDtoClass() {
+        return SubjectNameDto.class;
     }
 }

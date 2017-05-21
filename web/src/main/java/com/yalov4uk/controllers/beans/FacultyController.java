@@ -1,11 +1,10 @@
-package com.yalov4uk.core.controllers.beans;
+package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.beans.Faculty;
-import com.yalov4uk.core.controllers.abstracts.CrudController;
+import com.yalov4uk.controllers.abstracts.BaseCrudController;
 import com.yalov4uk.dto.FacultyDto;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IFacultyService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,16 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/faculties")
-public class FacultyController extends CrudController<Faculty> {
+public class FacultyController extends BaseCrudController<Faculty, FacultyDto> {
 
     private final IFacultyService facultyService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public FacultyController(IFacultyService facultyService, ModelMapper modelMapper) {
-        super(Faculty.class);
+    public FacultyController(IFacultyService facultyService) {
         this.facultyService = facultyService;
-        this.modelMapper = modelMapper;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -49,7 +45,11 @@ public class FacultyController extends CrudController<Faculty> {
         return facultyService;
     }
 
-    protected ModelMapper getMapper() {
-        return modelMapper;
+    protected Class<Faculty> getBeanClass() {
+        return Faculty.class;
+    }
+
+    protected Class<FacultyDto> getDtoClass() {
+        return FacultyDto.class;
     }
 }
