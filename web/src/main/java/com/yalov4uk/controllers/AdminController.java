@@ -37,41 +37,29 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "/registerStatement", method = RequestMethod.POST)
     public ResponseEntity createStatement(@RequestBody UserAndFacultyDto userAndFacultyDto) {
-        try {
-            User user = userService.read(userAndFacultyDto.getUser().getId());
-            Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
-            if (user == null || faculty == null || !faculty.getRegisteredUsers().contains(user)) {
-                logger.error("not found user or faculty or registered user in faculty");
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            Statement statement = adminService.registerStatement(user, faculty);
-            StatementDto statementDto = modelMapper.map(statement, StatementDto.class);
-            logger.info("statement registered");
-            logger.debug(statement);
-            return new ResponseEntity<>(statementDto, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("statement not registered");
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        User user = userService.read(userAndFacultyDto.getUser().getId());
+        Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
+        if (user == null || faculty == null || !faculty.getRegisteredUsers().contains(user)) {
+            throw new NullPointerException();
         }
+        Statement statement = adminService.registerStatement(user, faculty);
+        StatementDto statementDto = modelMapper.map(statement, StatementDto.class);
+        logger.info("statement registered");
+        logger.debug(statement);
+        return new ResponseEntity<>(statementDto, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/calculateEntrants/{facultyId}", method = RequestMethod.GET)
     public ResponseEntity calculateEntrants(@PathVariable String facultyId) {
-        try {
-            Faculty faculty = facultyService.read(Integer.parseInt(facultyId));
-            if (faculty == null) {
-                logger.error("not found faculty");
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            List<StatementDto> statements = adminService.calculateEntrants(faculty)
-                    .stream()
-                    .map(statement -> modelMapper.map(statement, StatementDto.class))
-                    .collect(Collectors.toList());
-            logger.info("entrants calculated");
-            return new ResponseEntity<>(statements, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("entrants not calculated");
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        Faculty faculty = facultyService.read(Integer.parseInt(facultyId));
+        if (faculty == null) {
+            throw new NullPointerException();
         }
+        List<StatementDto> statements = adminService.calculateEntrants(faculty)
+                .stream()
+                .map(statement -> modelMapper.map(statement, StatementDto.class))
+                .collect(Collectors.toList());
+        logger.info("entrants calculated");
+        return new ResponseEntity<>(statements, HttpStatus.OK);
     }
 }

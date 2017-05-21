@@ -25,12 +25,11 @@ public class ClientService extends BaseService implements IClientService {
         this.roleDao = roleDao;
     }
 
-    public User register(String name, String login, String password) {
+    public User register(User user) {
         try {
-            if (userDao.findByLogin(login) != null) {
+            if (userDao.findByLogin(user.getLogin()) != null) {
                 return null;
             }
-            User user = new User(name, login, password);
             Role role = roleDao.find(1);
             user.setRole(role);
             userDao.persist(user);

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SubjectNameDao extends BaseDao<SubjectName> implements ISubjectNameDao {
 
-    public SubjectNameDao() {
-        super(SubjectName.class);
+    protected Class<SubjectName> getBeanClass(){
+        return SubjectName.class;
     }
 }

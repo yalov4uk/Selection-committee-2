@@ -14,10 +14,6 @@ import javax.persistence.NoResultException;
 @Repository
 public class UserDao extends BaseDao<User> implements IUserDao {
 
-    public UserDao() {
-        super(User.class);
-    }
-
     public User findByLogin(String login) {
         try {
             User user = (User) entityManager.createQuery("from User user where user.login = :login")
@@ -31,5 +27,9 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         }  catch (Exception e) {
             throw new DaoUncheckedException(e);
         }
+    }
+
+    protected Class<User> getBeanClass(){
+        return User.class;
     }
 }

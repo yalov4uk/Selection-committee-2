@@ -14,10 +14,6 @@ import javax.persistence.NoResultException;
 @Repository
 public class FacultyDao extends BaseDao<Faculty> implements IFacultyDao {
 
-    public FacultyDao() {
-        super(Faculty.class);
-    }
-
     public Faculty findByName(String name) {
         try {
             Faculty faculty = (Faculty) entityManager.createQuery("from Faculty faculty where faculty.name = :name")
@@ -31,5 +27,9 @@ public class FacultyDao extends BaseDao<Faculty> implements IFacultyDao {
         } catch (Exception e) {
             throw new DaoUncheckedException(e);
         }
+    }
+
+    protected Class<Faculty> getBeanClass(){
+        return Faculty.class;
     }
 }

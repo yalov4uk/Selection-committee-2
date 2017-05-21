@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StatementDao extends BaseDao<Statement> implements IStatementDao {
 
-    public StatementDao() {
-        super(Statement.class);
+    protected Class<Statement> getBeanClass(){
+        return Statement.class;
     }
 }

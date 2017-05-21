@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by valera on 5/3/17.
@@ -36,9 +37,6 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
 
     public List<SubjectName> getRequiredSubjectNames(User user, Faculty faculty) {
         try {
-            if (faculty == null || faculty.getRegisteredUsers().contains(user)) {
-                return null;
-            }
             List<SubjectName> subjectNames = new LinkedList<>();
             faculty.getRequiredSubjects()
                     .forEach(requiredSubject -> {
@@ -59,18 +57,20 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
 
     public boolean registerToFaculty(User user, Faculty faculty) {
         try {
-            Set<Subject> subjects = user.getSubjects();
             Set<SubjectName> requiredSubjects = faculty.getRequiredSubjects();
-            if (subjects
+            Set<SubjectName> userSubjectNames = user.getSubjects()
                     .stream()
-                    .allMatch(subject -> requiredSubjects.contains(subject.getSubjectName()))) {
+                    .map(Subject::getSubjectName)
+                    .collect(Collectors.toSet());
+            if (requiredSubjects
+                    .stream()
+                    .allMatch(userSubjectNames::contains)) {
                 faculty.getRegisteredUsers().add(user);
-                facultyDao.update(faculty);
                 logger.info("registered to faculty");
                 return true;
-            } else {
-                return false;
             }
+            logger.error("not enough subjects");
+            return false;
         } catch (Exception e) {
             logger.error("not registered to faculty");
             throw new ServiceUncheckedException(e);

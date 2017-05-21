@@ -20,8 +20,9 @@ public class User extends Bean {
 
     private Role role;
 
-    private Set<Subject> subjects = new HashSet<>();
-    private Set<Faculty> faculties = new HashSet<>();
+    private Set<Subject> subjects;
+    private Set<Faculty> faculties;
+    private Set<Statement> statements;
 
     public Integer getAverageScore(Faculty faculty) {
         Integer result = 0;
@@ -34,9 +35,15 @@ public class User extends Bean {
     }
 
     public User() {
+        subjects = new HashSet<>();
+        faculties = new HashSet<>();
+        statements = new HashSet<>();
     }
 
     public User(String name, String login, String password) {
+        subjects = new HashSet<>();
+        faculties = new HashSet<>();
+        statements = new HashSet<>();
         this.name = name;
         this.login = login;
         this.password = password;
@@ -96,6 +103,15 @@ public class User extends Bean {
 
     public void setFaculties(Set<Faculty> faculties) {
         this.faculties = faculties;
+    }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    public Set<Statement> getStatements() {
+        return statements;
+    }
+
+    public void setStatements(Set<Statement> statements) {
+        this.statements = statements;
     }
 
     @Override

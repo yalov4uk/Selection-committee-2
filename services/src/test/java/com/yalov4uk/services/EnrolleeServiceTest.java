@@ -1,9 +1,6 @@
 package com.yalov4uk.services;
 
-import com.yalov4uk.beans.Faculty;
-import com.yalov4uk.beans.Role;
-import com.yalov4uk.beans.SubjectName;
-import com.yalov4uk.beans.User;
+import com.yalov4uk.beans.*;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.beans.*;
 import org.junit.Before;
@@ -15,10 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -37,6 +31,8 @@ public class EnrolleeServiceTest {
     private IFacultyService facultyService;
     @Autowired
     private IRoleService roleService;
+    @Autowired
+    private ISubjectService subjectService;
     @Autowired
     private ISubjectNameService subjectNameService;
     @Autowired
@@ -94,10 +90,20 @@ public class EnrolleeServiceTest {
         List<Integer> values1 = new ArrayList<>();
         values1.add(10);
         values1.add(20);
-        enrolleeService.registerToFaculty(user, faculty1, actualSubjectNames1, values1);
+
+        Subject subject1 = new Subject(values1.get(0));
+        subject1.setSubjectName(actualSubjectNames1.get(0));
+        subject1.setUser(user);
+        subjectService.create(subject1);
+        Subject subject2 = new Subject(values1.get(1));
+        subject2.setSubjectName(actualSubjectNames1.get(1));
+        subject2.setUser(user);
+        subjectService.create(subject2);
+
+        assertTrue("Not registered", enrolleeService.registerToFaculty(user, faculty1));
 
         List<SubjectName> thisShouldBeNull = enrolleeService.getRequiredSubjectNames(user, faculty1);
-        assertNull("Enrollee can twice register to the same faculty", thisShouldBeNull);
+        assertTrue("Enrollee can twice register to the same faculty", thisShouldBeNull.equals(new LinkedList<>()));
 
         List<SubjectName> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2);
         assertFalse("List contains subjectName1", actualSubjectNames2.contains(subjectName1));
@@ -113,14 +119,30 @@ public class EnrolleeServiceTest {
         List<Integer> values1 = new ArrayList<>();
         values1.add(10);
         values1.add(20);
-        enrolleeService.registerToFaculty(user, faculty1, actualSubjectNames1, values1);
+
+        Subject subject1 = new Subject(values1.get(0));
+        subject1.setSubjectName(actualSubjectNames1.get(0));
+        subject1.setUser(user);
+        subjectService.create(subject1);
+        Subject subject2 = new Subject(values1.get(1));
+        subject2.setSubjectName(actualSubjectNames1.get(1));
+        subject2.setUser(user);
+        subjectService.create(subject2);
+
+        enrolleeService.registerToFaculty(user, faculty1);
         assertTrue("User doesn't registered to faculty1", faculty1.getRegisteredUsers().contains(user));
 
         List<SubjectName> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2);
 
         List<Integer> values2 = new ArrayList<>();
         values2.add(30);
-        enrolleeService.registerToFaculty(user, faculty2, actualSubjectNames2, values2);
+
+        Subject subject3 = new Subject(values2.get(0));
+        subject3.setSubjectName(actualSubjectNames2.get(0));
+        subject3.setUser(user);
+        subjectService.create(subject3);
+
+        enrolleeService.registerToFaculty(user, faculty2);
         assertTrue("User doesn't registered to faculty2", faculty2.getRegisteredUsers().contains(user));
     }
 }

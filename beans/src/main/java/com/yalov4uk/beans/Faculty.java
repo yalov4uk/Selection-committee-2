@@ -15,14 +15,20 @@ public class Faculty extends Bean {
     private String name;
     private Integer maxSize;
 
-    private Set<SubjectName> requiredSubjects = new HashSet<>();
-    private Set<User> registeredUsers = new HashSet<>();
-    private List<Statement> statements = new ArrayList<>();
+    private Set<SubjectName> requiredSubjects;
+    private Set<User> registeredUsers;
+    private List<Statement> statements;
 
     public Faculty() {
+        requiredSubjects = new HashSet<>();
+        registeredUsers = new HashSet<>();
+        statements = new ArrayList<>();
     }
 
     public Faculty(String name, Integer maxSize) {
+        requiredSubjects = new HashSet<>();
+        registeredUsers = new HashSet<>();
+        statements = new ArrayList<>();
         this.name = name;
         this.maxSize = maxSize;
     }

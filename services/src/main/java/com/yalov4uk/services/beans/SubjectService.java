@@ -2,6 +2,7 @@ package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Subject;
+import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.ISubjectDao;
 import com.yalov4uk.interfaces.beans.ISubjectService;
@@ -23,5 +24,20 @@ public class SubjectService extends BaseCrudService<Subject> implements ISubject
 
     protected IBaseDao<Subject> getDao() {
         return subjectDao;
+    }
+
+    @Override
+    public void create(Subject subject) {
+        try {
+            subjectDao.persist(subject);
+
+            subject.getUser().getSubjects().add(subject);
+            subject.getSubjectName().getSubjects().add(subject);
+
+            logger.info("persisted");
+        } catch (Exception e) {
+            logger.error("not persisted");
+            throw new ServiceUncheckedException(e);
+        }
     }
 }

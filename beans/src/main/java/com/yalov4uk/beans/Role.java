@@ -16,12 +16,14 @@ public class Role extends Bean {
 
     private String name;
 
-    private Set<User> users = new HashSet<>();
+    private Set<User> users;
 
     public Role() {
+        users = new HashSet<>();
     }
 
     public Role(String name) {
+        users = new HashSet<>();
         this.name = name;
     }
 

@@ -30,7 +30,7 @@ public class ClientServiceTest {
     @Test
     @Rollback
     public void register() throws Exception {
-        User expectedUser = clientService.register("test", "test", "test");
+        User expectedUser = clientService.register(new User("test", "test", "test"));
         User actualUser = userService.read(expectedUser.getId());
         assertEquals("User doesn't registered", expectedUser, actualUser);
     }
@@ -38,7 +38,7 @@ public class ClientServiceTest {
     @Test
     @Rollback
     public void login() throws Exception {
-        User expectedUser = clientService.register("test", "test", "test");
+        User expectedUser = clientService.register(new User("test", "test", "test"));
         User actualUser = clientService.login(expectedUser.getLogin(), expectedUser.getPassword());
         assertEquals("User doesn't registered", expectedUser, actualUser);
     }

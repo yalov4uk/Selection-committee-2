@@ -2,6 +2,7 @@ package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Statement;
+import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IStatementDao;
 import com.yalov4uk.interfaces.beans.IStatementService;
@@ -23,5 +24,19 @@ public class StatementService extends BaseCrudService<Statement> implements ISta
 
     protected IBaseDao<Statement> getDao(){
         return statementDao;
+    }
+
+    public void create(Statement statement) {
+        try {
+            statementDao.persist(statement);
+
+            statement.getFaculty().getStatements().add(statement);
+            statement.getUser().getStatements().add(statement);
+
+            logger.info("persisted");
+        } catch (Exception e) {
+            logger.error("not persisted");
+            throw new ServiceUncheckedException(e);
+        }
     }
 }

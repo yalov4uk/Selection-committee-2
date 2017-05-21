@@ -8,7 +8,7 @@ import com.yalov4uk.interfaces.abstracts.IBaseService;
  */
 public interface IClientService extends IBaseService {
 
-    User register(String name, String login, String password);
+    User register(User user);
 
     User login(String login, String password);
 }

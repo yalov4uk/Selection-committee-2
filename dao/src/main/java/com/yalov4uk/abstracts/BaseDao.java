@@ -20,7 +20,8 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
 
     @PersistenceContext
     protected EntityManager entityManager;
-    private Class<T> persistentClass;
+
+    protected abstract Class<T> getBeanClass();
 
     @Override
     public void persist(T object) {
@@ -53,7 +54,7 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
     @Override
     public T find(Integer key) {
         try {
-            T object = entityManager.find(persistentClass, key);
+            T object = entityManager.find(getBeanClass(), key);
             logger.info("found");
             logger.debug(object);
             return object;
@@ -66,7 +67,7 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
     @Override
     public void delete(Integer key) {
         try {
-            T entity = entityManager.find(persistentClass, key);
+            T entity = entityManager.find(getBeanClass(), key);
             entityManager.remove(entity);
             logger.info("deleted");
         } catch (Exception e) {
@@ -79,8 +80,8 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
     public List<T> getAll() {
         try {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<T> query = builder.createQuery(persistentClass);
-            Root<T> variableRoot = query.from(persistentClass);
+            CriteriaQuery<T> query = builder.createQuery(getBeanClass());
+            Root<T> variableRoot = query.from(getBeanClass());
             query.select(variableRoot);
             List<T> objects = entityManager.createQuery(query).getResultList();
             logger.info("got all");
@@ -89,9 +90,5 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             logger.error("not got all");
             throw new DaoUncheckedException(e);
         }
-    }
-
-    public BaseDao(Class<T> persistentClass) {
-        this.persistentClass = persistentClass;
     }
 }

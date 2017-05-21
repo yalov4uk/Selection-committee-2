@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RoleDao extends BaseDao<Role> implements IRoleDao {
 
-    public RoleDao() {
-        super(Role.class);
+    protected Class<Role> getBeanClass(){
+        return Role.class;
     }
 }

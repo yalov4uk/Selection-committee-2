@@ -2,6 +2,7 @@ package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.User;
+import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IUserDao;
 import com.yalov4uk.interfaces.beans.IUserService;
@@ -23,5 +24,18 @@ public class UserService extends BaseCrudService<User> implements IUserService {
 
     protected IBaseDao<User> getDao() {
         return userDao;
+    }
+
+    public void create(User user) {
+        try {
+            userDao.persist(user);
+
+            user.getRole().getUsers().add(user);
+
+            logger.info("persisted");
+        } catch (Exception e) {
+            logger.error("not persisted");
+            throw new ServiceUncheckedException(e);
+        }
     }
 }

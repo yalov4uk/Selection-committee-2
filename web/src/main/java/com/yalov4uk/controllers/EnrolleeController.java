@@ -35,43 +35,31 @@ public class EnrolleeController extends BaseController {
 
     @RequestMapping(value = "/getRequiredSubjectNames", method = RequestMethod.POST)
     public ResponseEntity getRequiredSubjectNames(@RequestBody UserAndFacultyDto userAndFacultyDto) {
-        try {
-            User user = userService.read(userAndFacultyDto.getUser().getId());
-            Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
-            if (user == null || faculty == null || !faculty.getRegisteredUsers().contains(user)) {
-                logger.error("not found user or faculty or registered user in faculty");
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            List<SubjectNameDto> subjectNames = enrolleeService.getRequiredSubjectNames(user, faculty)
-                    .stream()
-                    .map(subjectName -> modelMapper.map(subjectName, SubjectNameDto.class))
-                    .collect(Collectors.toList());
-            logger.info("required subject names got");
-            return new ResponseEntity<>(subjectNames, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("required subject names not got");
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        User user = userService.read(userAndFacultyDto.getUser().getId());
+        Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
+        if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
+            throw new NullPointerException();
         }
+        List<SubjectNameDto> subjectNames = enrolleeService.getRequiredSubjectNames(user, faculty)
+                .stream()
+                .map(subjectName -> modelMapper.map(subjectName, SubjectNameDto.class))
+                .collect(Collectors.toList());
+        logger.info("required subject names got");
+        return new ResponseEntity<>(subjectNames, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/registerToFaculty", method = RequestMethod.POST)
     public ResponseEntity registerToFaculty(@RequestBody UserAndFacultyDto userAndFacultyDto) {
-        try {
-            User user = userService.read(userAndFacultyDto.getUser().getId());
-            Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
-            if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
-                logger.error("not found user or faculty or user already registered to faculty");
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if (enrolleeService.registerToFaculty(user, faculty)) {
-                logger.info("registered to faculty");
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                logger.error("not enough subjects");
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            logger.error("not registered to faculty");
+        User user = userService.read(userAndFacultyDto.getUser().getId());
+        Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
+        if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
+            throw new NullPointerException();
+        }
+        if (enrolleeService.registerToFaculty(user, faculty)) {
+            logger.info("registered to faculty");
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            logger.error("not enough subjects");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }

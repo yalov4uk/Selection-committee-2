@@ -16,13 +16,17 @@ public class SubjectName extends Bean {
 
     private String name;
 
-    private Set<Faculty> faculties = new HashSet<>();
-    private Set<Subject> subjects = new HashSet<>();
+    private Set<Faculty> faculties;
+    private Set<Subject> subjects;
 
     public SubjectName() {
+        faculties = new HashSet<>();
+        subjects = new HashSet<>();
     }
 
     public SubjectName(String name) {
+        faculties = new HashSet<>();
+        subjects = new HashSet<>();
         this.name = name;
     }
 
