@@ -40,9 +40,10 @@ public class UserService extends BaseCrudService<User> implements IUserService {
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(Integer key) {
         try {
-            userDao.delete(user.getId());
+            User user = userDao.find(key);
+            userDao.delete(key);
 
             user.getRole().getUsers().remove(user);
 

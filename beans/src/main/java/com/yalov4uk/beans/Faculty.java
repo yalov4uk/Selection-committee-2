@@ -1,5 +1,6 @@
 package com.yalov4uk.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yalov4uk.abstracts.Bean;
 
 import javax.persistence.*;
@@ -15,8 +16,11 @@ public class Faculty extends Bean {
     private String name;
     private Integer maxSize;
 
+    @JsonIgnore
     private Set<SubjectName> requiredSubjects;
+    @JsonIgnore
     private Set<User> registeredUsers;
+    @JsonIgnore
     private List<Statement> statements;
 
     public Faculty() {

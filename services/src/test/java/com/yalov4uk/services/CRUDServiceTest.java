@@ -77,11 +77,11 @@ public class CRUDServiceTest {
     @Rollback
     public void delete() throws Exception {
         createProc();
-        userService.delete(expectedUser);
+        userService.delete(expectedUser.getId());
         actualUser = userService.read(expectedUser.getId());
         assertNull("object doesn't deleted", actualUser);
 
-        roleService.delete(expectedRole);
+        roleService.delete(expectedRole.getId());
         actualRole = roleService.read(expectedRole.getId());
         assertNull("object doesn't deleted", actualRole);
     }

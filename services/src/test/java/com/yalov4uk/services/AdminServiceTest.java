@@ -35,8 +35,6 @@ public class AdminServiceTest {
     @Autowired
     private IRoleService roleService;
     @Autowired
-    private IStatementService statementService;
-    @Autowired
     private ISubjectService subjectService;
     @Autowired
     private ISubjectNameService subjectNameService;

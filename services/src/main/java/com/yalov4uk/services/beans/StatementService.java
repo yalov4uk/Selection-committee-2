@@ -42,9 +42,10 @@ public class StatementService extends BaseCrudService<Statement> implements ISta
     }
 
     @Override
-    public void delete(Statement statement) {
+    public void delete(Integer key) {
         try {
-            statementDao.delete(statement.getId());
+            Statement statement = statementDao.find(key);
+            statementDao.delete(key);
 
             statement.getUser().getStatements().remove(statement);
             statement.getFaculty().getStatements().remove(statement);

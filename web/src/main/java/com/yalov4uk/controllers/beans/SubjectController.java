@@ -1,8 +1,7 @@
 package com.yalov4uk.controllers.beans;
 
-import com.yalov4uk.beans.Subject;
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.dto.SubjectDto;
+import com.yalov4uk.beans.Subject;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.ISubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/subjects")
-public class SubjectController extends BaseCrudController<Subject, SubjectDto> {
+public class SubjectController extends BaseCrudController<Subject> {
 
     private final ISubjectService subjectService;
 
@@ -26,30 +25,17 @@ public class SubjectController extends BaseCrudController<Subject, SubjectDto> {
         this.subjectService = subjectService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody SubjectDto dto) {
-        return createCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody Subject subject) {
+        return createCrud(subject);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody SubjectDto dto) {
-        return updateCrud(dto);
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@RequestBody SubjectDto dto) {
-        return deleteCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    public ResponseEntity update(@RequestBody Subject subject) {
+        return updateCrud(subject);
     }
 
     protected IBaseCrudService<Subject> getService() {
         return subjectService;
-    }
-
-    protected Class<Subject> getBeanClass() {
-        return Subject.class;
-    }
-
-    protected Class<SubjectDto> getDtoClass() {
-        return SubjectDto.class;
     }
 }

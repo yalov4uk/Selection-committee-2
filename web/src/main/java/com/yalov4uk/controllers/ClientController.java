@@ -1,9 +1,8 @@
 package com.yalov4uk.controllers;
 
-import com.yalov4uk.beans.User;
 import com.yalov4uk.abstracts.BaseController;
+import com.yalov4uk.beans.User;
 import com.yalov4uk.exceptions.NotFoundException;
-import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.interfaces.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,24 +23,24 @@ public class ClientController extends BaseController {
     private IClientService clientService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity register(@RequestBody UserDto userDto) {
-        User user = clientService.register(modelMapper.map(userDto, User.class));
+    public ResponseEntity register(@RequestBody User user) {
+        user = clientService.register(user);
         if (user == null) {
             throw new NotFoundException();
         }
         logger.info("user registered");
         logger.debug(user);
-        return new ResponseEntity<>(modelMapper.map(user, UserDto.class), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestBody UserDto userDto) {
-        User user = clientService.login(userDto.getLogin(), userDto.getPassword());
+    public ResponseEntity login(@RequestBody User user) {
+        user = clientService.login(user.getLogin(), user.getPassword());
         if (user == null) {
             throw new NotFoundException();
         }
         logger.info("user login");
         logger.debug(user);
-        return new ResponseEntity<>(modelMapper.map(user, UserDto.class), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

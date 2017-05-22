@@ -3,8 +3,7 @@ package com.yalov4uk.controllers.beans;
 import com.yalov4uk.abstracts.BaseCrudController;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.SubjectName;
-import com.yalov4uk.dto.FacultyDto;
-import com.yalov4uk.dto.services.FacultyAndSubjectNameDto;
+import com.yalov4uk.dto.services.FacultyAndSubjectName;
 import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IFacultyService;
@@ -12,14 +11,17 @@ import com.yalov4uk.interfaces.beans.ISubjectNameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by valera on 5/17/17.
  */
 @RestController
 @RequestMapping(value = "/faculties")
-public class FacultyController extends BaseCrudController<Faculty, FacultyDto> {
+public class FacultyController extends BaseCrudController<Faculty> {
 
     private final IFacultyService facultyService;
     private final ISubjectNameService subjectNameService;
@@ -30,25 +32,20 @@ public class FacultyController extends BaseCrudController<Faculty, FacultyDto> {
         this.subjectNameService = subjectNameService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody FacultyDto dto) {
-        return createCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody Faculty faculty) {
+        return createCrud(faculty);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody FacultyDto dto) {
-        return updateCrud(dto);
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@RequestBody FacultyDto dto) {
-        return deleteCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    public ResponseEntity update(@RequestBody Faculty faculty) {
+        return updateCrud(faculty);
     }
 
     @RequestMapping(value = "/addSubjectName", method = RequestMethod.POST)
-    public ResponseEntity addSubjectName(@RequestBody FacultyAndSubjectNameDto facultyAndSubjectNameDto) {
-        Faculty faculty = facultyService.read(facultyAndSubjectNameDto.getFaculty().getId());
-        SubjectName subjectName = subjectNameService.read(facultyAndSubjectNameDto.getSubjectName().getId());
+    public ResponseEntity addSubjectName(@RequestBody FacultyAndSubjectName facultyAndSubjectName) {
+        Faculty faculty = facultyService.read(facultyAndSubjectName.getFaculty().getId());
+        SubjectName subjectName = subjectNameService.read(facultyAndSubjectName.getSubjectName().getId());
         if (faculty == null || subjectName == null || faculty.getRequiredSubjects().contains(subjectName)) {
             throw new NotFoundException();
         }
@@ -58,9 +55,9 @@ public class FacultyController extends BaseCrudController<Faculty, FacultyDto> {
     }
 
     @RequestMapping(value = "/deleteSubjectName", method = RequestMethod.POST)
-    public ResponseEntity deleteSubjectName(@RequestBody FacultyAndSubjectNameDto facultyAndSubjectNameDto) {
-        Faculty faculty = facultyService.read(facultyAndSubjectNameDto.getFaculty().getId());
-        SubjectName subjectName = subjectNameService.read(facultyAndSubjectNameDto.getSubjectName().getId());
+    public ResponseEntity deleteSubjectName(@RequestBody FacultyAndSubjectName facultyAndSubjectName) {
+        Faculty faculty = facultyService.read(facultyAndSubjectName.getFaculty().getId());
+        SubjectName subjectName = subjectNameService.read(facultyAndSubjectName.getSubjectName().getId());
         if (faculty == null || subjectName == null || !faculty.getRequiredSubjects().contains(subjectName)) {
             throw new NotFoundException();
         }
@@ -71,13 +68,5 @@ public class FacultyController extends BaseCrudController<Faculty, FacultyDto> {
 
     protected IBaseCrudService<Faculty> getService() {
         return facultyService;
-    }
-
-    protected Class<Faculty> getBeanClass() {
-        return Faculty.class;
-    }
-
-    protected Class<FacultyDto> getDtoClass() {
-        return FacultyDto.class;
     }
 }

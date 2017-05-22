@@ -42,9 +42,10 @@ public class SubjectService extends BaseCrudService<Subject> implements ISubject
     }
 
     @Override
-    public void delete(Subject subject) {
+    public void delete(Integer key) {
         try {
-            subjectDao.delete(subject.getId());
+            Subject subject = subjectDao.find(key);
+            subjectDao.delete(key);
 
             subject.getUser().getSubjects().remove(subject);
             subject.getSubjectName().getSubjects().remove(subject);

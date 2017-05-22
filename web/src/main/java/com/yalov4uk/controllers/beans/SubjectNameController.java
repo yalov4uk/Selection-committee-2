@@ -1,8 +1,7 @@
 package com.yalov4uk.controllers.beans;
 
-import com.yalov4uk.beans.SubjectName;
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.dto.SubjectNameDto;
+import com.yalov4uk.beans.SubjectName;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.ISubjectNameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/subjectNames")
-public class SubjectNameController extends BaseCrudController<SubjectName, SubjectNameDto> {
+public class SubjectNameController extends BaseCrudController<SubjectName> {
 
     private final ISubjectNameService subjectNameService;
 
@@ -26,30 +25,17 @@ public class SubjectNameController extends BaseCrudController<SubjectName, Subje
         this.subjectNameService = subjectNameService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody SubjectNameDto dto) {
-        return createCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody SubjectName subjectName) {
+        return createCrud(subjectName);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody SubjectNameDto dto) {
-        return updateCrud(dto);
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@RequestBody SubjectNameDto dto) {
-        return deleteCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    public ResponseEntity update(@RequestBody SubjectName subjectName) {
+        return updateCrud(subjectName);
     }
 
     protected IBaseCrudService<SubjectName> getService() {
         return subjectNameService;
-    }
-
-    protected Class<SubjectName> getBeanClass() {
-        return SubjectName.class;
-    }
-
-    protected Class<SubjectNameDto> getDtoClass() {
-        return SubjectNameDto.class;
     }
 }

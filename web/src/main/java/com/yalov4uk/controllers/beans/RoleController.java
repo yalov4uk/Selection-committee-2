@@ -1,8 +1,7 @@
 package com.yalov4uk.controllers.beans;
 
-import com.yalov4uk.beans.Role;
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.dto.RoleDto;
+import com.yalov4uk.beans.Role;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/roles")
-public class RoleController extends BaseCrudController<Role, RoleDto> {
+public class RoleController extends BaseCrudController<Role> {
 
     private final IRoleService roleService;
 
@@ -26,30 +25,17 @@ public class RoleController extends BaseCrudController<Role, RoleDto> {
         this.roleService = roleService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody RoleDto roleDto) {
-        return createCrud(roleDto);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody Role role) {
+        return createCrud(role);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody RoleDto roleDto) {
-        return updateCrud(roleDto);
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@RequestBody RoleDto roleDto) {
-        return deleteCrud(roleDto);
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    public ResponseEntity update(@RequestBody Role role) {
+        return updateCrud(role);
     }
 
     protected IBaseCrudService<Role> getService() {
         return roleService;
-    }
-
-    protected Class<Role> getBeanClass() {
-        return Role.class;
-    }
-
-    protected Class<RoleDto> getDtoClass() {
-        return RoleDto.class;
     }
 }

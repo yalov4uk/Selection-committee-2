@@ -1,8 +1,7 @@
 package com.yalov4uk.controllers.beans;
 
-import com.yalov4uk.beans.User;
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.dto.UserDto;
+import com.yalov4uk.beans.User;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/users")
-public class UserController extends BaseCrudController<User, UserDto> {
+public class UserController extends BaseCrudController<User> {
 
     private final IUserService userService;
 
@@ -26,30 +25,17 @@ public class UserController extends BaseCrudController<User, UserDto> {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody UserDto dto) {
-        return createCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody User user) {
+        return createCrud(user);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody UserDto dto) {
-        return updateCrud(dto);
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@RequestBody UserDto dto) {
-        return deleteCrud(dto);
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    public ResponseEntity update(@RequestBody User user) {
+        return updateCrud(user);
     }
 
     protected IBaseCrudService<User> getService() {
         return userService;
-    }
-
-    protected Class<User> getBeanClass() {
-        return User.class;
-    }
-
-    protected Class<UserDto> getDtoClass() {
-        return UserDto.class;
     }
 }

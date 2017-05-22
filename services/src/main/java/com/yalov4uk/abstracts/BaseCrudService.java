@@ -50,10 +50,10 @@ public abstract class BaseCrudService<T extends Bean> extends BaseService implem
         }
     }
 
-    public void delete(T object) {
+    public void delete(Integer key) {
         try {
             IBaseDao<T> dao = getDao();
-            dao.delete(object.getId());
+            dao.delete(key);
             logger.info("deleted");
         } catch (Exception e) {
             logger.error("not deleted");

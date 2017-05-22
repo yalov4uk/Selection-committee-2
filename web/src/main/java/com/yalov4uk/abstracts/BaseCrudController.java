@@ -9,64 +9,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by valera on 5/17/17.
  */
-public abstract class BaseCrudController<T extends Bean, D extends Dto> extends BaseController {
+public abstract class BaseCrudController<T extends Bean> extends BaseController {
 
     protected abstract IBaseCrudService<T> getService();
 
-    protected abstract Class<T> getBeanClass();
-
-    protected abstract Class<D> getDtoClass();
-
-    protected ResponseEntity<D> createCrud(Dto dto) {
-        T bean = modelMapper.map(dto, getBeanClass());
-        getService().create(bean);
+    protected ResponseEntity<T> createCrud(T object) {
+        getService().create(object);
         logger.info("created");
-        logger.debug(bean);
-        return new ResponseEntity<>(modelMapper.map(bean, getDtoClass()), HttpStatus.OK);
+        logger.debug(object);
+        return new ResponseEntity<>(object, HttpStatus.OK);
     }
 
-    protected ResponseEntity<D> updateCrud(Dto dto) {
-        T bean = modelMapper.map(dto, getBeanClass());
-        if (getService().update(bean) == null) {
+    protected ResponseEntity<T> updateCrud(T object) {
+        if (getService().update(object) == null) {
             throw new NotFoundException();
         }
         logger.info("updated");
-        logger.debug(bean);
-        return new ResponseEntity<>(modelMapper.map(bean, getDtoClass()), HttpStatus.OK);
+        logger.debug(object);
+        return new ResponseEntity<>(object, HttpStatus.OK);
     }
 
-    protected ResponseEntity deleteCrud(Dto dto) {
-        T bean = modelMapper.map(dto, getBeanClass());
-        getService().delete(bean);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable String id) {
+        getService().delete(Integer.parseInt(id));
         logger.info("deleted");
-        logger.debug(bean);
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<D> read(@PathVariable String id) {
-        T bean = getService().read(Integer.parseInt(id));
-        if (bean == null) {
+    public ResponseEntity<T> read(@PathVariable String id) {
+        T object = getService().read(Integer.parseInt(id));
+        if (object == null) {
             throw new NotFoundException();
         }
-        D dto = modelMapper.map(bean, getDtoClass());
         logger.info("read");
-        logger.debug(dto);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        logger.debug(object);
+        return new ResponseEntity<>(object, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<D>> getAll() {
-        List<D> list = getService().getAll()
-                .stream()
-                .map(object -> modelMapper.map(object, getDtoClass()))
-                .collect(Collectors.toList());
+    public ResponseEntity<List<T>> getAll() {
+        List<T> list = getService().getAll();
         logger.info("got all");
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

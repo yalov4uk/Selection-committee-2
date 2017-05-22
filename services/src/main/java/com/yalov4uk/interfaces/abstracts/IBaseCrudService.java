@@ -1,7 +1,6 @@
 package com.yalov4uk.interfaces.abstracts;
 
 import com.yalov4uk.abstracts.Bean;
-import com.yalov4uk.interfaces.IBaseDao;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface IBaseCrudService<T extends Bean> extends IBaseService {
 
     T update(T object);
 
-    void delete(T object);
+    void delete(Integer key);
 
     List<T> getAll();
 }
