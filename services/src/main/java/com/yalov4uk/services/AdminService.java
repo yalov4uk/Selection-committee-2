@@ -32,6 +32,7 @@ public class AdminService extends BaseService implements IAdminService {
             statement.setFaculty(faculty);
             statement.setUser(user);
             statementDao.persist(statement);
+            faculty.getRegisteredUsers().remove(user);
             logger.info("register statement");
             logger.debug(statement);
             return statement;

@@ -1,7 +1,6 @@
-package com.yalov4uk.controllers.abstracts;
+package com.yalov4uk.abstracts;
 
-import com.yalov4uk.abstracts.Bean;
-import com.yalov4uk.abstracts.Dto;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +22,22 @@ public abstract class BaseCrudController<T extends Bean, D extends Dto> extends 
 
     protected abstract Class<D> getDtoClass();
 
-    protected ResponseEntity createCrud(Dto dto) {
+    protected ResponseEntity<D> createCrud(Dto dto) {
         T bean = modelMapper.map(dto, getBeanClass());
         getService().create(bean);
         logger.info("created");
         logger.debug(bean);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(bean, getDtoClass()), HttpStatus.OK);
     }
 
-    protected ResponseEntity updateCrud(Dto dto) {
+    protected ResponseEntity<D> updateCrud(Dto dto) {
         T bean = modelMapper.map(dto, getBeanClass());
         if (getService().update(bean) == null) {
-            throw new NullPointerException();
+            throw new NotFoundException();
         }
         logger.info("updated");
         logger.debug(bean);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(bean, getDtoClass()), HttpStatus.OK);
     }
 
     protected ResponseEntity deleteCrud(Dto dto) {
@@ -51,10 +50,10 @@ public abstract class BaseCrudController<T extends Bean, D extends Dto> extends 
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity read(@PathVariable String id) {
+    public ResponseEntity<D> read(@PathVariable String id) {
         T bean = getService().read(Integer.parseInt(id));
         if (bean == null) {
-            throw new NullPointerException();
+            throw new NotFoundException();
         }
         D dto = modelMapper.map(bean, getDtoClass());
         logger.info("read");
@@ -63,7 +62,7 @@ public abstract class BaseCrudController<T extends Bean, D extends Dto> extends 
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity getAll() {
+    public ResponseEntity<List<D>> getAll() {
         List<D> list = getService().getAll()
                 .stream()
                 .map(object -> modelMapper.map(object, getDtoClass()))

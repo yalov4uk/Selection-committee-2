@@ -1,7 +1,8 @@
 package com.yalov4uk.controllers;
 
 import com.yalov4uk.beans.User;
-import com.yalov4uk.controllers.abstracts.BaseController;
+import com.yalov4uk.abstracts.BaseController;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.interfaces.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ClientController extends BaseController {
     public ResponseEntity register(@RequestBody UserDto userDto) {
         User user = clientService.register(modelMapper.map(userDto, User.class));
         if (user == null) {
-            throw new NullPointerException();
+            throw new NotFoundException();
         }
         logger.info("user registered");
         logger.debug(user);
@@ -37,7 +38,7 @@ public class ClientController extends BaseController {
     public ResponseEntity login(@RequestBody UserDto userDto) {
         User user = clientService.login(userDto.getLogin(), userDto.getPassword());
         if (user == null) {
-            throw new NullPointerException();
+            throw new NotFoundException();
         }
         logger.info("user login");
         logger.debug(user);

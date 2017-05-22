@@ -38,4 +38,18 @@ public class UserService extends BaseCrudService<User> implements IUserService {
             throw new ServiceUncheckedException(e);
         }
     }
+
+    @Override
+    public void delete(User user) {
+        try {
+            userDao.delete(user.getId());
+
+            user.getRole().getUsers().remove(user);
+
+            logger.info("deleted");
+        } catch (Exception e) {
+            logger.error("not deleted");
+            throw new ServiceUncheckedException(e);
+        }
+    }
 }

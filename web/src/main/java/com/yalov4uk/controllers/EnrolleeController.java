@@ -1,10 +1,12 @@
 package com.yalov4uk.controllers;
 
+import com.yalov4uk.abstracts.BaseController;
 import com.yalov4uk.beans.Faculty;
+import com.yalov4uk.beans.Statement;
 import com.yalov4uk.beans.User;
-import com.yalov4uk.controllers.abstracts.BaseController;
 import com.yalov4uk.dto.SubjectNameDto;
 import com.yalov4uk.dto.services.UserAndFacultyDto;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.beans.IFacultyService;
 import com.yalov4uk.interfaces.beans.IUserService;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +41,7 @@ public class EnrolleeController extends BaseController {
         User user = userService.read(userAndFacultyDto.getUser().getId());
         Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
         if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
-            throw new NullPointerException();
+            throw new NotFoundException();
         }
         List<SubjectNameDto> subjectNames = enrolleeService.getRequiredSubjectNames(user, faculty)
                 .stream()
@@ -52,8 +55,12 @@ public class EnrolleeController extends BaseController {
     public ResponseEntity registerToFaculty(@RequestBody UserAndFacultyDto userAndFacultyDto) {
         User user = userService.read(userAndFacultyDto.getUser().getId());
         Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
-        if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
-            throw new NullPointerException();
+        if (user == null || faculty == null) {
+            throw new NotFoundException();
+        }
+        List<Statement> statements = new ArrayList<>(faculty.getStatements());
+        if (faculty.getRegisteredUsers().contains(user) || !statements.retainAll(user.getStatements())) {
+            throw new RuntimeException();
         }
         if (enrolleeService.registerToFaculty(user, faculty)) {
             logger.info("registered to faculty");

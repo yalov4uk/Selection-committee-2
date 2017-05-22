@@ -3,7 +3,8 @@ package com.yalov4uk.controllers;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.Statement;
 import com.yalov4uk.beans.User;
-import com.yalov4uk.controllers.abstracts.BaseController;
+import com.yalov4uk.abstracts.BaseController;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.dto.StatementDto;
 import com.yalov4uk.dto.services.UserAndFacultyDto;
 import com.yalov4uk.interfaces.IAdminService;
@@ -40,7 +41,7 @@ public class AdminController extends BaseController {
         User user = userService.read(userAndFacultyDto.getUser().getId());
         Faculty faculty = facultyService.read(userAndFacultyDto.getFaculty().getId());
         if (user == null || faculty == null || !faculty.getRegisteredUsers().contains(user)) {
-            throw new NullPointerException();
+            throw new NotFoundException();
         }
         Statement statement = adminService.registerStatement(user, faculty);
         StatementDto statementDto = modelMapper.map(statement, StatementDto.class);
@@ -53,7 +54,7 @@ public class AdminController extends BaseController {
     public ResponseEntity calculateEntrants(@PathVariable String facultyId) {
         Faculty faculty = facultyService.read(Integer.parseInt(facultyId));
         if (faculty == null) {
-            throw new NullPointerException();
+            throw new NotFoundException();
         }
         List<StatementDto> statements = adminService.calculateEntrants(faculty)
                 .stream()

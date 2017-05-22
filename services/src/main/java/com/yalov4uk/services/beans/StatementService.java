@@ -26,6 +26,7 @@ public class StatementService extends BaseCrudService<Statement> implements ISta
         return statementDao;
     }
 
+    @Override
     public void create(Statement statement) {
         try {
             statementDao.persist(statement);
@@ -36,6 +37,21 @@ public class StatementService extends BaseCrudService<Statement> implements ISta
             logger.info("persisted");
         } catch (Exception e) {
             logger.error("not persisted");
+            throw new ServiceUncheckedException(e);
+        }
+    }
+
+    @Override
+    public void delete(Statement statement) {
+        try {
+            statementDao.delete(statement.getId());
+
+            statement.getUser().getStatements().remove(statement);
+            statement.getFaculty().getStatements().remove(statement);
+
+            logger.info("deleted");
+        } catch (Exception e) {
+            logger.error("not deleted");
             throw new ServiceUncheckedException(e);
         }
     }

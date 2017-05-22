@@ -1,7 +1,7 @@
 package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.beans.User;
-import com.yalov4uk.controllers.abstracts.BaseCrudController;
+import com.yalov4uk.abstracts.BaseCrudController;
 import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IUserService;

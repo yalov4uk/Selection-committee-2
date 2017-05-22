@@ -40,4 +40,19 @@ public class SubjectService extends BaseCrudService<Subject> implements ISubject
             throw new ServiceUncheckedException(e);
         }
     }
+
+    @Override
+    public void delete(Subject subject) {
+        try {
+            subjectDao.delete(subject.getId());
+
+            subject.getUser().getSubjects().remove(subject);
+            subject.getSubjectName().getSubjects().remove(subject);
+
+            logger.info("deleted");
+        } catch (Exception e) {
+            logger.error("not deleted");
+            throw new ServiceUncheckedException(e);
+        }
+    }
 }

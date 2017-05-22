@@ -1,4 +1,4 @@
-package com.yalov4uk.controllers.abstracts;
+package com.yalov4uk.abstracts;
 
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;

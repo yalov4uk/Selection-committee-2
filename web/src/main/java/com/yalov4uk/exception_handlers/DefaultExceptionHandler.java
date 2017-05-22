@@ -1,6 +1,7 @@
-package com.yalov4uk.controllers.exception_handlers;
+package com.yalov4uk.exception_handlers;
 
-import com.yalov4uk.controllers.abstracts.BaseController;
+import com.yalov4uk.abstracts.BaseController;
+import com.yalov4uk.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class DefaultExceptionHandler extends BaseController {
 
-    @ExceptionHandler(value = NullPointerException.class)
-    public ResponseEntity NpeHandler(Exception e) throws Exception {
+    @ExceptionHandler(value = NotFoundException.class)
+    public ResponseEntity NotFoundHandler(Exception e) throws Exception {
         logger.error(e);
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
