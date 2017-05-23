@@ -44,8 +44,8 @@ public class AdminController extends BaseController {
     }
 
     @RequestMapping(value = "/calculateEntrants/{facultyId}", method = RequestMethod.GET)
-    public ResponseEntity calculateEntrants(@PathVariable String facultyId) {
-        Faculty faculty = facultyService.read(Integer.parseInt(facultyId));
+    public ResponseEntity calculateEntrants(@PathVariable int facultyId) {
+        Faculty faculty = facultyService.read(facultyId);
         if (faculty == null) {
             throw new NotFoundException();
         }

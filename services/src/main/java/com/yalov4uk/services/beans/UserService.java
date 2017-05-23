@@ -53,4 +53,16 @@ public class UserService extends BaseCrudService<User> implements IUserService {
             throw new ServiceUncheckedException(e);
         }
     }
+
+    public User findByLogin(String login) {
+        try {
+            User user = userDao.findByLogin(login);
+            logger.info("found");
+            logger.debug(user);
+            return user;
+        } catch (Exception e) {
+            logger.error("not found");
+            throw new ServiceUncheckedException(e);
+        }
+    }
 }

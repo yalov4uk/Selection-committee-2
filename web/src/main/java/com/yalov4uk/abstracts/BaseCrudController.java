@@ -21,7 +21,7 @@ public abstract class BaseCrudController<T extends Bean> extends BaseController 
         getService().create(object);
         logger.info("created");
         logger.debug(object);
-        return new ResponseEntity<>(object, HttpStatus.OK);
+        return new ResponseEntity<>(object, HttpStatus.CREATED);
     }
 
     protected ResponseEntity<T> updateCrud(T object) {
@@ -34,16 +34,16 @@ public abstract class BaseCrudController<T extends Bean> extends BaseController 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable String id) {
-        getService().delete(Integer.parseInt(id));
+    public ResponseEntity delete(@PathVariable int id) {
+        getService().delete(id);
         logger.info("deleted");
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<T> read(@PathVariable String id) {
-        T object = getService().read(Integer.parseInt(id));
+    public ResponseEntity<T> read(@PathVariable int id) {
+        T object = getService().read(id);
         if (object == null) {
             throw new NotFoundException();
         }
