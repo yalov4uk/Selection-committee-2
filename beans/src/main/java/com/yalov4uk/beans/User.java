@@ -1,6 +1,5 @@
 package com.yalov4uk.beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yalov4uk.abstracts.Bean;
 
 import javax.persistence.*;
@@ -21,11 +20,8 @@ public class User extends Bean {
 
     private Role role;
 
-    @JsonIgnore
     private Set<Subject> subjects;
-    @JsonIgnore
     private Set<Faculty> faculties;
-    @JsonIgnore
     private Set<Statement> statements;
 
     public Integer getAverageScore(Faculty faculty) {

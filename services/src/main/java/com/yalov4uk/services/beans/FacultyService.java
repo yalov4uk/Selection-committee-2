@@ -3,11 +3,14 @@ package com.yalov4uk.services.beans;
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.SubjectName;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.beans.IFacultyService;
+import dto.FacultyDto;
+import dto.SubjectNameDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Service;
  * Created by valera on 5/17/17.
  */
 @Service
-public class FacultyService extends BaseCrudService<Faculty> implements IFacultyService {
+public class FacultyService extends BaseCrudService<Faculty, FacultyDto> implements IFacultyService {
 
     private final IFacultyDao facultyDao;
     private final ISubjectNameDao subjectNameDao;
@@ -26,29 +29,43 @@ public class FacultyService extends BaseCrudService<Faculty> implements IFaculty
         this.subjectNameDao = subjectNameDao;
     }
 
-    public void addSubjectName(Faculty faculty, SubjectName subjectName) {
+    public void addSubjectName(FacultyDto facultyDto, SubjectNameDto subjectNameDto) {
         try {
+            Faculty faculty = facultyDao.find(facultyDto.getId());
+            SubjectName subjectName = subjectNameDao.find(subjectNameDto.getId());
+            if (faculty == null || subjectName == null || faculty.getRequiredSubjects().contains(subjectName)) {
+                throw new NotFoundException();
+            }
+
             faculty.getRequiredSubjects().add(subjectName);
-            logger.info("added subject name");
-            logger.debug(subjectName);
         } catch (Exception e) {
-            logger.error("not added subject name");
             throw new ServiceUncheckedException(e);
         }
     }
 
-    public void deleteSubjectName(Faculty faculty, SubjectName subjectName) {
+    public void deleteSubjectName(FacultyDto facultyDto, SubjectNameDto subjectNameDto) {
         try {
+            Faculty faculty = facultyDao.find(facultyDto.getId());
+            SubjectName subjectName = subjectNameDao.find(subjectNameDto.getId());
+            if (faculty == null || subjectName == null || !faculty.getRequiredSubjects().contains(subjectName)) {
+                throw new NotFoundException();
+            }
+
             faculty.getRequiredSubjects().remove(subjectName);
-            logger.info("deleted subject name");
-            logger.debug(subjectName);
         } catch (Exception e) {
-            logger.error("not deleted subject name");
             throw new ServiceUncheckedException(e);
         }
     }
 
     protected IBaseDao<Faculty> getDao() {
         return facultyDao;
+    }
+
+    protected Class<Faculty> getBeanClass(){
+        return Faculty.class;
+    }
+
+    protected Class<FacultyDto> getDtoClass(){
+        return FacultyDto.class;
     }
 }

@@ -1,9 +1,9 @@
 package com.yalov4uk.interfaces;
 
-import com.yalov4uk.beans.Faculty;
-import com.yalov4uk.beans.Statement;
-import com.yalov4uk.beans.User;
 import com.yalov4uk.interfaces.abstracts.IBaseService;
+import dto.FacultyDto;
+import dto.StatementDto;
+import dto.UserDto;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface IAdminService extends IBaseService {
 
-    Statement registerStatement(User user, Faculty faculty);
+    StatementDto registerStatement(UserDto user, FacultyDto faculty);
 
-    List<Statement> calculateEntrants(Faculty faculty);
+    List<StatementDto> calculateEntrants(Integer facultyId);
 }

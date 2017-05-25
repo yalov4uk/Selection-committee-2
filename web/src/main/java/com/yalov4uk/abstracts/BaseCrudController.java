@@ -1,5 +1,6 @@
 package com.yalov4uk.abstracts;
 
+import abstracts.Dto;
 import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import org.springframework.http.HttpStatus;
@@ -13,49 +14,41 @@ import java.util.List;
 /**
  * Created by valera on 5/17/17.
  */
-public abstract class BaseCrudController<T extends Bean> extends BaseController {
+public abstract class BaseCrudController<D extends Dto> {
 
-    protected abstract IBaseCrudService<T> getService();
+    protected abstract IBaseCrudService<D> getService();
 
-    protected ResponseEntity<T> createCrud(T object) {
+    protected ResponseEntity<D> createCrud(D object) {
         getService().create(object);
-        logger.info("created");
-        logger.debug(object);
         return new ResponseEntity<>(object, HttpStatus.CREATED);
     }
 
-    protected ResponseEntity<T> updateCrud(T object) {
+    protected ResponseEntity<D> updateCrud(D object) {
         if (getService().update(object) == null) {
             throw new NotFoundException();
         }
-        logger.info("updated");
-        logger.debug(object);
         return new ResponseEntity<>(object, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable int id) {
         getService().delete(id);
-        logger.info("deleted");
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<T> read(@PathVariable int id) {
-        T object = getService().read(id);
+    public ResponseEntity<D> read(@PathVariable int id) {
+        D object = getService().read(id);
         if (object == null) {
             throw new NotFoundException();
         }
-        logger.info("read");
-        logger.debug(object);
         return new ResponseEntity<>(object, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<T>> getAll() {
-        List<T> list = getService().getAll();
-        logger.info("got all");
+    public ResponseEntity<List<D>> getAll() {
+        List<D> list = getService().getAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

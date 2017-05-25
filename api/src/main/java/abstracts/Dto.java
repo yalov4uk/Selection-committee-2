@@ -1,4 +1,4 @@
-package com.yalov4uk.abstracts;
+package abstracts;
 
 /**
  * Created by valera on 5/17/17.

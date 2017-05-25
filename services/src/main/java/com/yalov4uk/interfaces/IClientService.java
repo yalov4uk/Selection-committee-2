@@ -1,14 +1,14 @@
 package com.yalov4uk.interfaces;
 
-import com.yalov4uk.beans.User;
 import com.yalov4uk.interfaces.abstracts.IBaseService;
+import dto.UserDto;
 
 /**
  * Created by valera on 5/6/17.
  */
 public interface IClientService extends IBaseService {
 
-    User register(User user);
+    UserDto register(UserDto user);
 
-    User login(String login, String password);
+    UserDto login(String login, String password);
 }

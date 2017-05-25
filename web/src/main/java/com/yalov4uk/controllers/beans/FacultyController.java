@@ -1,13 +1,10 @@
 package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.beans.Faculty;
-import com.yalov4uk.beans.SubjectName;
-import com.yalov4uk.dto.services.FacultyAndSubjectName;
-import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IFacultyService;
-import com.yalov4uk.interfaces.beans.ISubjectNameService;
+import dto.FacultyDto;
+import dto.services.FacultyAndSubjectNameDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,52 +18,38 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/faculties")
-public class FacultyController extends BaseCrudController<Faculty> {
+public class FacultyController extends BaseCrudController<FacultyDto> {
 
     private final IFacultyService facultyService;
-    private final ISubjectNameService subjectNameService;
 
     @Autowired
-    public FacultyController(IFacultyService facultyService, ISubjectNameService subjectNameService) {
+    public FacultyController(IFacultyService facultyService) {
         this.facultyService = facultyService;
-        this.subjectNameService = subjectNameService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody Faculty faculty) {
+    public ResponseEntity create(@RequestBody FacultyDto faculty) {
         return createCrud(faculty);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody Faculty faculty) {
+    public ResponseEntity<FacultyDto> update(@RequestBody FacultyDto faculty) {
         return updateCrud(faculty);
     }
 
     @RequestMapping(value = "/addSubjectName", method = RequestMethod.POST)
-    public ResponseEntity addSubjectName(@RequestBody FacultyAndSubjectName facultyAndSubjectName) {
-        Faculty faculty = facultyService.read(facultyAndSubjectName.getFaculty().getId());
-        SubjectName subjectName = subjectNameService.read(facultyAndSubjectName.getSubjectName().getId());
-        if (faculty == null || subjectName == null || faculty.getRequiredSubjects().contains(subjectName)) {
-            throw new NotFoundException();
-        }
-        facultyService.addSubjectName(faculty, subjectName);
-        logger.info("added subject name to faculty");
+    public ResponseEntity addSubjectName(@RequestBody FacultyAndSubjectNameDto facultyAndSubjectName) {
+        facultyService.addSubjectName(facultyAndSubjectName.getFaculty(), facultyAndSubjectName.getSubjectName());
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/deleteSubjectName", method = RequestMethod.POST)
-    public ResponseEntity deleteSubjectName(@RequestBody FacultyAndSubjectName facultyAndSubjectName) {
-        Faculty faculty = facultyService.read(facultyAndSubjectName.getFaculty().getId());
-        SubjectName subjectName = subjectNameService.read(facultyAndSubjectName.getSubjectName().getId());
-        if (faculty == null || subjectName == null || !faculty.getRequiredSubjects().contains(subjectName)) {
-            throw new NotFoundException();
-        }
-        facultyService.deleteSubjectName(faculty, subjectName);
-        logger.info("deleted subject name from faculty");
+    public ResponseEntity deleteSubjectName(@RequestBody FacultyAndSubjectNameDto facultyAndSubjectName) {
+        facultyService.deleteSubjectName(facultyAndSubjectName.getFaculty(), facultyAndSubjectName.getSubjectName());
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    protected IBaseCrudService<Faculty> getService() {
+    protected IBaseCrudService<FacultyDto> getService(){
         return facultyService;
     }
 }

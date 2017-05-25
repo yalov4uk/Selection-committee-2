@@ -4,9 +4,15 @@ import com.yalov4uk.abstracts.BaseService;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.Statement;
 import com.yalov4uk.beans.User;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IAdminService;
+import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.IStatementDao;
+import com.yalov4uk.interfaces.IUserDao;
+import dto.FacultyDto;
+import dto.StatementDto;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,32 +25,39 @@ import java.util.stream.Collectors;
 @Service
 public class AdminService extends BaseService implements IAdminService {
 
-    private final IStatementDao statementDao;
-
     @Autowired
-    public AdminService(IStatementDao statementDao) {
-        this.statementDao = statementDao;
-    }
+    private IStatementDao statementDao;
+    @Autowired
+    private IUserDao userDao;
+    @Autowired
+    private IFacultyDao facultyDao;
 
-    public Statement registerStatement(User user, Faculty faculty) {
+    public StatementDto registerStatement(UserDto userDto, FacultyDto facultyDto) {
         try {
+            User user = userDao.find(userDto.getId());
+            Faculty faculty = facultyDao.find(facultyDto.getId());
+            if (user == null || faculty == null || !faculty.getRegisteredUsers().contains(user)) {
+                throw new NotFoundException();
+            }
+
             Statement statement = new Statement();
             statement.setFaculty(faculty);
             statement.setUser(user);
             statementDao.persist(statement);
             faculty.getRegisteredUsers().remove(user);
-            logger.info("register statement");
-            logger.debug(statement);
-            return statement;
+            return modelMapper.map(statement, StatementDto.class);
         } catch (Exception e) {
-            logger.error("not register statement");
             throw new ServiceUncheckedException(e);
         }
     }
 
-    public List<Statement> calculateEntrants(Faculty faculty) {
+    public List<StatementDto> calculateEntrants(Integer facultyId) {
         try {
-            List<Statement> statements =  statementDao.getAll()
+            Faculty faculty = facultyDao.find(facultyId);
+            if (faculty == null) {
+                throw new NotFoundException();
+            }
+            return statementDao.getAll()
                     .stream()
                     .filter(statement -> statement.getFaculty().equals(faculty))
                     .sorted((a, b) -> {
@@ -53,11 +66,9 @@ public class AdminService extends BaseService implements IAdminService {
                         return y - x;
                     })
                     .limit(faculty.getMaxSize())
+                    .map(statement -> modelMapper.map(statement, StatementDto.class))
                     .collect(Collectors.toList());
-            logger.info("calculated entrants");
-            return statements;
         } catch (Exception e) {
-            logger.error("not calculated entrants");
             throw new ServiceUncheckedException(e);
         }
     }

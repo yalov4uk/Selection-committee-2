@@ -1,6 +1,5 @@
 package com.yalov4uk.beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yalov4uk.abstracts.Bean;
 
 import javax.persistence.*;
@@ -17,7 +16,6 @@ public class Role extends Bean {
 
     private String name;
 
-    @JsonIgnore
     private Set<User> users;
 
     public Role() {

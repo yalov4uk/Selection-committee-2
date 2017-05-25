@@ -1,6 +1,5 @@
 package com.yalov4uk.beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yalov4uk.abstracts.Bean;
 
 import javax.persistence.*;
@@ -17,9 +16,7 @@ public class SubjectName extends Bean {
 
     private String name;
 
-    @JsonIgnore
     private Set<Faculty> faculties;
-    @JsonIgnore
     private Set<Subject> subjects;
 
     public SubjectName() {

@@ -1,11 +1,12 @@
-package com.yalov4uk.dto;
+package dto;
 
-import com.yalov4uk.abstracts.Dto;
+
+import abstracts.Dto;
 
 /**
  * Created by valera on 5/17/17.
  */
-public class FacultyDto extends Dto{
+public class FacultyDto extends Dto {
 
     private String name;
     private Integer maxSize;

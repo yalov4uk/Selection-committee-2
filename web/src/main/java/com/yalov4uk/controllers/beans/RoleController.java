@@ -1,9 +1,9 @@
 package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.beans.Role;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IRoleService;
+import dto.RoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/roles")
-public class RoleController extends BaseCrudController<Role> {
+public class RoleController extends BaseCrudController<RoleDto> {
 
     private final IRoleService roleService;
 
@@ -26,16 +26,16 @@ public class RoleController extends BaseCrudController<Role> {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody Role role) {
+    public ResponseEntity create(@RequestBody RoleDto role) {
         return createCrud(role);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody Role role) {
+    public ResponseEntity update(@RequestBody RoleDto role) {
         return updateCrud(role);
     }
 
-    protected IBaseCrudService<Role> getService() {
+    protected IBaseCrudService<RoleDto> getService() {
         return roleService;
     }
 }

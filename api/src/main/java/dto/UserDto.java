@@ -1,6 +1,7 @@
-package com.yalov4uk.dto;
+package dto;
 
-import com.yalov4uk.abstracts.Dto;
+
+import abstracts.Dto;
 
 /**
  * Created by valera on 5/17/17.
@@ -16,19 +17,17 @@ public class UserDto extends Dto {
     public UserDto() {
     }
 
-    public UserDto(String name, String login, String password, RoleDto role) {
+    public UserDto(String name, String login, String password) {
         this.name = name;
         this.login = login;
         this.password = password;
-        this.role = role;
     }
 
-    public UserDto(Integer id, String name, String login, String password, RoleDto role) {
+    public UserDto(Integer id, String name, String login, String password) {
         super(id);
         this.name = name;
         this.login = login;
         this.password = password;
-        this.role = role;
     }
 
     public String getName() {

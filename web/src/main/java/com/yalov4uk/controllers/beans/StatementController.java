@@ -1,9 +1,9 @@
 package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.beans.Statement;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IStatementService;
+import dto.StatementDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/statements")
-public class StatementController extends BaseCrudController<Statement> {
+public class StatementController extends BaseCrudController<StatementDto> {
 
     private final IStatementService statementService;
 
@@ -26,16 +26,16 @@ public class StatementController extends BaseCrudController<Statement> {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody Statement statement) {
+    public ResponseEntity create(@RequestBody StatementDto statement) {
         return createCrud(statement);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody Statement statement) {
+    public ResponseEntity update(@RequestBody StatementDto statement) {
         return updateCrud(statement);
     }
 
-    protected IBaseCrudService<Statement> getService() {
+    protected IBaseCrudService<StatementDto> getService() {
         return statementService;
     }
 }

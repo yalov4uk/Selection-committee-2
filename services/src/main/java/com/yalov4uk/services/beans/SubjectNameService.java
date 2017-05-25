@@ -5,6 +5,7 @@ import com.yalov4uk.beans.SubjectName;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.beans.ISubjectNameService;
+import dto.SubjectNameDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
  * Created by valera on 5/17/17.
  */
 @Service
-public class SubjectNameService extends BaseCrudService<SubjectName> implements ISubjectNameService {
+public class SubjectNameService extends BaseCrudService<SubjectName, SubjectNameDto> implements ISubjectNameService {
 
     private final ISubjectNameDao subjectNameDao;
 
@@ -23,5 +24,13 @@ public class SubjectNameService extends BaseCrudService<SubjectName> implements 
 
     protected IBaseDao<SubjectName> getDao() {
         return subjectNameDao;
+    }
+
+    protected Class<SubjectName> getBeanClass() {
+        return SubjectName.class;
+    }
+
+    protected Class<SubjectNameDto> getDtoClass() {
+        return SubjectNameDto.class;
     }
 }

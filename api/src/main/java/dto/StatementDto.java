@@ -1,13 +1,14 @@
-package com.yalov4uk.dto;
+package dto;
 
-import com.yalov4uk.abstracts.Dto;
+
+import abstracts.Dto;
 
 import java.util.Date;
 
 /**
  * Created by valera on 5/17/17.
  */
-public class StatementDto extends Dto{
+public class StatementDto extends Dto {
 
     private Date date;
 

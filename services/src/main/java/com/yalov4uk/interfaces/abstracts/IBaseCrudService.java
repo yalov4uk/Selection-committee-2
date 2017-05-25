@@ -1,21 +1,21 @@
 package com.yalov4uk.interfaces.abstracts;
 
-import com.yalov4uk.abstracts.Bean;
+import abstracts.Dto;
 
 import java.util.List;
 
 /**
  * Created by valera on 5/17/17.
  */
-public interface IBaseCrudService<T extends Bean> extends IBaseService {
+public interface IBaseCrudService<D extends Dto> extends IBaseService {
 
-    void create(T object);
+    D create(D dto);
 
-    T read(Integer key);
+    D read(Integer key);
 
-    T update(T object);
+    D update(D dto);
 
-    void delete(Integer key);
+    D delete(Integer key);
 
-    List<T> getAll();
+    List<D> getAll();
 }

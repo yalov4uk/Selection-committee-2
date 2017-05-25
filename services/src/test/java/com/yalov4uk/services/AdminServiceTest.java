@@ -3,9 +3,11 @@ package com.yalov4uk.services;
 import com.yalov4uk.beans.*;
 import com.yalov4uk.interfaces.IAdminService;
 import com.yalov4uk.interfaces.beans.*;
+import dto.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -41,6 +44,9 @@ public class AdminServiceTest {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     private User user1;
     private User user2;
     private Role role;
@@ -55,21 +61,22 @@ public class AdminServiceTest {
         role = new Role("test");
         user1.setRole(role);
         user2.setRole(role);
-        roleService.create(role);
-        userService.create(user1);
-        userService.create(user2);
+
+        roleService.create(modelMapper.map(role, RoleDto.class));
+        userService.create(modelMapper.map(user1, UserDto.class));
+        userService.create(modelMapper.map(user2, UserDto.class));
 
         subjectName1 = new SubjectName("test1");
         subjectName2 = new SubjectName("test2");
-        subjectNameService.create(subjectName1);
-        subjectNameService.create(subjectName2);
+        subjectNameService.create(modelMapper.map(subjectName1, SubjectNameDto.class));
+        subjectNameService.create(modelMapper.map(subjectName2, SubjectNameDto.class));
 
         faculty = new Faculty("test", 10);
         Set<SubjectName> subjectNames = new HashSet<>();
         subjectNames.add(subjectName1);
         subjectNames.add(subjectName2);
         faculty.setRequiredSubjects(subjectNames);
-        facultyService.create(faculty);
+        facultyService.create(modelMapper.map(faculty, FacultyDto.class));
 
         Subject subject1 = new Subject(1);
         Subject subject2 = new Subject(5);
@@ -86,26 +93,28 @@ public class AdminServiceTest {
         subject3.setUser(user2);
         subject4.setUser(user2);
 
-        subjectService.create(subject1);
-        subjectService.create(subject2);
-        subjectService.create(subject3);
-        subjectService.create(subject4);
+        subjectService.create(modelMapper.map(subject1, SubjectDto.class));
+        subjectService.create(modelMapper.map(subject2, SubjectDto.class));
+        subjectService.create(modelMapper.map(subject3, SubjectDto.class));
+        subjectService.create(modelMapper.map(subject4, SubjectDto.class));
 
         user1.getSubjects().add(subject1);
         user1.getSubjects().add(subject2);
         user2.getSubjects().add(subject3);
         user2.getSubjects().add(subject4);
 
-        userService.update(user1);
-        userService.update(user2);
+        userService.update(modelMapper.map(user1, UserDto.class));
+        userService.update(modelMapper.map(user2, UserDto.class));
     }
 
     @Test
     @Rollback
     public void registerStatement() throws Exception {
-        Statement statement1 = adminService.registerStatement(user1, faculty);
+        StatementDto statement1Dto = adminService.registerStatement(modelMapper.map(user1, UserDto.class), modelMapper.map(faculty, FacultyDto.class));
+        Statement statement1 = modelMapper.map(statement1Dto, Statement.class);
         assertEquals("Statement1 doesn't created", statement1.getUser(), user1);
-        Statement statement2 = adminService.registerStatement(user2, faculty);
+        StatementDto statement2Dto = adminService.registerStatement(modelMapper.map(user2, UserDto.class), modelMapper.map(faculty, FacultyDto.class));
+        Statement statement2 = modelMapper.map(statement2Dto, Statement.class);
         assertEquals("Statement2 doesn't created", statement2.getUser(), user2);
     }
 
@@ -113,7 +122,11 @@ public class AdminServiceTest {
     @Rollback
     public void calculateEntrants() throws Exception {
         registerStatement();
-        List<Statement> statements = adminService.calculateEntrants(faculty);
+        List<StatementDto> statementsDto = adminService.calculateEntrants(faculty.getId());
+        List<Statement> statements = statementsDto
+                .stream()
+                .map(statementDto ->modelMapper.map(statementsDto, Statement.class))
+                .collect(Collectors.toList());
         assertTrue("Size > faculty maxSize", statements.size() <= faculty.getMaxSize());
         assertEquals("Temp1.averageScore > temp2.averageScore", statements.get(0).getUser(), user2);
     }

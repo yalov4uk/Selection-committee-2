@@ -1,9 +1,9 @@
 package com.yalov4uk.interfaces;
 
-import com.yalov4uk.beans.Faculty;
-import com.yalov4uk.beans.SubjectName;
-import com.yalov4uk.beans.User;
 import com.yalov4uk.interfaces.abstracts.IBaseService;
+import dto.FacultyDto;
+import dto.SubjectNameDto;
+import dto.UserDto;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface IEnrolleeService extends IBaseService {
 
-    List<SubjectName> getRequiredSubjectNames(User user, Faculty faculty);
+    List<SubjectNameDto> getRequiredSubjectNames(UserDto user, FacultyDto faculty);
 
-    boolean registerToFaculty(User user, Faculty faculty);
+    boolean registerToFaculty(UserDto user, FacultyDto faculty);
 }

@@ -1,18 +1,20 @@
 package com.yalov4uk.services;
 
 import com.yalov4uk.abstracts.BaseService;
-import com.yalov4uk.beans.Faculty;
-import com.yalov4uk.beans.Subject;
-import com.yalov4uk.beans.SubjectName;
-import com.yalov4uk.beans.User;
+import com.yalov4uk.beans.*;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.ISubjectDao;
 import com.yalov4uk.interfaces.IUserDao;
+import dto.FacultyDto;
+import dto.SubjectNameDto;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -35,28 +37,42 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
         this.userDao = userDao;
     }
 
-    public List<SubjectName> getRequiredSubjectNames(User user, Faculty faculty) {
+    public List<SubjectNameDto> getRequiredSubjectNames(UserDto userDto, FacultyDto facultyDto) {
         try {
-            List<SubjectName> subjectNames = new LinkedList<>();
+            User user = userDao.find(userDto.getId());
+            Faculty faculty = facultyDao.find(facultyDto.getId());
+            if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
+                throw new NotFoundException();
+            }
+
+            List<SubjectNameDto> subjectNames = new LinkedList<>();
             faculty.getRequiredSubjects()
                     .forEach(requiredSubject -> {
                         if (user.getSubjects()
                                 .stream()
                                 .map(Subject::getSubjectName)
                                 .noneMatch(subjectName -> subjectName.equals(requiredSubject))) {
-                            subjectNames.add(requiredSubject);
+                            subjectNames.add(modelMapper.map(requiredSubject, SubjectNameDto.class));
                         }
                     });
-            logger.info("got required subject names");
             return subjectNames;
         } catch (Exception e) {
-            logger.error("not got required subject names");
             throw new ServiceUncheckedException(e);
         }
     }
 
-    public boolean registerToFaculty(User user, Faculty faculty) {
+    public boolean registerToFaculty(UserDto userDto, FacultyDto facultyDto) {
         try {
+            User user = userDao.find(userDto.getId());
+            Faculty faculty = facultyDao.find(facultyDto.getId());
+            if (user == null || faculty == null) {
+                throw new NotFoundException();
+            }
+            List<Statement> statements = new ArrayList<>(faculty.getStatements());
+            if (faculty.getRegisteredUsers().contains(user) || !statements.retainAll(user.getStatements())) {
+                throw new RuntimeException();
+            }
+
             Set<SubjectName> requiredSubjects = faculty.getRequiredSubjects();
             Set<SubjectName> userSubjectNames = user.getSubjects()
                     .stream()
@@ -66,13 +82,10 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
                     .stream()
                     .allMatch(userSubjectNames::contains)) {
                 faculty.getRegisteredUsers().add(user);
-                logger.info("registered to faculty");
                 return true;
             }
-            logger.error("not enough subjects");
             return false;
         } catch (Exception e) {
-            logger.error("not registered to faculty");
             throw new ServiceUncheckedException(e);
         }
     }

@@ -4,8 +4,10 @@ import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.User;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
+import com.yalov4uk.interfaces.IRoleDao;
 import com.yalov4uk.interfaces.IUserDao;
 import com.yalov4uk.interfaces.beans.IUserService;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,56 +15,57 @@ import org.springframework.stereotype.Service;
  * Created by valera on 5/17/17.
  */
 @Service
-public class UserService extends BaseCrudService<User> implements IUserService {
-
-    private final IUserDao userDao;
+public class UserService extends BaseCrudService<User, UserDto> implements IUserService {
 
     @Autowired
-    public UserService(IUserDao userDao) {
-        this.userDao = userDao;
-    }
+    private IUserDao userDao;
+    @Autowired
+    private IRoleDao roleDao;
 
     protected IBaseDao<User> getDao() {
         return userDao;
     }
 
-    public void create(User user) {
+    public UserDto create(UserDto userDto) {
         try {
+            User user = modelMapper.map(userDto, User.class);
             userDao.persist(user);
 
-            user.getRole().getUsers().add(user);
+            roleDao.find(user.getRole().getId()).getUsers().add(user);
 
-            logger.info("persisted");
+            return modelMapper.map(user, UserDto.class);
         } catch (Exception e) {
-            logger.error("not persisted");
             throw new ServiceUncheckedException(e);
         }
     }
 
     @Override
-    public void delete(Integer key) {
+    public UserDto delete(Integer key) {
         try {
             User user = userDao.find(key);
             userDao.delete(key);
 
-            user.getRole().getUsers().remove(user);
-
-            logger.info("deleted");
+            roleDao.find(user.getRole().getId()).getUsers().remove(user);
+            return null;
         } catch (Exception e) {
-            logger.error("not deleted");
             throw new ServiceUncheckedException(e);
         }
     }
 
+    @Override
     public User findByLogin(String login) {
         try {
-            User user = userDao.findByLogin(login);
-            logger.info("found");
-            logger.debug(user);
-            return user;
+            return userDao.findByLogin(login);
         } catch (Exception e) {
-            logger.error("not found");
             throw new ServiceUncheckedException(e);
         }
+    }
+
+    protected Class<User> getBeanClass() {
+        return User.class;
+    }
+
+    protected Class<UserDto> getDtoClass() {
+        return UserDto.class;
     }
 }

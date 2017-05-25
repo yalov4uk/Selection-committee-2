@@ -1,22 +1,23 @@
-package com.yalov4uk.dto;
+package dto;
 
-import com.yalov4uk.abstracts.Dto;
+
+import abstracts.Dto;
 
 /**
  * Created by valera on 5/17/17.
  */
-public class SubjectNameDto extends Dto {
+public class RoleDto extends Dto {
 
     private String name;
 
-    public SubjectNameDto() {
+    public RoleDto() {
     }
 
-    public SubjectNameDto(String name) {
+    public RoleDto(String name) {
         this.name = name;
     }
 
-    public SubjectNameDto(Integer id, String name) {
+    public RoleDto(Integer id, String name) {
         super(id);
         this.name = name;
     }

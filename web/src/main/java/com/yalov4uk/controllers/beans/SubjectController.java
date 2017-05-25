@@ -1,9 +1,9 @@
 package com.yalov4uk.controllers.beans;
 
 import com.yalov4uk.abstracts.BaseCrudController;
-import com.yalov4uk.beans.Subject;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.ISubjectService;
+import dto.SubjectDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/subjects")
-public class SubjectController extends BaseCrudController<Subject> {
+public class SubjectController extends BaseCrudController<SubjectDto> {
 
     private final ISubjectService subjectService;
 
@@ -26,16 +26,16 @@ public class SubjectController extends BaseCrudController<Subject> {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody Subject subject) {
+    public ResponseEntity create(@RequestBody SubjectDto subject) {
         return createCrud(subject);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody Subject subject) {
+    public ResponseEntity update(@RequestBody SubjectDto subject) {
         return updateCrud(subject);
     }
 
-    protected IBaseCrudService<Subject> getService() {
+    protected IBaseCrudService<SubjectDto> getService() {
         return subjectService;
     }
 }

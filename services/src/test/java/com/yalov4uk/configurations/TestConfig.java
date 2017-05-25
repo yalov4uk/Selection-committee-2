@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by valera on 5/20/17.
+ * Created by valera on 5/26/17.
  */
 @Configuration
-public class MainConfiguration {
+public class TestConfig {
 
     @Bean
     public ModelMapper modelMapper() {
