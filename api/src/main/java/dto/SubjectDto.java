@@ -16,6 +16,10 @@ public class SubjectDto extends Dto {
     public SubjectDto() {
     }
 
+    public SubjectDto(Integer value) {
+        this.value = value;
+    }
+
     public SubjectDto(Integer value, SubjectNameDto subjectName, UserDto user) {
         this.value = value;
         this.subjectName = subjectName;

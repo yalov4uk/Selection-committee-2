@@ -1,12 +1,16 @@
 package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
+import com.yalov4uk.beans.Subject;
 import com.yalov4uk.beans.User;
+import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IRoleDao;
+import com.yalov4uk.interfaces.ISubjectDao;
 import com.yalov4uk.interfaces.IUserDao;
 import com.yalov4uk.interfaces.beans.IUserService;
+import dto.SubjectDto;
 import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     private IUserDao userDao;
     @Autowired
     private IRoleDao roleDao;
+    @Autowired
+    private ISubjectDao subjectDao;
 
     protected IBaseDao<User> getDao() {
         return userDao;
@@ -56,6 +62,34 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     public User findByLogin(String login) {
         try {
             return userDao.findByLogin(login);
+        } catch (Exception e) {
+            throw new ServiceUncheckedException(e);
+        }
+    }
+
+    public void addSubject(UserDto userDto, SubjectDto subjectDto) {
+        try {
+            User user = userDao.find(userDto.getId());
+            Subject subject = subjectDao.find(subjectDto.getId());
+            if (user == null || subject == null || user.getSubjects().contains(subject)) {
+                throw new NotFoundException();
+            }
+
+            user.getSubjects().add(subject);
+        } catch (Exception e) {
+            throw new ServiceUncheckedException(e);
+        }
+    }
+
+    public void deleteSubject(UserDto userDto, SubjectDto subjectDto) {
+        try {
+            User user = userDao.find(userDto.getId());
+            Subject subject = subjectDao.find(subjectDto.getId());
+            if (user == null || subject == null || user.getSubjects().contains(subject)) {
+                throw new NotFoundException();
+            }
+
+            user.getSubjects().remove(subject);
         } catch (Exception e) {
             throw new ServiceUncheckedException(e);
         }

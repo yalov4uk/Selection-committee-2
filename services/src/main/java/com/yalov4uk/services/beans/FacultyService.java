@@ -11,8 +11,12 @@ import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.beans.IFacultyService;
 import dto.FacultyDto;
 import dto.SubjectNameDto;
+import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by valera on 5/17/17.
@@ -52,6 +56,22 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
             }
 
             faculty.getRequiredSubjects().remove(subjectName);
+        } catch (Exception e) {
+            throw new ServiceUncheckedException(e);
+        }
+    }
+
+    public List<UserDto> getRegisteredUsers(FacultyDto facultyDto){
+        try {
+            Faculty faculty = facultyDao.find(facultyDto.getId());
+            if (faculty == null) {
+                throw new NotFoundException();
+            }
+
+            return faculty.getRegisteredUsers()
+                    .stream()
+                    .map(user -> modelMapper.map(user, UserDto.class))
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             throw new ServiceUncheckedException(e);
         }

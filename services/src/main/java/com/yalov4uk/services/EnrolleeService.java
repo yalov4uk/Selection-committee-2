@@ -69,7 +69,7 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
                 throw new NotFoundException();
             }
             List<Statement> statements = new ArrayList<>(faculty.getStatements());
-            if (faculty.getRegisteredUsers().contains(user) || !statements.retainAll(user.getStatements())) {
+            if (faculty.getRegisteredUsers().contains(user) || user.getStatements().stream().anyMatch(statements::contains)) {
                 throw new RuntimeException();
             }
 

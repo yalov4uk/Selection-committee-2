@@ -1,6 +1,6 @@
 package com.yalov4uk.services;
 
-import com.yalov4uk.beans.*;
+import abstracts.Dto;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.beans.*;
 import dto.*;
@@ -14,7 +14,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -44,111 +46,87 @@ public class EnrolleeServiceTest {
     @Autowired
     private ModelMapper modelMapper;
 
-    private User user;
-    private Role role;
-    private Faculty faculty1;
-    private Faculty faculty2;
-    private SubjectName subjectName1;
-    private SubjectName subjectName2;
-    private SubjectName subjectName3;
+    private UserDto user;
+    private RoleDto role;
+    private FacultyDto faculty1;
+    private FacultyDto faculty2;
+    private SubjectNameDto subjectName1;
+    private SubjectNameDto subjectName2;
+    private SubjectNameDto subjectName3;
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", "test");
-        role = new Role("test");
+        user = new UserDto("test", "test", "test");
+        role = roleService.create(new RoleDto("test"));
         user.setRole(role);
-        roleService.create(modelMapper.map(role, RoleDto.class));
-        userService.create(modelMapper.map(user, UserDto.class));
+        user = userService.create(user);
 
-        faculty1 = new Faculty("test1", 10);
-        faculty2 = new Faculty("test2", 8);
+        faculty1 = facultyService.create(new FacultyDto("test1", 10));
+        faculty2 = facultyService.create(new FacultyDto("test2", 8));
 
-        Set<SubjectName> subjectNames1 = new HashSet<>();
-        Set<SubjectName> subjectNames2 = new HashSet<>();
+        subjectName1 = subjectNameService.create(new SubjectNameDto("test1"));
+        subjectName2 = subjectNameService.create(new SubjectNameDto("test2"));
+        subjectName3 = subjectNameService.create(new SubjectNameDto("test3"));
 
-        subjectName1 = new SubjectName("test1");
-        subjectName2 = new SubjectName("test2");
-        subjectName3 = new SubjectName("test3");
-        subjectNameService.create(modelMapper.map(subjectName1, SubjectNameDto.class));
-        subjectNameService.create(modelMapper.map(subjectName2, SubjectNameDto.class));
-        subjectNameService.create(modelMapper.map(subjectName3, SubjectNameDto.class));
-
-        subjectNames1.add(subjectName1);
-        subjectNames1.add(subjectName2);
-
-        subjectNames2.add(subjectName1);
-        subjectNames2.add(subjectName2);
-        subjectNames2.add(subjectName3);
-
-        faculty1.setRequiredSubjects(subjectNames1);
-        faculty2.setRequiredSubjects(subjectNames2);
-        facultyService.create(modelMapper.map(faculty1, FacultyDto.class));
-        facultyService.create(modelMapper.map(faculty2, FacultyDto.class));
+        facultyService.addSubjectName(faculty1, subjectName1);
+        facultyService.addSubjectName(faculty1, subjectName2);
+        facultyService.addSubjectName(faculty2, subjectName1);
+        facultyService.addSubjectName(faculty2, subjectName2);
+        facultyService.addSubjectName(faculty2, subjectName3);
     }
 
     @Test
     @Rollback
     public void getRequiredSubjectNames() throws Exception {
-        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(modelMapper.map(user, UserDto.class), modelMapper.map(faculty1, FacultyDto.class));
-        assertTrue("List doesn't contains subjectName1", actualSubjectNames1.contains(modelMapper.map(subjectName1, SubjectNameDto.class)));
-        assertTrue("List doesn't contains subjectName2", actualSubjectNames1.contains(modelMapper.map(subjectName2, SubjectNameDto.class)));
+        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1);
+        List<Integer> actualSubjectNames = actualSubjectNames1
+                .stream()
+                .map(Dto::getId)
+                .collect(Collectors.toList());
+        assertTrue("List doesn't contains subjectName1", actualSubjectNames.contains(subjectName1.getId()));
+        assertTrue("List doesn't contains subjectName2", actualSubjectNames.contains(subjectName2.getId()));
 
-        List<Integer> values1 = new ArrayList<>();
-        values1.add(10);
-        values1.add(20);
+        subjectService.create(new SubjectDto(10, actualSubjectNames1.get(0), user));
+        subjectService.create(new SubjectDto(20, actualSubjectNames1.get(1), user));
 
-        Subject subject1 = new Subject(values1.get(0));
-        subject1.setSubjectName(modelMapper.map(actualSubjectNames1.get(0), SubjectName.class));
-        subject1.setUser(user);
-        subjectService.create(modelMapper.map(subject1, SubjectDto.class));
-        Subject subject2 = new Subject(values1.get(1));
-        subject2.setSubjectName(modelMapper.map(actualSubjectNames1.get(1), SubjectName.class));
-        subject2.setUser(user);
-        subjectService.create(modelMapper.map(subject2, SubjectDto.class));
-
-        assertTrue("Not registered", enrolleeService.registerToFaculty(modelMapper.map(user, UserDto.class), modelMapper.map(faculty1, FacultyDto.class)));
-
-        List<SubjectNameDto> thisShouldBeNull = enrolleeService.getRequiredSubjectNames(modelMapper.map(user, UserDto.class), modelMapper.map(faculty1, FacultyDto.class));
+        List<SubjectNameDto> thisShouldBeNull = enrolleeService.getRequiredSubjectNames(user, faculty1);
         assertTrue("Enrollee can twice register to the same faculty", thisShouldBeNull.equals(new LinkedList<>()));
 
-        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(modelMapper.map(user, UserDto.class), modelMapper.map(faculty2, FacultyDto.class));
-        assertFalse("List contains subjectName1", actualSubjectNames2.contains(modelMapper.map(subjectName1, SubjectNameDto.class)));
-        assertFalse("List contains subjectName2", actualSubjectNames2.contains(modelMapper.map(subjectName2, SubjectNameDto.class)));
-        assertTrue("List doesn't contains subjectName3", actualSubjectNames2.contains(modelMapper.map(subjectName3, SubjectNameDto.class)));
+        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2);
+        actualSubjectNames = actualSubjectNames2
+                .stream()
+                .map(Dto::getId)
+                .collect(Collectors.toList());
+        assertFalse("List contains subjectName1", actualSubjectNames.contains(subjectName1.getId()));
+        assertFalse("List contains subjectName2", actualSubjectNames.contains(subjectName2.getId()));
+        assertTrue("List doesn't contains subjectName3", actualSubjectNames.contains(subjectName3.getId()));
     }
 
-    @Test
+    @Test(expected=RuntimeException.class)
     @Rollback
     public void registerToFaculty() throws Exception {
-        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(modelMapper.map(user, UserDto.class), modelMapper.map(faculty1, FacultyDto.class));
+        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1);
 
-        List<Integer> values1 = new ArrayList<>();
-        values1.add(10);
-        values1.add(20);
+        subjectService.create(new SubjectDto(10, actualSubjectNames1.get(0), user));
+        subjectService.create(new SubjectDto(20, actualSubjectNames1.get(1), user));
 
-        Subject subject1 = new Subject(values1.get(0));
-        subject1.setSubjectName(modelMapper.map(actualSubjectNames1.get(0), SubjectName.class));
-        subject1.setUser(user);
-        subjectService.create(modelMapper.map(subject1, SubjectDto.class));
-        Subject subject2 = new Subject(values1.get(1));
-        subject2.setSubjectName(modelMapper.map(actualSubjectNames1.get(1), SubjectName.class));
-        subject2.setUser(user);
-        subjectService.create(modelMapper.map(subject2, SubjectDto.class));
+        enrolleeService.registerToFaculty(user, faculty1);
+        List<Integer> registeredUserIds = facultyService.getRegisteredUsers(faculty1)
+                .stream()
+                .map(Dto::getId)
+                .collect(Collectors.toList());
+        assertTrue("User doesn't registered to faculty2", registeredUserIds.contains(user.getId()));
 
-        enrolleeService.registerToFaculty(modelMapper.map(user, UserDto.class), modelMapper.map(faculty1, FacultyDto.class));
-        assertTrue("User doesn't registered to faculty1", faculty1.getRegisteredUsers().contains(user));
+        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2);
 
-        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(modelMapper.map(user, UserDto.class), modelMapper.map(faculty2, FacultyDto.class));
+        subjectService.create(new SubjectDto(30, actualSubjectNames2.get(0), user));
 
-        List<Integer> values2 = new ArrayList<>();
-        values2.add(30);
-
-        Subject subject3 = new Subject(values2.get(0));
-        subject3.setSubjectName(modelMapper.map(actualSubjectNames2.get(0), SubjectName.class));
-        subject3.setUser(user);
-        subjectService.create(modelMapper.map(subject3, SubjectDto.class));
-
-        enrolleeService.registerToFaculty(modelMapper.map(user, UserDto.class), modelMapper.map(faculty2, FacultyDto.class));
-        assertTrue("User doesn't registered to faculty2", faculty2.getRegisteredUsers().contains(user));
+        enrolleeService.registerToFaculty(user, faculty2);
+        registeredUserIds = facultyService.getRegisteredUsers(faculty2)
+                .stream()
+                .map(Dto::getId)
+                .collect(Collectors.toList());
+        assertTrue("User doesn't registered to faculty2", registeredUserIds.contains(user.getId()));
+        enrolleeService.registerToFaculty(user, faculty2);
     }
 }

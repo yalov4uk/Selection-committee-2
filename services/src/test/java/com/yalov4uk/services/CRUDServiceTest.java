@@ -39,7 +39,6 @@ public class CRUDServiceTest {
     private RoleDto expectedRole1;
     private UserDto user2;
     private RoleDto expectedRole2;
-    private RoleDto actualRole;
 
     @Before
     public void setUp() throws Exception {
