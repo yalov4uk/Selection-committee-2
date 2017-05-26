@@ -1,7 +1,6 @@
 package com.yalov4uk.abstracts;
 
 import abstracts.Dto;
-import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 
@@ -20,54 +19,33 @@ public abstract class BaseCrudService<T extends Bean, D extends Dto> extends Bas
     protected abstract Class<D> getDtoClass();
 
     public D create(D dto) {
-        try {
-            T object = modelMapper.map(dto, getBeanClass());
-            IBaseDao<T> dao = getDao();
-            dao.persist(object);
-            return modelMapper.map(object, getDtoClass());
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        T object = modelMapper.map(dto, getBeanClass());
+        IBaseDao<T> dao = getDao();
+        dao.persist(object);
+        return modelMapper.map(object, getDtoClass());
     }
 
     public D read(Integer key) {
-        try {
-            IBaseDao<T> dao = getDao();
-            return modelMapper.map(dao.find(key), getDtoClass());
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        IBaseDao<T> dao = getDao();
+        return modelMapper.map(dao.find(key), getDtoClass());
     }
 
     public D update(D dto) {
-        try {
-            T object = modelMapper.map(dto, getBeanClass());
-            IBaseDao<T> dao = getDao();
-            return modelMapper.map(dao.update(object), getDtoClass());
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        T object = modelMapper.map(dto, getBeanClass());
+        IBaseDao<T> dao = getDao();
+        return modelMapper.map(dao.update(object), getDtoClass());
     }
 
-    public D delete(Integer key) {
-        try {
-            IBaseDao<T> dao = getDao();
-            dao.delete(key);
-            return null;
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+    public void delete(Integer key) {
+        IBaseDao<T> dao = getDao();
+        dao.delete(key);
     }
 
     public List<D> getAll() {
-        try {
-            IBaseDao<T> dao = getDao();
-            return dao.getAll()
-                    .stream()
-                    .map(object -> modelMapper.map(object, getDtoClass()))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        IBaseDao<T> dao = getDao();
+        return dao.getAll()
+                .stream()
+                .map(object -> modelMapper.map(object, getDtoClass()))
+                .collect(Collectors.toList());
     }
 }

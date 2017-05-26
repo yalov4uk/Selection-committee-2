@@ -3,7 +3,6 @@ package com.yalov4uk.services;
 import com.yalov4uk.abstracts.BaseService;
 import com.yalov4uk.beans.Role;
 import com.yalov4uk.beans.User;
-import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IClientService;
 import com.yalov4uk.interfaces.IRoleDao;
@@ -28,29 +27,13 @@ public class ClientService extends BaseService implements IClientService {
     }
 
     public UserDto register(UserDto userDto) {
-        try {
-            if (userDao.findByLogin(userDto.getLogin()) != null) {
-                throw new NotFoundException();
-            }
-            User user = modelMapper.map(userDto, User.class);
-            Role role = roleDao.find(1);
-            user.setRole(role);
-            userDao.persist(user);
-            return modelMapper.map(user, UserDto.class);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+        if (userDao.findByLogin(userDto.getLogin()) != null) {
+            throw new ServiceUncheckedException("login already used");
         }
-    }
-
-    public UserDto login(String login, String password) {
-        try {
-            User user = userDao.findByLogin(login);
-            if (user == null || !user.getPassword().equals(password)) {
-                throw new NotFoundException();
-            }
-            return modelMapper.map(user, UserDto.class);
-        }  catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        User user = modelMapper.map(userDto, User.class);
+        Role role = roleDao.find(1);
+        user.setRole(role);
+        userDao.persist(user);
+        return modelMapper.map(user, UserDto.class);
     }
 }

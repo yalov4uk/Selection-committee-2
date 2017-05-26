@@ -67,8 +67,8 @@ public class AdminServiceTest {
 
         faculty = new FacultyDto("test", 10);
         faculty = facultyService.create(faculty);
-        facultyService.addSubjectName(faculty, subjectName1);
-        facultyService.addSubjectName(faculty, subjectName2);
+        facultyService.addSubjectName(faculty.getId(), subjectName1.getId());
+        facultyService.addSubjectName(faculty.getId(), subjectName2.getId());
 
         subjectService.create(new SubjectDto(1, subjectName1, user1));
         subjectService.create(new SubjectDto(5, subjectName2, user1));
@@ -79,21 +79,21 @@ public class AdminServiceTest {
     @Test
     @Rollback
     public void registerStatement() throws Exception {
-        enrolleeService.registerToFaculty(user1, faculty);
-        StatementDto statement1 = adminService.registerStatement(user1, faculty);
+        enrolleeService.registerToFaculty(user1, faculty.getId());
+        StatementDto statement1 = adminService.registerStatement(user1.getId(), faculty.getId());
         assertEquals("Statement1 doesn't created", statement1.getUser().getId(), user1.getId());
-        enrolleeService.registerToFaculty(user2, faculty);
-        StatementDto statement2 = adminService.registerStatement(user2, faculty);
+        enrolleeService.registerToFaculty(user2, faculty.getId());
+        StatementDto statement2 = adminService.registerStatement(user2.getId(), faculty.getId());
         assertEquals("Statement2 doesn't created", statement2.getUser().getId(), user2.getId());
     }
 
     @Test
     @Rollback
     public void calculateEntrants() throws Exception {
-        enrolleeService.registerToFaculty(user1, faculty);
-        adminService.registerStatement(user1, faculty);
-        enrolleeService.registerToFaculty(user2, faculty);
-        adminService.registerStatement(user2, faculty);
+        enrolleeService.registerToFaculty(user1, faculty.getId());
+        adminService.registerStatement(user1.getId(), faculty.getId());
+        enrolleeService.registerToFaculty(user2, faculty.getId());
+        adminService.registerStatement(user2.getId(), faculty.getId());
         List<StatementDto> statements = adminService.calculateEntrants(faculty.getId());
         assertTrue("Size > faculty maxSize", statements.size() <= faculty.getMaxSize());
         assertEquals("Temp1.averageScore > temp2.averageScore", statements.get(0).getUser().getId(), user2.getId());

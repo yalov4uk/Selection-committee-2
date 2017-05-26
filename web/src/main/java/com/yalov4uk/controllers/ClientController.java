@@ -25,10 +25,4 @@ public class ClientController {
         user = clientService.register(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestBody UserDto user) {
-        user = clientService.login(user.getLogin(), user.getPassword());
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
 }

@@ -30,6 +30,14 @@ public class UserDto extends Dto {
         this.password = password;
     }
 
+    public UserDto(Integer id, String name, String login, String password, RoleDto role) {
+        super(id);
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
     public String getName() {
         return name;
     }

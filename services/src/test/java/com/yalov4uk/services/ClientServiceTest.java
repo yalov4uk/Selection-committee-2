@@ -34,14 +34,4 @@ public class ClientServiceTest {
         UserDto actualUser = userService.read(expectedUser.getId());
         assertEquals("User doesn't registered", expectedUser.getLogin(), actualUser.getLogin());
     }
-
-    @Test
-    @Rollback
-    public void login() throws Exception {
-        UserDto user = new UserDto("test", "test", "test");
-        UserDto expectedUser = clientService.register(user);
-        UserDto actualUser = clientService.login(expectedUser.getLogin(), expectedUser.getPassword());
-        assertEquals("User doesn't registered", expectedUser.getLogin(), actualUser.getLogin());
-    }
-
 }

@@ -7,7 +7,6 @@ import dto.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -43,9 +42,6 @@ public class EnrolleeServiceTest {
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     private UserDto user;
     private RoleDto role;
     private FacultyDto faculty1;
@@ -68,17 +64,17 @@ public class EnrolleeServiceTest {
         subjectName2 = subjectNameService.create(new SubjectNameDto("test2"));
         subjectName3 = subjectNameService.create(new SubjectNameDto("test3"));
 
-        facultyService.addSubjectName(faculty1, subjectName1);
-        facultyService.addSubjectName(faculty1, subjectName2);
-        facultyService.addSubjectName(faculty2, subjectName1);
-        facultyService.addSubjectName(faculty2, subjectName2);
-        facultyService.addSubjectName(faculty2, subjectName3);
+        facultyService.addSubjectName(faculty1.getId(), subjectName1.getId());
+        facultyService.addSubjectName(faculty1.getId(), subjectName2.getId());
+        facultyService.addSubjectName(faculty2.getId(), subjectName1.getId());
+        facultyService.addSubjectName(faculty2.getId(), subjectName2.getId());
+        facultyService.addSubjectName(faculty2.getId(), subjectName3.getId());
     }
 
     @Test
     @Rollback
     public void getRequiredSubjectNames() throws Exception {
-        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1);
+        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1.getId());
         List<Integer> actualSubjectNames = actualSubjectNames1
                 .stream()
                 .map(Dto::getId)
@@ -89,10 +85,10 @@ public class EnrolleeServiceTest {
         subjectService.create(new SubjectDto(10, actualSubjectNames1.get(0), user));
         subjectService.create(new SubjectDto(20, actualSubjectNames1.get(1), user));
 
-        List<SubjectNameDto> thisShouldBeNull = enrolleeService.getRequiredSubjectNames(user, faculty1);
+        List<SubjectNameDto> thisShouldBeNull = enrolleeService.getRequiredSubjectNames(user, faculty1.getId());
         assertTrue("Enrollee can twice register to the same faculty", thisShouldBeNull.equals(new LinkedList<>()));
 
-        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2);
+        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2.getId());
         actualSubjectNames = actualSubjectNames2
                 .stream()
                 .map(Dto::getId)
@@ -105,28 +101,27 @@ public class EnrolleeServiceTest {
     @Test(expected=RuntimeException.class)
     @Rollback
     public void registerToFaculty() throws Exception {
-        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1);
+        List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1.getId());
 
         subjectService.create(new SubjectDto(10, actualSubjectNames1.get(0), user));
         subjectService.create(new SubjectDto(20, actualSubjectNames1.get(1), user));
-
-        enrolleeService.registerToFaculty(user, faculty1);
+        enrolleeService.registerToFaculty(user, faculty1.getId());
         List<Integer> registeredUserIds = facultyService.getRegisteredUsers(faculty1)
                 .stream()
                 .map(Dto::getId)
                 .collect(Collectors.toList());
         assertTrue("User doesn't registered to faculty2", registeredUserIds.contains(user.getId()));
 
-        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2);
+        List<SubjectNameDto> actualSubjectNames2 = enrolleeService.getRequiredSubjectNames(user, faculty2.getId());
 
         subjectService.create(new SubjectDto(30, actualSubjectNames2.get(0), user));
 
-        enrolleeService.registerToFaculty(user, faculty2);
+        enrolleeService.registerToFaculty(user, faculty2.getId());
         registeredUserIds = facultyService.getRegisteredUsers(faculty2)
                 .stream()
                 .map(Dto::getId)
                 .collect(Collectors.toList());
         assertTrue("User doesn't registered to faculty2", registeredUserIds.contains(user.getId()));
-        enrolleeService.registerToFaculty(user, faculty2);
+        enrolleeService.registerToFaculty(user, faculty2.getId());
     }
 }

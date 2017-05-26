@@ -9,6 +9,4 @@ import dto.UserDto;
 public interface IClientService extends IBaseService {
 
     UserDto register(UserDto user);
-
-    UserDto login(String login, String password);
 }

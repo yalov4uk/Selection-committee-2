@@ -1,37 +1,34 @@
 package dto.services;
 
-import dto.FacultyDto;
-import dto.UserDto;
-
 /**
  * Created by valera on 5/17/17.
  */
 public class UserAndFacultyDto {
 
-    private UserDto user;
-    private FacultyDto faculty;
+    private Integer userId;
+    private Integer facultyId;
 
     public UserAndFacultyDto() {
     }
 
-    public UserAndFacultyDto(UserDto user, FacultyDto faculty) {
-        this.user = user;
-        this.faculty = faculty;
+    public UserAndFacultyDto(Integer userId, Integer facultyId) {
+        this.userId = userId;
+        this.facultyId = facultyId;
     }
 
-    public UserDto getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(UserDto user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public FacultyDto getFaculty() {
-        return faculty;
+    public Integer getFacultyId() {
+        return facultyId;
     }
 
-    public void setFaculty(FacultyDto faculty) {
-        this.faculty = faculty;
+    public void setFacultyId(Integer facultyId) {
+        this.facultyId = facultyId;
     }
 }

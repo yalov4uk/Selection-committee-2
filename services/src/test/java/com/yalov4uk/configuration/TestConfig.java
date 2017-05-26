@@ -1,4 +1,4 @@
-package com.yalov4uk.configurations;
+package com.yalov4uk.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

@@ -15,7 +15,7 @@ public interface IBaseCrudService<D extends Dto> extends IBaseService {
 
     D update(D dto);
 
-    D delete(Integer key);
+    void delete(Integer key);
 
     List<D> getAll();
 }

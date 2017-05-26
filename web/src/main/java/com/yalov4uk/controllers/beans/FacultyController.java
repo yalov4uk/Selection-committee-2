@@ -39,13 +39,13 @@ public class FacultyController extends BaseCrudController<FacultyDto> {
 
     @RequestMapping(value = "/addSubjectName", method = RequestMethod.POST)
     public ResponseEntity addSubjectName(@RequestBody FacultyAndSubjectNameDto facultyAndSubjectName) {
-        facultyService.addSubjectName(facultyAndSubjectName.getFaculty(), facultyAndSubjectName.getSubjectName());
+        facultyService.addSubjectName(facultyAndSubjectName.getFacultyId(), facultyAndSubjectName.getSubjectNameId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/deleteSubjectName", method = RequestMethod.POST)
     public ResponseEntity deleteSubjectName(@RequestBody FacultyAndSubjectNameDto facultyAndSubjectName) {
-        facultyService.deleteSubjectName(facultyAndSubjectName.getFaculty(), facultyAndSubjectName.getSubjectName());
+        facultyService.deleteSubjectName(facultyAndSubjectName.getFacultyId(), facultyAndSubjectName.getSubjectNameId());
         return new ResponseEntity(HttpStatus.OK);
     }
 

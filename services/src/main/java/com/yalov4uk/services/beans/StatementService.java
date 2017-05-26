@@ -2,7 +2,6 @@ package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Statement;
-import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.IStatementDao;
@@ -27,31 +26,22 @@ public class StatementService extends BaseCrudService<Statement, StatementDto> i
 
     @Override
     public StatementDto create(StatementDto statementDto) {
-        try {
-            Statement statement = modelMapper.map(statementDto, Statement.class);
-            statementDao.persist(statement);
+        Statement statement = modelMapper.map(statementDto, Statement.class);
+        statementDao.persist(statement);
 
-            facultyDao.find(statement.getFaculty().getId()).getStatements().add(statement);
-            userDao.find(statement.getUser().getId()).getStatements().add(statement);
+        facultyDao.find(statement.getFaculty().getId()).getStatements().add(statement);
+        userDao.find(statement.getUser().getId()).getStatements().add(statement);
 
-            return modelMapper.map(statement, StatementDto.class);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        return modelMapper.map(statement, StatementDto.class);
     }
 
     @Override
-    public StatementDto delete(Integer key) {
-        try {
-            Statement statement = statementDao.find(key);
-            statementDao.delete(key);
+    public void delete(Integer key) {
+        Statement statement = statementDao.find(key);
+        statementDao.delete(key);
 
-            facultyDao.find(statement.getFaculty().getId()).getStatements().remove(statement);
-            userDao.find(statement.getUser().getId()).getStatements().remove(statement);
-            return null;
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        facultyDao.find(statement.getFaculty().getId()).getStatements().remove(statement);
+        userDao.find(statement.getUser().getId()).getStatements().remove(statement);
     }
 
     protected IBaseDao<Statement> getDao() {

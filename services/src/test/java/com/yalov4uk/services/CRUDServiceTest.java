@@ -1,5 +1,6 @@
 package com.yalov4uk.services;
 
+import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.beans.IRoleService;
 import com.yalov4uk.interfaces.beans.IUserService;
 import dto.RoleDto;
@@ -71,11 +72,13 @@ public class CRUDServiceTest {
         assertEquals("Object doesn't updated", expectedUser.getName(), actualUser.getName());
     }
 
-    @Test
+    @Test(expected=ServiceUncheckedException.class)
     @Rollback
     public void delete() throws Exception {
-        assertNull("object doesn't deleted", userService.delete(expectedUser.getId()));
-        assertNull("object doesn't deleted", roleService.delete(expectedRole.getId()));
+        userService.delete(expectedUser.getId());
+        assertNull("User doesn't deleted", userService.read(expectedUser.getId()));
+        roleService.delete(expectedRole.getId());
+        assertNull("Role doesn't deleted", userService.read(expectedRole.getId()));
     }
 
     @Test

@@ -3,7 +3,6 @@ package com.yalov4uk.services.beans;
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Subject;
 import com.yalov4uk.beans.User;
-import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IRoleDao;
@@ -33,66 +32,45 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     }
 
     public UserDto create(UserDto userDto) {
-        try {
-            User user = modelMapper.map(userDto, User.class);
-            userDao.persist(user);
+        User user = modelMapper.map(userDto, User.class);
+        userDao.persist(user);
 
-            roleDao.find(user.getRole().getId()).getUsers().add(user);
+        roleDao.find(user.getRole().getId()).getUsers().add(user);
 
-            return modelMapper.map(user, UserDto.class);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
-    public UserDto delete(Integer key) {
-        try {
-            User user = userDao.find(key);
-            userDao.delete(key);
+    public void delete(Integer key) {
+        User user = userDao.find(key);
+        userDao.delete(key);
 
-            roleDao.find(user.getRole().getId()).getUsers().remove(user);
-            return null;
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        roleDao.find(user.getRole().getId()).getUsers().remove(user);
     }
 
     @Override
     public User findByLogin(String login) {
-        try {
-            return userDao.findByLogin(login);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
-        }
+        return userDao.findByLogin(login);
     }
 
     public void addSubject(UserDto userDto, SubjectDto subjectDto) {
-        try {
-            User user = userDao.find(userDto.getId());
-            Subject subject = subjectDao.find(subjectDto.getId());
-            if (user == null || subject == null || user.getSubjects().contains(subject)) {
-                throw new NotFoundException();
-            }
-
-            user.getSubjects().add(subject);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+        User user = userDao.find(userDto.getId());
+        Subject subject = subjectDao.find(subjectDto.getId());
+        if (user == null || subject == null || user.getSubjects().contains(subject)) {
+            throw new ServiceUncheckedException("wrong input or user already contains this subject");
         }
+
+        user.getSubjects().add(subject);
     }
 
     public void deleteSubject(UserDto userDto, SubjectDto subjectDto) {
-        try {
-            User user = userDao.find(userDto.getId());
-            Subject subject = subjectDao.find(subjectDto.getId());
-            if (user == null || subject == null || user.getSubjects().contains(subject)) {
-                throw new NotFoundException();
-            }
-
-            user.getSubjects().remove(subject);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+        User user = userDao.find(userDto.getId());
+        Subject subject = subjectDao.find(subjectDto.getId());
+        if (user == null || subject == null || user.getSubjects().contains(subject)) {
+            throw new ServiceUncheckedException("wrong input or user hasn't this subject");
         }
+
+        user.getSubjects().remove(subject);
     }
 
     protected Class<User> getBeanClass() {

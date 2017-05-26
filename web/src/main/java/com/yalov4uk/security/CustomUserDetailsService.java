@@ -1,9 +1,8 @@
 package com.yalov4uk.security;
 
+import com.yalov4uk.beans.User;
 import com.yalov4uk.interfaces.beans.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +19,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        com.yalov4uk.beans.User user = userService.findByLogin(login);
+        User user = userService.findByLogin(login);
         if (user != null) {
-            return new User(user.getLogin(), user.getPassword(),
-                    AuthorityUtils.createAuthorityList(user.getRole().getName()));
+            return new CustomUserDetails(user);
         } else {
             throw new UsernameNotFoundException("could not find the user '" + login + "'");
         }

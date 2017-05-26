@@ -25,7 +25,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         } catch (NoResultException e) {
             return null;
         }  catch (Exception e) {
-            throw new DaoUncheckedException(e);
+            throw new DaoUncheckedException("Error while find user by login");
         }
     }
 

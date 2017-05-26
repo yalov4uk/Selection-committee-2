@@ -3,14 +3,12 @@ package com.yalov4uk.services.beans;
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.SubjectName;
-import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.beans.IFacultyService;
 import dto.FacultyDto;
-import dto.SubjectNameDto;
 import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,59 +31,47 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
         this.subjectNameDao = subjectNameDao;
     }
 
-    public void addSubjectName(FacultyDto facultyDto, SubjectNameDto subjectNameDto) {
-        try {
-            Faculty faculty = facultyDao.find(facultyDto.getId());
-            SubjectName subjectName = subjectNameDao.find(subjectNameDto.getId());
-            if (faculty == null || subjectName == null || faculty.getRequiredSubjects().contains(subjectName)) {
-                throw new NotFoundException();
-            }
-
-            faculty.getRequiredSubjects().add(subjectName);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+    public void addSubjectName(Integer facultyId, Integer subjectNameId) {
+        Faculty faculty = facultyDao.find(facultyId);
+        SubjectName subjectName = subjectNameDao.find(subjectNameId);
+        if (faculty == null || subjectName == null || faculty.getRequiredSubjects().contains(subjectName)) {
+            throw new ServiceUncheckedException("wrong input or subjectName already added to this faculty");
         }
+
+        faculty.getRequiredSubjects().add(subjectName);
     }
 
-    public void deleteSubjectName(FacultyDto facultyDto, SubjectNameDto subjectNameDto) {
-        try {
-            Faculty faculty = facultyDao.find(facultyDto.getId());
-            SubjectName subjectName = subjectNameDao.find(subjectNameDto.getId());
-            if (faculty == null || subjectName == null || !faculty.getRequiredSubjects().contains(subjectName)) {
-                throw new NotFoundException();
-            }
-
-            faculty.getRequiredSubjects().remove(subjectName);
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+    public void deleteSubjectName(Integer facultyId, Integer subjectNameId) {
+        Faculty faculty = facultyDao.find(facultyId);
+        SubjectName subjectName = subjectNameDao.find(subjectNameId);
+        if (faculty == null || subjectName == null || !faculty.getRequiredSubjects().contains(subjectName)) {
+            throw new ServiceUncheckedException("wrong input or faculty hasn't this subject name");
         }
+
+        faculty.getRequiredSubjects().remove(subjectName);
     }
 
-    public List<UserDto> getRegisteredUsers(FacultyDto facultyDto){
-        try {
-            Faculty faculty = facultyDao.find(facultyDto.getId());
-            if (faculty == null) {
-                throw new NotFoundException();
-            }
-
-            return faculty.getRegisteredUsers()
-                    .stream()
-                    .map(user -> modelMapper.map(user, UserDto.class))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+    public List<UserDto> getRegisteredUsers(FacultyDto facultyDto) {
+        Faculty faculty = facultyDao.find(facultyDto.getId());
+        if (faculty == null) {
+            throw new ServiceUncheckedException("faculty not found");
         }
+
+        return faculty.getRegisteredUsers()
+                .stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
     }
 
     protected IBaseDao<Faculty> getDao() {
         return facultyDao;
     }
 
-    protected Class<Faculty> getBeanClass(){
+    protected Class<Faculty> getBeanClass() {
         return Faculty.class;
     }
 
-    protected Class<FacultyDto> getDtoClass(){
+    protected Class<FacultyDto> getDtoClass() {
         return FacultyDto.class;
     }
 }

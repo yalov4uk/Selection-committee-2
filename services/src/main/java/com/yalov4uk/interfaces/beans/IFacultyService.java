@@ -2,7 +2,6 @@ package com.yalov4uk.interfaces.beans;
 
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import dto.FacultyDto;
-import dto.SubjectNameDto;
 import dto.UserDto;
 
 import java.util.List;
@@ -12,9 +11,9 @@ import java.util.List;
  */
 public interface IFacultyService extends IBaseCrudService<FacultyDto> {
 
-    void addSubjectName(FacultyDto faculty, SubjectNameDto subjectName);
+    void addSubjectName(Integer facultyId, Integer subjectNameId);
 
-    void deleteSubjectName(FacultyDto faculty, SubjectNameDto subjectName);
+    void deleteSubjectName(Integer facultyId, Integer subjectNameId);
 
     List<UserDto> getRegisteredUsers(FacultyDto facultyDto);
 }

@@ -1,6 +1,7 @@
 package com.yalov4uk.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,11 +16,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    /*@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }*/
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
@@ -28,23 +24,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                /*.antMatchers(HttpMethod.GET, "/client/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/client/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/client/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/faculties").hasAnyRole("enrollee", "admin")
-                .antMatchers(HttpMethod.POST, "/enrollee/**").hasRole("enrollee")
-                .antMatchers(HttpMethod.POST, "/enrollee/**").hasRole("enrollee")
+                .antMatchers(HttpMethod.GET, "/faculties/").hasAnyRole("enrollee", "admin")
+                .antMatchers(HttpMethod.GET, "/enrollee/**").hasRole("enrollee")
                 .antMatchers(HttpMethod.POST, "/subjects").hasRole("enrollee")
+                .antMatchers(HttpMethod.POST, "/subjects/").hasRole("enrollee")
                 .anyRequest().hasRole("admin")
 
-                .and().formLogin()
+                .and()
+                .formLogin()
                 .usernameParameter("login")
-                .loginPage("/client/login")
-                .permitAll()
 
-                .and().logout()
-                .logoutUrl("/client/logout")*/
-                .anyRequest().permitAll()
-                .and().httpBasic()
-                .and().csrf().disable();
+                .and()
+                .logout()
+
+                .and()
+                .httpBasic()
+
+                .and()
+                .csrf()
+                .disable();
     }
 }

@@ -49,6 +49,17 @@ public class User extends Bean {
         this.password = password;
     }
 
+    public User(Integer id, String name, String login, String password, Role role) {
+        super(id);
+        subjects = new HashSet<>();
+        faculties = new HashSet<>();
+        statements = new HashSet<>();
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
     @Column(name = "name")
     public String getName() {
         return name;

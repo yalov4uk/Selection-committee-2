@@ -22,7 +22,7 @@ public class AdminController {
 
     @RequestMapping(value = "/registerStatement", method = RequestMethod.POST)
     public ResponseEntity createStatement(@RequestBody UserAndFacultyDto userAndFaculty) {
-        StatementDto statement = adminService.registerStatement(userAndFaculty.getUser(), userAndFaculty.getFaculty());
+        StatementDto statement = adminService.registerStatement(userAndFaculty.getUserId(), userAndFaculty.getFacultyId());
         return new ResponseEntity<>(statement, HttpStatus.OK);
     }
 

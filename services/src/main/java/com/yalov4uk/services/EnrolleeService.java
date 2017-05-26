@@ -2,13 +2,11 @@ package com.yalov4uk.services;
 
 import com.yalov4uk.abstracts.BaseService;
 import com.yalov4uk.beans.*;
-import com.yalov4uk.exceptions.NotFoundException;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.ISubjectDao;
 import com.yalov4uk.interfaces.IUserDao;
-import dto.FacultyDto;
 import dto.SubjectNameDto;
 import dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,56 +35,48 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
         this.userDao = userDao;
     }
 
-    public List<SubjectNameDto> getRequiredSubjectNames(UserDto userDto, FacultyDto facultyDto) {
-        try {
-            User user = userDao.find(userDto.getId());
-            Faculty faculty = facultyDao.find(facultyDto.getId());
-            if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
-                throw new NotFoundException();
-            }
-
-            List<SubjectNameDto> subjectNames = new LinkedList<>();
-            faculty.getRequiredSubjects()
-                    .forEach(requiredSubject -> {
-                        if (user.getSubjects()
-                                .stream()
-                                .map(Subject::getSubjectName)
-                                .noneMatch(subjectName -> subjectName.equals(requiredSubject))) {
-                            subjectNames.add(modelMapper.map(requiredSubject, SubjectNameDto.class));
-                        }
-                    });
-            return subjectNames;
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+    public List<SubjectNameDto> getRequiredSubjectNames(UserDto userDto, Integer facultyId) {
+        User user = userDao.find(userDto.getId());
+        Faculty faculty = facultyDao.find(facultyId);
+        if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
+            throw new ServiceUncheckedException("wrong input or you already registered to this faculty");
         }
+
+        List<SubjectNameDto> subjectNames = new LinkedList<>();
+        faculty.getRequiredSubjects()
+                .forEach(requiredSubject -> {
+                    if (user.getSubjects()
+                            .stream()
+                            .map(Subject::getSubjectName)
+                            .noneMatch(subjectName -> subjectName.equals(requiredSubject))) {
+                        subjectNames.add(modelMapper.map(requiredSubject, SubjectNameDto.class));
+                    }
+                });
+        return subjectNames;
     }
 
-    public boolean registerToFaculty(UserDto userDto, FacultyDto facultyDto) {
-        try {
-            User user = userDao.find(userDto.getId());
-            Faculty faculty = facultyDao.find(facultyDto.getId());
-            if (user == null || faculty == null) {
-                throw new NotFoundException();
-            }
-            List<Statement> statements = new ArrayList<>(faculty.getStatements());
-            if (faculty.getRegisteredUsers().contains(user) || user.getStatements().stream().anyMatch(statements::contains)) {
-                throw new RuntimeException();
-            }
-
-            Set<SubjectName> requiredSubjects = faculty.getRequiredSubjects();
-            Set<SubjectName> userSubjectNames = user.getSubjects()
-                    .stream()
-                    .map(Subject::getSubjectName)
-                    .collect(Collectors.toSet());
-            if (requiredSubjects
-                    .stream()
-                    .allMatch(userSubjectNames::contains)) {
-                faculty.getRegisteredUsers().add(user);
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            throw new ServiceUncheckedException(e);
+    public boolean registerToFaculty(UserDto userDto, Integer facultyId) {
+        User user = userDao.find(userDto.getId());
+        Faculty faculty = facultyDao.find(facultyId);
+        if (user == null || faculty == null) {
+            throw new ServiceUncheckedException("user or faculty not found");
         }
+        List<Statement> statements = new ArrayList<>(faculty.getStatements());
+        if (faculty.getRegisteredUsers().contains(user) || user.getStatements().stream().anyMatch(statements::contains)) {
+            throw new ServiceUncheckedException("you can't register, cause you already have statement");
+        }
+
+        Set<SubjectName> requiredSubjects = faculty.getRequiredSubjects();
+        Set<SubjectName> userSubjectNames = user.getSubjects()
+                .stream()
+                .map(Subject::getSubjectName)
+                .collect(Collectors.toSet());
+        if (requiredSubjects
+                .stream()
+                .allMatch(userSubjectNames::contains)) {
+            faculty.getRegisteredUsers().add(user);
+            return true;
+        }
+        return false;
     }
 }

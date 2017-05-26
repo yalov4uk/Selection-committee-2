@@ -1,38 +1,34 @@
 package dto.services;
 
-import abstracts.Dto;
-import dto.FacultyDto;
-import dto.SubjectNameDto;
-
 /**
  * Created by valera on 5/22/17.
  */
-public class FacultyAndSubjectNameDto extends Dto {
+public class FacultyAndSubjectNameDto{
 
-    private FacultyDto faculty;
-    private SubjectNameDto subjectName;
+    private Integer facultyId;
+    private Integer subjectNameId;
 
     public FacultyAndSubjectNameDto() {
     }
 
-    public FacultyAndSubjectNameDto(FacultyDto faculty, SubjectNameDto subjectName) {
-        this.faculty = faculty;
-        this.subjectName = subjectName;
+    public FacultyAndSubjectNameDto(Integer facultyId, Integer subjectNameId) {
+        this.facultyId = facultyId;
+        this.subjectNameId = subjectNameId;
     }
 
-    public FacultyDto getFaculty() {
-        return faculty;
+    public Integer getFacultyId() {
+        return facultyId;
     }
 
-    public void setFaculty(FacultyDto faculty) {
-        this.faculty = faculty;
+    public void setFacultyId(Integer facultyId) {
+        this.facultyId = facultyId;
     }
 
-    public SubjectNameDto getSubjectName() {
-        return subjectName;
+    public Integer getSubjectNameId() {
+        return subjectNameId;
     }
 
-    public void setSubjectName(SubjectNameDto subjectName) {
-        this.subjectName = subjectName;
+    public void setSubjectNameId(Integer subjectNameId) {
+        this.subjectNameId = subjectNameId;
     }
 }
