@@ -5,9 +5,6 @@ import com.yalov4uk.abstracts.Bean;
 import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * Created by valera on 4/30/17.
- */
 @Entity
 @Table(name = "subjects")
 public class Subject extends Bean {

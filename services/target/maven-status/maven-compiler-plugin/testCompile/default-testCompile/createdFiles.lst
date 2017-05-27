@@ -1,4 +1,4 @@
-services/CRUDServiceTest.class
-services/ClientServiceTest.class
-services/AdminServiceTest.class
-services/EnrolleeServiceTest.class
+com/yalov4uk/services/CRUDServiceTest.class
+com/yalov4uk/services/ClientServiceTest.class
+com/yalov4uk/services/AdminServiceTest.class
+com/yalov4uk/services/EnrolleeServiceTest.class

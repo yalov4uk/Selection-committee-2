@@ -1,14 +1,11 @@
-package com.yalov4uk.configurations;
+package com.yalov4uk.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Created by valera on 5/20/17.
- */
 @Configuration
-public class MainConfiguration {
+public class ServiceConfig {
 
     @Bean
     public ModelMapper modelMapper() {

@@ -5,9 +5,6 @@ import com.yalov4uk.abstracts.Bean;
 import javax.persistence.*;
 import java.util.*;
 
-/**
- * Created by valera on 4/30/17.
- */
 @Entity
 @Table(name = "faculties")
 public class Faculty extends Bean {
@@ -88,8 +85,7 @@ public class Faculty extends Bean {
         if (!(o instanceof Faculty)) return false;
         if (!super.equals(o)) return false;
         Faculty faculty = (Faculty) o;
-        return Objects.equals(name, faculty.name) &&
-                Objects.equals(maxSize, faculty.maxSize);
+        return Objects.equals(name, faculty.name) && Objects.equals(maxSize, faculty.maxSize);
     }
 
     @Override

@@ -1,9 +1,6 @@
-package dto.services;
+package com.yalov4uk.dto;
 
-/**
- * Created by valera on 5/22/17.
- */
-public class FacultyAndSubjectNameDto{
+public class FacultyAndSubjectNameDto {
 
     private Integer facultyId;
     private Integer subjectNameId;

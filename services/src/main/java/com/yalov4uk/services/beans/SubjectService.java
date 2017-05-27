@@ -2,27 +2,30 @@ package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Subject;
+import com.yalov4uk.dto.SubjectDto;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.ISubjectDao;
 import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.IUserDao;
 import com.yalov4uk.interfaces.beans.ISubjectService;
-import dto.SubjectDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by valera on 5/17/17.
- */
 @Service
 public class SubjectService extends BaseCrudService<Subject, SubjectDto> implements ISubjectService {
 
+    private final ISubjectDao subjectDao;
+    private final IUserDao userDao;
+    private final ISubjectNameDao subjectNameDao;
+
     @Autowired
-    private ISubjectDao subjectDao;
-    @Autowired
-    private IUserDao userDao;
-    @Autowired
-    private ISubjectNameDao subjectNameDao;
+    public SubjectService(ModelMapper modelMapper, ISubjectDao subjectDao, IUserDao userDao, ISubjectNameDao subjectNameDao) {
+        super(modelMapper);
+        this.subjectDao = subjectDao;
+        this.userDao = userDao;
+        this.subjectNameDao = subjectNameDao;
+    }
 
     @Override
     public SubjectDto create(SubjectDto subjectDto) {

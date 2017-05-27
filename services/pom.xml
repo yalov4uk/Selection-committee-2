@@ -33,10 +33,6 @@
             <groupId>by.training.nc.dev3</groupId>
             <artifactId>com.yalov4uk.api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-        </dependency>
 
     </dependencies>
 

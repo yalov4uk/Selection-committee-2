@@ -1,8 +1,5 @@
 package com.yalov4uk.exceptions;
 
-/**
- * Created by valera on 5/6/17.
- */
 public class ServiceUncheckedException extends RuntimeException {
 
     public ServiceUncheckedException() {

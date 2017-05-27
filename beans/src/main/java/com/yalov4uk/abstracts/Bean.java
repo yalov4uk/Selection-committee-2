@@ -2,15 +2,13 @@ package com.yalov4uk.abstracts;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
-/**
- * Created by valera on 4/30/17.
- */
 @MappedSuperclass
 @Access(AccessType.PROPERTY)
 public abstract class Bean implements Serializable {
 
-    protected Integer id;
+    private Integer id;
 
     public Bean() {
     }
@@ -37,7 +35,7 @@ public abstract class Bean implements Serializable {
 
         Bean entity = (Bean) o;
 
-        return id == entity.id;
+        return Objects.equals(id, entity.id);
     }
 
     @Override

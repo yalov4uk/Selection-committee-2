@@ -4,30 +4,33 @@ import com.yalov4uk.abstracts.BaseService;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.Statement;
 import com.yalov4uk.beans.User;
+import com.yalov4uk.dto.StatementDto;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IAdminService;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.IStatementDao;
 import com.yalov4uk.interfaces.IUserDao;
-import dto.StatementDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by valera on 5/3/17.
- */
 @Service
 public class AdminService extends BaseService implements IAdminService {
 
+    private final IStatementDao statementDao;
+    private final IUserDao userDao;
+    private final IFacultyDao facultyDao;
+
     @Autowired
-    private IStatementDao statementDao;
-    @Autowired
-    private IUserDao userDao;
-    @Autowired
-    private IFacultyDao facultyDao;
+    public AdminService(ModelMapper modelMapper, IStatementDao statementDao, IUserDao userDao, IFacultyDao facultyDao) {
+        super(modelMapper);
+        this.statementDao = statementDao;
+        this.userDao = userDao;
+        this.facultyDao = facultyDao;
+    }
 
     public StatementDto registerStatement(Integer userId, Integer facultyId) {
         User user = userDao.find(userId);

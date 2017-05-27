@@ -1,7 +1,7 @@
-beans/SubjectName.class
-beans/Statement.class
-beans/User.class
-abstracts/Bean.class
-beans/Subject.class
-beans/Faculty.class
-beans/Role.class
+com/yalov4uk/beans/Statement.class
+com/yalov4uk/abstracts/Bean.class
+com/yalov4uk/beans/Faculty.class
+com/yalov4uk/beans/Subject.class
+com/yalov4uk/beans/User.class
+com/yalov4uk/beans/Role.class
+com/yalov4uk/beans/SubjectName.class

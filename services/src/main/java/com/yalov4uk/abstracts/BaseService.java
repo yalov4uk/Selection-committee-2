@@ -5,12 +5,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by valera on 5/3/17.
- */
 @Transactional(rollbackFor = Exception.class)
 public abstract class BaseService implements IBaseService {
 
+    protected final ModelMapper modelMapper;
+
     @Autowired
-    protected ModelMapper modelMapper;
+    public BaseService(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 }

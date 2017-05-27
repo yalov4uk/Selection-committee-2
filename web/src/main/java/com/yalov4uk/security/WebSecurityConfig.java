@@ -7,14 +7,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-/**
- * Created by valera on 5/23/17.
- */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final CustomUserDetailsService userDetailsService;
+
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    public WebSecurityConfig(CustomUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -26,11 +27,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/client/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/client/**").permitAll()
+
                 .antMatchers(HttpMethod.GET, "/faculties").hasAnyRole("enrollee", "admin")
                 .antMatchers(HttpMethod.GET, "/faculties/").hasAnyRole("enrollee", "admin")
+
                 .antMatchers(HttpMethod.GET, "/enrollee/**").hasRole("enrollee")
                 .antMatchers(HttpMethod.POST, "/subjects").hasRole("enrollee")
                 .antMatchers(HttpMethod.POST, "/subjects/").hasRole("enrollee")
+
                 .anyRequest().hasRole("admin")
 
                 .and()

@@ -1,11 +1,8 @@
-package dto;
+package com.yalov4uk.dto;
 
 
-import abstracts.Dto;
+import com.yalov4uk.abstracts.Dto;
 
-/**
- * Created by valera on 5/17/17.
- */
 public class FacultyDto extends Dto {
 
     private String name;

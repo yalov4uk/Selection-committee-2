@@ -7,9 +7,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * Created by valera on 4/30/17.
- */
 @Entity
 @Table(name = "roles")
 public class Role extends Bean {

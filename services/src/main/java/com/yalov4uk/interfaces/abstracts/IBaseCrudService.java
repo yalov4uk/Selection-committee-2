@@ -1,12 +1,9 @@
 package com.yalov4uk.interfaces.abstracts;
 
-import abstracts.Dto;
+import com.yalov4uk.abstracts.Dto;
 
 import java.util.List;
 
-/**
- * Created by valera on 5/17/17.
- */
 public interface IBaseCrudService<D extends Dto> extends IBaseService {
 
     D create(D dto);

@@ -2,7 +2,7 @@ package com.yalov4uk.services;
 
 import com.yalov4uk.interfaces.IClientService;
 import com.yalov4uk.interfaces.beans.IUserService;
-import dto.UserDto;
+import com.yalov4uk.dto.UserDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,5 @@
-package dto.services;
+package com.yalov4uk.dto;
 
-/**
- * Created by valera on 5/17/17.
- */
 public class UserAndFacultyDto {
 
     private Integer userId;

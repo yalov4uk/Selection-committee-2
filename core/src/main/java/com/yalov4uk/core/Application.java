@@ -5,9 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
-/**
- * Created by valera on 5/7/17.
- */
 @SpringBootApplication
 @ComponentScan(basePackages = "com.yalov4uk")
 @EntityScan(basePackages = "com.yalov4uk")

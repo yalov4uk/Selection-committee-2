@@ -3,22 +3,20 @@ package com.yalov4uk.services.beans;
 import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.SubjectName;
+import com.yalov4uk.dto.FacultyDto;
+import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.beans.IFacultyService;
-import dto.FacultyDto;
-import dto.UserDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by valera on 5/17/17.
- */
 @Service
 public class FacultyService extends BaseCrudService<Faculty, FacultyDto> implements IFacultyService {
 
@@ -26,11 +24,13 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
     private final ISubjectNameDao subjectNameDao;
 
     @Autowired
-    public FacultyService(IFacultyDao facultyDao, ISubjectNameDao subjectNameDao) {
+    public FacultyService(ModelMapper modelMapper, IFacultyDao facultyDao, ISubjectNameDao subjectNameDao) {
+        super(modelMapper);
         this.facultyDao = facultyDao;
         this.subjectNameDao = subjectNameDao;
     }
 
+    @Override
     public void addSubjectName(Integer facultyId, Integer subjectNameId) {
         Faculty faculty = facultyDao.find(facultyId);
         SubjectName subjectName = subjectNameDao.find(subjectNameId);
@@ -41,6 +41,7 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
         faculty.getRequiredSubjects().add(subjectName);
     }
 
+    @Override
     public void deleteSubjectName(Integer facultyId, Integer subjectNameId) {
         Faculty faculty = facultyDao.find(facultyId);
         SubjectName subjectName = subjectNameDao.find(subjectNameId);
@@ -51,6 +52,7 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
         faculty.getRequiredSubjects().remove(subjectName);
     }
 
+    @Override
     public List<UserDto> getRegisteredUsers(FacultyDto facultyDto) {
         Faculty faculty = facultyDao.find(facultyDto.getId());
         if (faculty == null) {

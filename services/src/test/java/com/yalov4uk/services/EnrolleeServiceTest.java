@@ -1,9 +1,9 @@
 package com.yalov4uk.services;
 
-import abstracts.Dto;
+import com.yalov4uk.abstracts.Dto;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.beans.*;
-import dto.*;
+import com.yalov4uk.dto.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,7 +98,7 @@ public class EnrolleeServiceTest {
         assertTrue("List doesn't contains subjectName3", actualSubjectNames.contains(subjectName3.getId()));
     }
 
-    @Test(expected=RuntimeException.class)
+    @Test(expected = RuntimeException.class)
     @Rollback
     public void registerToFaculty() throws Exception {
         List<SubjectNameDto> actualSubjectNames1 = enrolleeService.getRequiredSubjectNames(user, faculty1.getId());

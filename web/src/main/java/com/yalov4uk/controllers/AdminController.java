@@ -1,8 +1,8 @@
 package com.yalov4uk.controllers;
 
 import com.yalov4uk.interfaces.IAdminService;
-import dto.StatementDto;
-import dto.services.UserAndFacultyDto;
+import com.yalov4uk.dto.StatementDto;
+import com.yalov4uk.dto.UserAndFacultyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Created by valera on 5/17/17.
- */
 @RestController
 @RequestMapping(value = "/admin")
 public class AdminController {
 
+    private final IAdminService adminService;
+
     @Autowired
-    private IAdminService adminService;
+    public AdminController(IAdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @RequestMapping(value = "/registerStatement", method = RequestMethod.POST)
     public ResponseEntity createStatement(@RequestBody UserAndFacultyDto userAndFaculty) {

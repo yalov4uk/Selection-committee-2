@@ -1,7 +1,7 @@
-/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/beans/Faculty.java
-/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/abstracts/Bean.java
-/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/beans/Subject.java
-/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/beans/SubjectName.java
-/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/beans/User.java
-/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/beans/Role.java
-/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/beans/Statement.java
+/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/com/yalov4uk/beans/Role.java
+/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/com/yalov4uk/beans/Faculty.java
+/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/com/yalov4uk/abstracts/Bean.java
+/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/com/yalov4uk/beans/Statement.java
+/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/com/yalov4uk/beans/User.java
+/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/com/yalov4uk/beans/SubjectName.java
+/home/valera/Projects/Java/SelectionCommittee/beans/src/main/java/com/yalov4uk/beans/Subject.java

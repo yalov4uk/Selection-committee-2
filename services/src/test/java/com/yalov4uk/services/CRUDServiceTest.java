@@ -1,10 +1,9 @@
 package com.yalov4uk.services;
 
-import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.beans.IRoleService;
 import com.yalov4uk.interfaces.beans.IUserService;
-import dto.RoleDto;
-import dto.UserDto;
+import com.yalov4uk.dto.RoleDto;
+import com.yalov4uk.dto.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,7 +71,7 @@ public class CRUDServiceTest {
         assertEquals("Object doesn't updated", expectedUser.getName(), actualUser.getName());
     }
 
-    @Test(expected=ServiceUncheckedException.class)
+    @Test
     @Rollback
     public void delete() throws Exception {
         userService.delete(expectedUser.getId());

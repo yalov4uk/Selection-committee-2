@@ -1,11 +1,8 @@
-package abstracts;
+package com.yalov4uk.abstracts;
 
-/**
- * Created by valera on 5/17/17.
- */
 public abstract class Dto {
 
-    protected Integer id;
+    private Integer id;
 
     public Dto() {
     }

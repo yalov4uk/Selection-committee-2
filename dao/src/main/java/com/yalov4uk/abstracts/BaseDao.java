@@ -2,7 +2,7 @@ package com.yalov4uk.abstracts;
 
 import com.yalov4uk.exceptions.DaoUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,17 +11,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-/**
- * Created by valera on 4/30/17.
- */
 public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
 
-    protected final static Logger logger = Logger.getLogger(Bean.class);
+    protected final Logger logger = getLogger();
 
     @PersistenceContext
     protected EntityManager entityManager;
 
     protected abstract Class<T> getBeanClass();
+
+    protected abstract Logger getLogger();
 
     @Override
     public void persist(T object) {
@@ -30,7 +29,7 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             logger.info("persisted");
         } catch (Exception e) {
             logger.error("not persisted");
-            throw new DaoUncheckedException("Error while persist object");
+            throw new DaoUncheckedException("Error while persist object." + e.getMessage());
         }
     }
 
@@ -43,7 +42,7 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             }
             T bean = entityManager.merge(object);
             logger.info("updated");
-            logger.debug(bean);
+            logger.debug(bean.toString());
             return bean;
         } catch (Exception e) {
             logger.error("not updated");
@@ -56,11 +55,11 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
         try {
             T object = entityManager.find(getBeanClass(), key);
             logger.info("found");
-            logger.debug(object);
+            logger.debug(object == null ? null : object.toString());
             return object;
         } catch (Exception e) {
             logger.error("not found");
-            throw new DaoUncheckedException("Error while found object");
+            throw new DaoUncheckedException("Error while found object." + e.getMessage());
         }
     }
 
@@ -72,7 +71,7 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             logger.info("deleted");
         } catch (Exception e) {
             logger.error("not deleted");
-            throw new DaoUncheckedException("Error while delete object");
+            throw new DaoUncheckedException("Error while delete object." + e.getMessage());
         }
     }
 
@@ -88,7 +87,7 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             return objects;
         } catch (Exception e) {
             logger.error("not got all");
-            throw new DaoUncheckedException("Error while get all objects");
+            throw new DaoUncheckedException("Error while get all objects." + e.getMessage());
         }
     }
 }

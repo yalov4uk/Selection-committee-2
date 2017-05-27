@@ -4,9 +4,6 @@ import com.yalov4uk.abstracts.Bean;
 
 import java.util.List;
 
-/**
- * Created by valera on 4/30/17.
- */
 public interface IBaseDao<T extends Bean> {
 
     void persist(T object);

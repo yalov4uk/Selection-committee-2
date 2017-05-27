@@ -1,8 +1,8 @@
 package com.yalov4uk.controllers;
 
 import com.yalov4uk.interfaces.IEnrolleeService;
-import dto.SubjectNameDto;
-import dto.UserDto;
+import com.yalov4uk.dto.SubjectNameDto;
+import com.yalov4uk.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * Created by valera on 5/21/17.
- */
 @RestController
 @RequestMapping(value = "/enrollee")
 public class EnrolleeController {
 
+    private final IEnrolleeService enrolleeService;
+
     @Autowired
-    private IEnrolleeService enrolleeService;
+    public EnrolleeController(IEnrolleeService enrolleeService) {
+        this.enrolleeService = enrolleeService;
+    }
 
     @RequestMapping(value = "/getRequiredSubjectNames/{facultyId}", method = RequestMethod.GET)
     public ResponseEntity getRequiredSubjectNames(@PathVariable Integer facultyId) {

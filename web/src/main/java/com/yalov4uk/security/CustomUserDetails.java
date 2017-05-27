@@ -1,8 +1,8 @@
 package com.yalov4uk.security;
 
 import com.yalov4uk.beans.User;
-import dto.RoleDto;
-import dto.UserDto;
+import com.yalov4uk.dto.RoleDto;
+import com.yalov4uk.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by valera on 5/26/17.
- */
 public class CustomUserDetails extends UserDto implements UserDetails {
 
     private final String ROLE_PREFIX = "ROLE_";

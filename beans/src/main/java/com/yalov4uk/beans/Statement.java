@@ -6,9 +6,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- * Created by valera on 4/30/17.
- */
 @Entity
 @Table(name = "statements")
 public class Statement extends Bean implements Comparable<Object> {
@@ -25,10 +22,6 @@ public class Statement extends Bean implements Comparable<Object> {
 
     public Statement() {
         this.date = new Date();
-    }
-
-    public Statement(Date date) {
-        this.date = date;
     }
 
     @Column(name = "date")
