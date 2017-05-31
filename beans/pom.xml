@@ -11,12 +11,4 @@
 
     <artifactId>com.yalov4uk.beans</artifactId>
     <name>beans</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

@@ -15,6 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService extends BaseCrudService<User, UserDto> implements IUserService {
 
@@ -77,6 +80,19 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
         }
 
         user.getSubjects().remove(subject);
+    }
+
+    @Override
+    public List<SubjectDto> getSubjects(Integer userId) {
+        User user = userDao.find(userId);
+        if (user == null) {
+            throw new ServiceUncheckedException("user not found");
+        }
+
+        return user.getSubjects()
+                .stream()
+                .map(subject -> modelMapper.map(subject, SubjectDto.class))
+                .collect(Collectors.toList());
     }
 
     protected Class<User> getBeanClass() {

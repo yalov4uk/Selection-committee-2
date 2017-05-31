@@ -22,12 +22,12 @@ public class SubjectController extends BaseCrudController<SubjectDto> {
         this.subjectService = subjectService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody SubjectDto subject) {
         return createCrud(subject);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody SubjectDto subject) {
         return updateCrud(subject);
     }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Deprecated
 @RestController
 @RequestMapping(value = "/admin")
 public class AdminController {

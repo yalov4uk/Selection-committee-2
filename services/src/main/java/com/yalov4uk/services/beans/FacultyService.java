@@ -4,6 +4,7 @@ import com.yalov4uk.abstracts.BaseCrudService;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.SubjectName;
 import com.yalov4uk.dto.FacultyDto;
+import com.yalov4uk.dto.SubjectNameDto;
 import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
@@ -53,8 +54,8 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
     }
 
     @Override
-    public List<UserDto> getRegisteredUsers(FacultyDto facultyDto) {
-        Faculty faculty = facultyDao.find(facultyDto.getId());
+    public List<UserDto> getRegisteredUsers(Integer facultyId) {
+        Faculty faculty = facultyDao.find(facultyId);
         if (faculty == null) {
             throw new ServiceUncheckedException("faculty not found");
         }
@@ -62,6 +63,19 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
         return faculty.getRegisteredUsers()
                 .stream()
                 .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SubjectNameDto> getRequiredSubjects(Integer facultyId) {
+        Faculty faculty = facultyDao.find(facultyId);
+        if (faculty == null) {
+            throw new ServiceUncheckedException("faculty not found");
+        }
+
+        return faculty.getRequiredSubjects()
+                .stream()
+                .map(subjectName -> modelMapper.map(subjectName, SubjectNameDto.class))
                 .collect(Collectors.toList());
     }
 

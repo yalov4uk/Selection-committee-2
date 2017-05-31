@@ -22,12 +22,12 @@ public class RoleController extends BaseCrudController<RoleDto> {
         this.roleService = roleService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody RoleDto role) {
         return createCrud(role);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody RoleDto role) {
         return updateCrud(role);
     }

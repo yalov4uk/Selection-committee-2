@@ -106,7 +106,7 @@ public class EnrolleeServiceTest {
         subjectService.create(new SubjectDto(10, actualSubjectNames1.get(0), user));
         subjectService.create(new SubjectDto(20, actualSubjectNames1.get(1), user));
         enrolleeService.registerToFaculty(user, faculty1.getId());
-        List<Integer> registeredUserIds = facultyService.getRegisteredUsers(faculty1)
+        List<Integer> registeredUserIds = facultyService.getRegisteredUsers(faculty1.getId())
                 .stream()
                 .map(Dto::getId)
                 .collect(Collectors.toList());
@@ -117,7 +117,7 @@ public class EnrolleeServiceTest {
         subjectService.create(new SubjectDto(30, actualSubjectNames2.get(0), user));
 
         enrolleeService.registerToFaculty(user, faculty2.getId());
-        registeredUserIds = facultyService.getRegisteredUsers(faculty2)
+        registeredUserIds = facultyService.getRegisteredUsers(faculty2.getId())
                 .stream()
                 .map(Dto::getId)
                 .collect(Collectors.toList());
