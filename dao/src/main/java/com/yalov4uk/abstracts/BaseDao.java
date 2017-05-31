@@ -27,8 +27,9 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
         try {
             entityManager.persist(object);
             logger.info("persisted");
+            logger.debug("object " + object.toString() + " was saved");
         } catch (Exception e) {
-            logger.error("not persisted");
+            logger.error("not persisted cause: " + e.getMessage());
             throw new DaoUncheckedException("Error while persist object." + e.getMessage());
         }
     }
@@ -42,10 +43,10 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             }
             T bean = entityManager.merge(object);
             logger.info("updated");
-            logger.debug(bean.toString());
+            logger.debug("object " + bean.toString() + " was updated");
             return bean;
         } catch (Exception e) {
-            logger.error("not updated");
+            logger.error("not updated cause: " + e.getMessage());
             throw new DaoUncheckedException(e);
         }
     }
@@ -55,10 +56,10 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
         try {
             T object = entityManager.find(getBeanClass(), key);
             logger.info("found");
-            logger.debug(object == null ? null : object.toString());
+            logger.debug("object " + (object == null ? null : object.toString()) + " was found");
             return object;
         } catch (Exception e) {
-            logger.error("not found");
+            logger.error("not found cause: " + e.getMessage());
             throw new DaoUncheckedException("Error while found object." + e.getMessage());
         }
     }
@@ -69,8 +70,9 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             T entity = entityManager.find(getBeanClass(), key);
             entityManager.remove(entity);
             logger.info("deleted");
+            logger.debug("object " + entity.toString() + " was deleted");
         } catch (Exception e) {
-            logger.error("not deleted");
+            logger.error("not deleted cause: " + e.getMessage());
             throw new DaoUncheckedException("Error while delete object." + e.getMessage());
         }
     }
@@ -84,9 +86,10 @@ public abstract class BaseDao<T extends Bean> implements IBaseDao<T> {
             query.select(variableRoot);
             List<T> objects = entityManager.createQuery(query).getResultList();
             logger.info("got all");
+            logger.debug("objects count = " + (objects == null ? null : objects.size()) + " were found");
             return objects;
         } catch (Exception e) {
-            logger.error("not got all");
+            logger.error("not got all cause: " + e.getMessage());
             throw new DaoUncheckedException("Error while get all objects." + e.getMessage());
         }
     }

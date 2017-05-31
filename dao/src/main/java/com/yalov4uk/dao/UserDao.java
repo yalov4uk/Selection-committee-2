@@ -20,13 +20,13 @@ public class UserDao extends BaseDao<User> implements IUserDao {
                     .setParameter("login", login)
                     .getSingleResult();
             logger.info("found by login");
-            logger.debug(user.toString());
+            logger.debug("user " + user.toString() + " was found");
             return user;
         } catch (NoResultException e) {
             logger.error("user not found");
             return null;
         } catch (Exception e) {
-            logger.error("find by login error");
+            logger.error("find by login error cause: " + e.getMessage());
             throw new DaoUncheckedException("Error while find user by login");
         }
     }
