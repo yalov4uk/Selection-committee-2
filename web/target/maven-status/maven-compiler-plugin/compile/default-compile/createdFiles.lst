@@ -1,9 +1,0 @@
-com/yalov4uk/exception_handlers/DefaultExceptionHandler.class
-com/yalov4uk/controllers/SubjectController.class
-com/yalov4uk/abstracts/BaseCrudController.class
-com/yalov4uk/controllers/StatementController.class
-com/yalov4uk/controllers/RoleController.class
-com/yalov4uk/controllers/UserController.class
-com/yalov4uk/controllers/SelfController.class
-com/yalov4uk/controllers/FacultyController.class
-com/yalov4uk/controllers/SubjectNameController.class

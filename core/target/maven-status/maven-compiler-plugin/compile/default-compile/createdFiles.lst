@@ -1,4 +1,0 @@
-com/yalov4uk/core/Application.class
-com/yalov4uk/security/CustomUserDetails.class
-com/yalov4uk/security/WebSecurityConfig.class
-com/yalov4uk/security/CustomUserDetailsService.class

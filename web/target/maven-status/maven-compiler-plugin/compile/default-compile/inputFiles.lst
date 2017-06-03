@@ -1,9 +1,0 @@
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/controllers/RoleController.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/controllers/SubjectController.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/controllers/SubjectNameController.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/exception_handlers/DefaultExceptionHandler.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/controllers/StatementController.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/controllers/UserController.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/controllers/SelfController.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/controllers/FacultyController.java
-/home/valera/Projects/Java/SelectionCommittee/web/src/main/java/com/yalov4uk/abstracts/BaseCrudController.java
