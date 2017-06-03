@@ -1,5 +1,6 @@
 package com.yalov4uk.abstracts;
 
+import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import org.modelmapper.ModelMapper;
@@ -15,7 +16,10 @@ public abstract class BaseCrudService<T extends Bean, D extends Dto> extends Bas
 
     protected abstract Class<D> getDtoClass();
 
+    protected abstract BaseDtoValidator<D> getValidator();
+
     public D create(D dto) {
+        validate(dto);
         T object = modelMapper.map(dto, getBeanClass());
         IBaseDao<T> dao = getDao();
         dao.persist(object);
@@ -25,11 +29,14 @@ public abstract class BaseCrudService<T extends Bean, D extends Dto> extends Bas
     public D read(Integer key) {
         IBaseDao<T> dao = getDao();
         T object = dao.find(key);
-        if (object == null) return null;
+        if (object == null) {
+            throw new ServiceUncheckedException("object not found");
+        }
         return modelMapper.map(object, getDtoClass());
     }
 
     public D update(D dto) {
+        validate(dto);
         T object = modelMapper.map(dto, getBeanClass());
         IBaseDao<T> dao = getDao();
         return modelMapper.map(dao.update(object), getDtoClass());
@@ -46,6 +53,10 @@ public abstract class BaseCrudService<T extends Bean, D extends Dto> extends Bas
                 .stream()
                 .map(object -> modelMapper.map(object, getDtoClass()))
                 .collect(Collectors.toList());
+    }
+
+    private void validate(D dto){
+        getValidator().validate(dto);
     }
 
     public BaseCrudService(ModelMapper modelMapper) {

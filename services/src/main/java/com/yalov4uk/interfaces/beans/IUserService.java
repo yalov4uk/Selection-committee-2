@@ -11,9 +11,9 @@ public interface IUserService extends IBaseCrudService<UserDto> {
 
     User findByLogin(String login);
 
-    void addSubject(UserDto userDto, SubjectDto subjectDto);
+    void addSubject(Integer userId, Integer subjectId);
 
-    void deleteSubject(UserDto userDto, SubjectDto subjectDto);
+    void deleteSubject(Integer userId, Integer subjectId);
 
     List<SubjectDto> getSubjects(Integer userId);
 }

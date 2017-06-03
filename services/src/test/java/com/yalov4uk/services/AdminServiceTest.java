@@ -79,10 +79,10 @@ public class AdminServiceTest {
     @Test
     @Rollback
     public void registerStatement() throws Exception {
-        enrolleeService.registerToFaculty(user1, faculty.getId());
+        enrolleeService.registerToFaculty(user1.getId(), faculty.getId());
         StatementDto statement1 = adminService.registerStatement(user1.getId(), faculty.getId());
         assertEquals("Statement1 doesn't created", statement1.getUser().getId(), user1.getId());
-        enrolleeService.registerToFaculty(user2, faculty.getId());
+        enrolleeService.registerToFaculty(user2.getId(), faculty.getId());
         StatementDto statement2 = adminService.registerStatement(user2.getId(), faculty.getId());
         assertEquals("Statement2 doesn't created", statement2.getUser().getId(), user2.getId());
     }
@@ -90,9 +90,9 @@ public class AdminServiceTest {
     @Test
     @Rollback
     public void calculateEntrants() throws Exception {
-        enrolleeService.registerToFaculty(user1, faculty.getId());
+        enrolleeService.registerToFaculty(user1.getId(), faculty.getId());
         adminService.registerStatement(user1.getId(), faculty.getId());
-        enrolleeService.registerToFaculty(user2, faculty.getId());
+        enrolleeService.registerToFaculty(user2.getId(), faculty.getId());
         adminService.registerStatement(user2.getId(), faculty.getId());
         List<StatementDto> statements = adminService.calculateEntrants(faculty.getId());
         assertTrue("Size > faculty maxSize", statements.size() <= faculty.getMaxSize());

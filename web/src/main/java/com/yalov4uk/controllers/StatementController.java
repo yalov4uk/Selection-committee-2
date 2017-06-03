@@ -1,4 +1,4 @@
-package com.yalov4uk.controllers.beans;
+package com.yalov4uk.controllers;
 
 import com.yalov4uk.abstracts.BaseCrudController;
 import com.yalov4uk.dto.StatementDto;
@@ -9,10 +9,7 @@ import com.yalov4uk.interfaces.beans.IStatementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/statements")
@@ -27,14 +24,15 @@ public class StatementController extends BaseCrudController<StatementDto> {
         this.adminService = adminService;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody UserAndFacultyDto userAndFaculty) {
         StatementDto statement = adminService.registerStatement(userAndFaculty.getUserId(), userAndFaculty.getFacultyId());
         return new ResponseEntity<>(statement, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody StatementDto statement) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody StatementDto statement) {
+        statement.setId(id);
         return updateCrud(statement);
     }
 

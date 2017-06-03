@@ -1,16 +1,15 @@
 package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
+import com.yalov4uk.abstracts.BaseDtoValidator;
 import com.yalov4uk.beans.Subject;
 import com.yalov4uk.beans.User;
 import com.yalov4uk.dto.SubjectDto;
 import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
-import com.yalov4uk.interfaces.IBaseDao;
-import com.yalov4uk.interfaces.IRoleDao;
-import com.yalov4uk.interfaces.ISubjectDao;
-import com.yalov4uk.interfaces.IUserDao;
+import com.yalov4uk.interfaces.*;
 import com.yalov4uk.interfaces.beans.IUserService;
+import com.yalov4uk.validators.UserValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,19 +23,23 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     private final IUserDao userDao;
     private final IRoleDao roleDao;
     private final ISubjectDao subjectDao;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserService(ModelMapper modelMapper, IUserDao userDao, IRoleDao roleDao, ISubjectDao subjectDao) {
+    public UserService(ModelMapper modelMapper, IUserDao userDao, IRoleDao roleDao, ISubjectDao subjectDao,
+                       UserValidator userValidator) {
         super(modelMapper);
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.subjectDao = subjectDao;
+        this.userValidator = userValidator;
     }
 
     protected IBaseDao<User> getDao() {
         return userDao;
     }
 
+    @Deprecated
     @Override
     public UserDto create(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
@@ -61,9 +64,9 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     }
 
     @Override
-    public void addSubject(UserDto userDto, SubjectDto subjectDto) {
-        User user = userDao.find(userDto.getId());
-        Subject subject = subjectDao.find(subjectDto.getId());
+    public void addSubject(Integer userId, Integer subjectId) {
+        User user = userDao.find(userId);
+        Subject subject = subjectDao.find(subjectId);
         if (user == null || subject == null || user.getSubjects().contains(subject)) {
             throw new ServiceUncheckedException("wrong input or user already contains this subject");
         }
@@ -72,9 +75,9 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     }
 
     @Override
-    public void deleteSubject(UserDto userDto, SubjectDto subjectDto) {
-        User user = userDao.find(userDto.getId());
-        Subject subject = subjectDao.find(subjectDto.getId());
+    public void deleteSubject(Integer userId, Integer subjectId) {
+        User user = userDao.find(userId);
+        Subject subject = subjectDao.find(subjectId);
         if (user == null || subject == null || user.getSubjects().contains(subject)) {
             throw new ServiceUncheckedException("wrong input or user hasn't this subject");
         }
@@ -101,5 +104,9 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
 
     protected Class<UserDto> getDtoClass() {
         return UserDto.class;
+    }
+
+    protected BaseDtoValidator<UserDto> getValidator() {
+        return userValidator;
     }
 }

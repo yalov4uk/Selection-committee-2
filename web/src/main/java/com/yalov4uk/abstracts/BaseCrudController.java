@@ -24,14 +24,14 @@ public abstract class BaseCrudController<D extends Dto> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable int id) {
+    public ResponseEntity delete(@PathVariable Integer id) {
         getService().delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<D> read(@PathVariable int id) {
+    public ResponseEntity<D> read(@PathVariable Integer id) {
         D object = getService().read(id);
         return new ResponseEntity<>(object, HttpStatus.OK);
     }

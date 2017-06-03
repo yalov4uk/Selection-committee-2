@@ -3,7 +3,6 @@ package com.yalov4uk.services;
 import com.yalov4uk.abstracts.BaseService;
 import com.yalov4uk.beans.*;
 import com.yalov4uk.dto.SubjectNameDto;
-import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.IFacultyDao;
@@ -31,8 +30,8 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
         this.userDao = userDao;
     }
 
-    public List<SubjectNameDto> getRequiredSubjectNames(UserDto userDto, Integer facultyId) {
-        User user = userDao.find(userDto.getId());
+    public List<SubjectNameDto> getRequiredSubjectNames(Integer userId, Integer facultyId) {
+        User user = userDao.find(userId);
         Faculty faculty = facultyDao.find(facultyId);
         if (user == null || faculty == null || faculty.getRegisteredUsers().contains(user)) {
             throw new ServiceUncheckedException("wrong input or you already registered to this faculty");
@@ -51,8 +50,8 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
         return subjectNames;
     }
 
-    public void registerToFaculty(UserDto userDto, Integer facultyId) {
-        User user = userDao.find(userDto.getId());
+    public void registerToFaculty(Integer userId, Integer facultyId) {
+        User user = userDao.find(userId);
         Faculty faculty = facultyDao.find(facultyId);
         if (user == null || faculty == null) {
             throw new ServiceUncheckedException("user or faculty not found");

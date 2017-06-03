@@ -1,6 +1,7 @@
 package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
+import com.yalov4uk.abstracts.BaseDtoValidator;
 import com.yalov4uk.beans.Statement;
 import com.yalov4uk.dto.StatementDto;
 import com.yalov4uk.interfaces.IBaseDao;
@@ -8,6 +9,7 @@ import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.IStatementDao;
 import com.yalov4uk.interfaces.IUserDao;
 import com.yalov4uk.interfaces.beans.IStatementService;
+import com.yalov4uk.validators.StatementValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,17 +20,21 @@ public class StatementService extends BaseCrudService<Statement, StatementDto> i
     private final IStatementDao statementDao;
     private final IFacultyDao facultyDao;
     private final IUserDao userDao;
+    private final StatementValidator statementValidator;
 
     @Autowired
-    public StatementService(ModelMapper modelMapper, IStatementDao statementDao, IFacultyDao facultyDao, IUserDao userDao) {
+    public StatementService(ModelMapper modelMapper, IStatementDao statementDao, IFacultyDao facultyDao,
+                            IUserDao userDao, StatementValidator statementValidator) {
         super(modelMapper);
         this.statementDao = statementDao;
         this.facultyDao = facultyDao;
         this.userDao = userDao;
+        this.statementValidator = statementValidator;
     }
 
     @Override
     public StatementDto create(StatementDto statementDto) {
+        statementValidator.validate(statementDto);
         Statement statement = modelMapper.map(statementDto, Statement.class);
         statementDao.persist(statement);
 
@@ -57,5 +63,9 @@ public class StatementService extends BaseCrudService<Statement, StatementDto> i
 
     protected Class<StatementDto> getDtoClass() {
         return StatementDto.class;
+    }
+
+    protected BaseDtoValidator<StatementDto> getValidator() {
+        return statementValidator;
     }
 }

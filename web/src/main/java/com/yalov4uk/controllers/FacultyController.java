@@ -1,4 +1,4 @@
-package com.yalov4uk.controllers.beans;
+package com.yalov4uk.controllers;
 
 import com.yalov4uk.abstracts.BaseCrudController;
 import com.yalov4uk.dto.FacultyDto;
@@ -28,44 +28,46 @@ public class FacultyController extends BaseCrudController<FacultyDto> {
         this.enrolleeService = enrolleeService;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<FacultyDto> create(@RequestBody FacultyDto faculty) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody FacultyDto faculty) {
         return createCrud(faculty);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ResponseEntity<FacultyDto> update(@RequestBody FacultyDto faculty) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable int id, @RequestBody FacultyDto faculty) {
+        faculty.setId(id);
         return updateCrud(faculty);
     }
 
-    @RequestMapping(value = "/{facultyId}/subjects", method = RequestMethod.GET)
-    public ResponseEntity getRequiredSubjects(@PathVariable int facultyId) {
+    @RequestMapping(value = "/{facultyId}/subjectNames", method = RequestMethod.GET)
+    public ResponseEntity getRequiredSubjects(@PathVariable Integer facultyId) {
         List<SubjectNameDto> subjectNames = facultyService.getRequiredSubjects(facultyId);
         return new ResponseEntity<>(subjectNames, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{facultyId}/subjects", method = RequestMethod.POST)
-    public ResponseEntity addSubjectName(@PathVariable int facultyId, @RequestBody SubjectNameDto subjectNameDto) {
+    @RequestMapping(value = "/{facultyId}/subjectNames", method = RequestMethod.POST)
+    public ResponseEntity addSubjectName(@PathVariable Integer facultyId,
+                                         @RequestBody SubjectNameDto subjectNameDto) {
         facultyService.addSubjectName(facultyId, subjectNameDto.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{facultyId}/subjects/{subjectId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteSubjectName(@PathVariable int facultyId, @PathVariable int subjectId) {
+    @RequestMapping(value = "/{facultyId}/subjectNames/{subjectId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteSubjectName(@PathVariable Integer facultyId, @PathVariable Integer subjectId) {
         facultyService.deleteSubjectName(facultyId, subjectId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{facultyId}/users", method = RequestMethod.GET)
-    public ResponseEntity getRegisteredUsers(@PathVariable int facultyId) {
+    public ResponseEntity getRegisteredUsers(@PathVariable Integer facultyId) {
         List<UserDto> users = facultyService.getRegisteredUsers(facultyId);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{facultyId}/users", method = RequestMethod.POST)
-    public ResponseEntity registerToFaculty(@PathVariable int facultyId) {
+    public ResponseEntity registerToFaculty(@PathVariable Integer facultyId) {
         UserDto userDto = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        enrolleeService.registerToFaculty(userDto, facultyId);
+        enrolleeService.registerToFaculty(userDto.getId(), facultyId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
