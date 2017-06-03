@@ -14,7 +14,7 @@ public class RoleDao extends BaseDao<Role> implements IRoleDao {
         return Role.class;
     }
 
-    protected Logger getLogger(){
+    protected Logger getLogger() {
         return LoggerFactory.getLogger(this.getClass());
     }
 }

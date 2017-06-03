@@ -14,7 +14,7 @@ public class SubjectNameDao extends BaseDao<SubjectName> implements ISubjectName
         return SubjectName.class;
     }
 
-    protected Logger getLogger(){
+    protected Logger getLogger() {
         return LoggerFactory.getLogger(this.getClass());
     }
 }

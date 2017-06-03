@@ -14,7 +14,7 @@ public class StatementDao extends BaseDao<Statement> implements IStatementDao {
         return Statement.class;
     }
 
-    protected Logger getLogger(){
+    protected Logger getLogger() {
         return LoggerFactory.getLogger(this.getClass());
     }
 }

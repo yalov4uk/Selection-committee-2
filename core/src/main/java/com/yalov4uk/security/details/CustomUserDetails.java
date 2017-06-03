@@ -1,7 +1,5 @@
-package com.yalov4uk.security;
+package com.yalov4uk.security.details;
 
-import com.yalov4uk.beans.User;
-import com.yalov4uk.dto.RoleDto;
 import com.yalov4uk.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,30 +9,30 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetails extends UserDto implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
-    private final String ROLE_PREFIX = "ROLE_";
+    private UserDto userDto;
 
-    public CustomUserDetails(User user) {
-        super(user.getId(), user.getName(), user.getLogin(), user.getPassword(),
-                new RoleDto(user.getRole().getId(), user.getRole().getName()));
+    public CustomUserDetails(UserDto userDto) {
+        this.userDto = userDto;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority(ROLE_PREFIX + super.getRole().getName()));
+        String ROLE_PREFIX = "ROLE_";
+        list.add(new SimpleGrantedAuthority(ROLE_PREFIX + userDto.getRole().getName()));
         return list;
     }
 
     @Override
     public String getPassword() {
-        return super.getPassword();
+        return userDto.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return super.getLogin();
+        return userDto.getLogin();
     }
 
     @Override

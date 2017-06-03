@@ -59,8 +59,10 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     }
 
     @Override
-    public User findByLogin(String login) {
-        return userDao.findByLogin(login);
+    public UserDto findByLogin(String login) {
+        User user = userDao.findByLogin(login);
+        if (user != null) return modelMapper.map(user, UserDto.class);
+        return null;
     }
 
     @Override

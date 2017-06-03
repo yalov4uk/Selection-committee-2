@@ -35,7 +35,7 @@ public class UserDao extends BaseDao<User> implements IUserDao {
         return User.class;
     }
 
-    protected Logger getLogger(){
+    protected Logger getLogger() {
         return LoggerFactory.getLogger(this.getClass());
     }
 }

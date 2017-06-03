@@ -37,7 +37,7 @@ public class RoleService extends BaseCrudService<Role, RoleDto> implements IRole
         return RoleDto.class;
     }
 
-    protected BaseDtoValidator<RoleDto> getValidator(){
+    protected BaseDtoValidator<RoleDto> getValidator() {
         return roleValidator;
     }
 }

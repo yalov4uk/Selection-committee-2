@@ -8,8 +8,10 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-4.0.xsd"
 >
-
-    <context:component-scan base-package="com.yalov4uk"/>
+    <context:component-scan base-package="com.yalov4uk">
+        <context:exclude-filter type="assignable" expression ="com.yalov4uk.services.security.AuthService"/>
+        <context:exclude-filter type="assignable" expression ="com.yalov4uk.services.ClientService"/>
+    </context:component-scan>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:url="jdbc:mysql://localhost:3306/selection_committee?useSSL=false"

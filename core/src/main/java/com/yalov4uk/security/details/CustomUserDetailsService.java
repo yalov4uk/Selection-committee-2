@@ -1,6 +1,6 @@
-package com.yalov4uk.security;
+package com.yalov4uk.security.details;
 
-import com.yalov4uk.beans.User;
+import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.interfaces.beans.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userService.findByLogin(login);
+        UserDto user = userService.findByLogin(login);
         if (user != null) {
             return new CustomUserDetails(user);
         } else {

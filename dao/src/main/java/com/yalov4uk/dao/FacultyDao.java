@@ -14,7 +14,7 @@ public class FacultyDao extends BaseDao<Faculty> implements IFacultyDao {
         return Faculty.class;
     }
 
-    protected Logger getLogger(){
+    protected Logger getLogger() {
         return LoggerFactory.getLogger(this.getClass());
     }
 }

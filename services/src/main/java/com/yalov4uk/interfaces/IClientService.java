@@ -6,4 +6,6 @@ import com.yalov4uk.dto.UserDto;
 public interface IClientService extends IBaseService {
 
     UserDto register(UserDto user);
+
+    void login (UserDto user);
 }

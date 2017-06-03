@@ -55,7 +55,7 @@ public abstract class BaseCrudService<T extends Bean, D extends Dto> extends Bas
                 .collect(Collectors.toList());
     }
 
-    private void validate(D dto){
+    private void validate(D dto) {
         getValidator().validate(dto);
     }
 

@@ -96,7 +96,7 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
         return FacultyDto.class;
     }
 
-    protected BaseDtoValidator<FacultyDto> getValidator(){
+    protected BaseDtoValidator<FacultyDto> getValidator() {
         return facultyValidator;
     }
 }

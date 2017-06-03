@@ -14,7 +14,7 @@ public class SubjectDao extends BaseDao<Subject> implements ISubjectDao {
         return Subject.class;
     }
 
-    protected Logger getLogger(){
+    protected Logger getLogger() {
         return LoggerFactory.getLogger(this.getClass());
     }
 }
