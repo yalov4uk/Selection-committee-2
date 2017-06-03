@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DefaultExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public void defaultErrorHandler(HttpServletResponse response) throws Exception {
-        response.sendError(HttpStatus.BAD_REQUEST.value());
+    public void defaultErrorHandler(Exception e, HttpServletResponse response) throws Exception {
+        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 }

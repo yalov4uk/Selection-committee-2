@@ -1,5 +1,3 @@
-com/yalov4uk/interfaces/factories/IDaoCreator.class
-com/yalov4uk/interfaces/factories/IDaoFactory.class
 com/yalov4uk/exceptions/DaoUncheckedException.class
 com/yalov4uk/dao/RoleDao.class
 com/yalov4uk/dao/UserDao.class

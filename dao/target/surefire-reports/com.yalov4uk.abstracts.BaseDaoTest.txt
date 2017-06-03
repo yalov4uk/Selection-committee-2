@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.yalov4uk.abstracts.BaseDaoTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.473 sec - in com.yalov4uk.abstracts.BaseDaoTest

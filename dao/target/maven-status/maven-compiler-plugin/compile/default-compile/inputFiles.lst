@@ -3,9 +3,7 @@
 /home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/dao/FacultyDao.java
 /home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/dao/SubjectNameDao.java
 /home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/dao/UserDao.java
-/home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/interfaces/factories/IDaoCreator.java
 /home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/dao/SubjectDao.java
-/home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/interfaces/factories/IDaoFactory.java
 /home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/dao/StatementDao.java
 /home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/interfaces/IRoleDao.java
 /home/valera/Projects/Java/SelectionCommittee/dao/src/main/java/com/yalov4uk/dao/RoleDao.java

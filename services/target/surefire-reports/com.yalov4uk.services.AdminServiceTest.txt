@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.yalov4uk.services.AdminServiceTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.145 sec - in com.yalov4uk.services.AdminServiceTest
