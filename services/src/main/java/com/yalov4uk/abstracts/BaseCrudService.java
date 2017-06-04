@@ -3,6 +3,7 @@ package com.yalov4uk.abstracts;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
+import com.yalov4uk.interfaces.validators.DtoValidator;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public abstract class BaseCrudService<T extends Bean, D extends Dto> extends Bas
 
     protected abstract Class<D> getDtoClass();
 
-    protected abstract BaseDtoValidator<D> getValidator();
+    protected abstract DtoValidator<D> getValidator();
 
     public D create(D dto) {
         validate(dto);

@@ -3,6 +3,7 @@ package com.yalov4uk.controllers;
 import com.yalov4uk.abstracts.BaseCrudController;
 import com.yalov4uk.dto.StatementDto;
 import com.yalov4uk.dto.UserAndFacultyDto;
+import com.yalov4uk.dto.input.StatementInputDto;
 import com.yalov4uk.interfaces.IAdminService;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IStatementService;
@@ -31,9 +32,9 @@ public class StatementController extends BaseCrudController<StatementDto> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity update(@PathVariable Integer id, @RequestBody StatementDto statement) {
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody StatementInputDto statement) {
         statement.setId(id);
-        return updateCrud(statement);
+        return new ResponseEntity<>(statementService.update(statement), HttpStatus.OK);
     }
 
     protected IBaseCrudService<StatementDto> getService() {

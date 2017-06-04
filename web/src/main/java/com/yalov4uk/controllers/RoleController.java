@@ -20,14 +20,14 @@ public class RoleController extends BaseCrudController<RoleDto> {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody RoleDto role) {
-        return createCrud(role);
+    public ResponseEntity<RoleDto> create(@RequestBody RoleDto role) {
+        return super.create(role);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable Integer id, @RequestBody RoleDto role) {
         role.setId(id);
-        return updateCrud(role);
+        return super.update(role);
     }
 
     protected IBaseCrudService<RoleDto> getService() {

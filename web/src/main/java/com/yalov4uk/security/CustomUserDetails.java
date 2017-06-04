@@ -1,4 +1,4 @@
-package com.yalov4uk.security.details;
+package com.yalov4uk.security;
 
 import com.yalov4uk.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;
@@ -53,5 +53,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UserDto getUserDto() {
+        return userDto;
     }
 }

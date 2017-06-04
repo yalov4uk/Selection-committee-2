@@ -1,12 +1,12 @@
 package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
-import com.yalov4uk.abstracts.BaseDtoValidator;
 import com.yalov4uk.beans.Role;
 import com.yalov4uk.dto.RoleDto;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IRoleDao;
 import com.yalov4uk.interfaces.beans.IRoleService;
+import com.yalov4uk.interfaces.validators.DtoValidator;
 import com.yalov4uk.validators.RoleValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class RoleService extends BaseCrudService<Role, RoleDto> implements IRole
         return RoleDto.class;
     }
 
-    protected BaseDtoValidator<RoleDto> getValidator() {
+    protected DtoValidator<RoleDto> getValidator() {
         return roleValidator;
     }
 }

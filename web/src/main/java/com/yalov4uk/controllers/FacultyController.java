@@ -2,11 +2,15 @@ package com.yalov4uk.controllers;
 
 import com.yalov4uk.abstracts.BaseCrudController;
 import com.yalov4uk.dto.FacultyDto;
+import com.yalov4uk.dto.StatementDto;
 import com.yalov4uk.dto.SubjectNameDto;
 import com.yalov4uk.dto.UserDto;
+import com.yalov4uk.dto.input.SubjectNameInputDto;
+import com.yalov4uk.interfaces.IAdminService;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IFacultyService;
+import com.yalov4uk.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,22 +25,25 @@ public class FacultyController extends BaseCrudController<FacultyDto> {
 
     private final IFacultyService facultyService;
     private final IEnrolleeService enrolleeService;
+    private final IAdminService adminService;
 
     @Autowired
-    public FacultyController(IFacultyService facultyService, IEnrolleeService enrolleeService) {
+    public FacultyController(IFacultyService facultyService, IEnrolleeService enrolleeService,
+                             IAdminService adminService) {
         this.facultyService = facultyService;
         this.enrolleeService = enrolleeService;
+        this.adminService = adminService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody FacultyDto faculty) {
-        return createCrud(faculty);
+    public ResponseEntity<FacultyDto> create(@RequestBody FacultyDto faculty) {
+        return super.create(faculty);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable int id, @RequestBody FacultyDto faculty) {
         faculty.setId(id);
-        return updateCrud(faculty);
+        return super.update(faculty);
     }
 
     @RequestMapping(value = "/{facultyId}/subjectNames", method = RequestMethod.GET)
@@ -47,14 +54,15 @@ public class FacultyController extends BaseCrudController<FacultyDto> {
 
     @RequestMapping(value = "/{facultyId}/subjectNames", method = RequestMethod.POST)
     public ResponseEntity addSubjectName(@PathVariable Integer facultyId,
-                                         @RequestBody SubjectNameDto subjectNameDto) {
-        facultyService.addSubjectName(facultyId, subjectNameDto.getId());
+                                         @RequestBody SubjectNameInputDto subjectNameInputDto) {
+        facultyService.addSubjectName(facultyId, subjectNameInputDto.getSubjectNameId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{facultyId}/subjectNames/{subjectId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteSubjectName(@PathVariable Integer facultyId, @PathVariable Integer subjectId) {
-        facultyService.deleteSubjectName(facultyId, subjectId);
+    @RequestMapping(value = "/{facultyId}/subjectNames/{subjectNameId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteSubjectName(@PathVariable Integer facultyId,
+                                            @PathVariable Integer subjectNameId) {
+        facultyService.deleteSubjectName(facultyId, subjectNameId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -66,9 +74,19 @@ public class FacultyController extends BaseCrudController<FacultyDto> {
 
     @RequestMapping(value = "/{facultyId}/users", method = RequestMethod.POST)
     public ResponseEntity registerToFaculty(@PathVariable Integer facultyId) {
-        UserDto userDto = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDto userDto = ((CustomUserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal())
+                .getUserDto();
         enrolleeService.registerToFaculty(userDto.getId(), facultyId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{facultyId}/pastEntrants", method = RequestMethod.GET)
+    public ResponseEntity calculateEntrants(@PathVariable Integer facultyId) {
+        List<StatementDto> statements = adminService.calculateEntrants(facultyId);
+        return new ResponseEntity<>(statements, HttpStatus.OK);
     }
 
     protected IBaseCrudService<FacultyDto> getService() {

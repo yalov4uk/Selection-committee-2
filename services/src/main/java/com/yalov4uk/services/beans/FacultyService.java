@@ -1,7 +1,6 @@
 package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
-import com.yalov4uk.abstracts.BaseDtoValidator;
 import com.yalov4uk.beans.Faculty;
 import com.yalov4uk.beans.SubjectName;
 import com.yalov4uk.dto.FacultyDto;
@@ -12,7 +11,7 @@ import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.IFacultyDao;
 import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.beans.IFacultyService;
-import com.yalov4uk.validators.FacultyValidator;
+import com.yalov4uk.interfaces.validators.DtoValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,11 +24,11 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
 
     private final IFacultyDao facultyDao;
     private final ISubjectNameDao subjectNameDao;
-    private final FacultyValidator facultyValidator;
+    private final DtoValidator<FacultyDto> facultyValidator;
 
     @Autowired
     public FacultyService(ModelMapper modelMapper, IFacultyDao facultyDao, ISubjectNameDao subjectNameDao,
-                          FacultyValidator facultyValidator) {
+                          DtoValidator<FacultyDto> facultyValidator) {
         super(modelMapper);
         this.facultyDao = facultyDao;
         this.subjectNameDao = subjectNameDao;
@@ -96,7 +95,7 @@ public class FacultyService extends BaseCrudService<Faculty, FacultyDto> impleme
         return FacultyDto.class;
     }
 
-    protected BaseDtoValidator<FacultyDto> getValidator() {
+    protected DtoValidator<FacultyDto> getValidator() {
         return facultyValidator;
     }
 }

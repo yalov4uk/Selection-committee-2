@@ -58,7 +58,7 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
         }
         List<Statement> statements = new ArrayList<>(faculty.getStatements());
         if (faculty.getRegisteredUsers().contains(user) || user.getStatements().stream().anyMatch(statements::contains)) {
-            throw new ServiceUncheckedException("you can't register, cause you already have statement");
+            throw new ServiceUncheckedException("you already registered or have statement");
         }
 
         Set<SubjectName> requiredSubjects = faculty.getRequiredSubjects();

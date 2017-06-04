@@ -1,15 +1,19 @@
 package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
-import com.yalov4uk.abstracts.BaseDtoValidator;
+import com.yalov4uk.beans.Role;
 import com.yalov4uk.beans.Subject;
 import com.yalov4uk.beans.User;
 import com.yalov4uk.dto.SubjectDto;
 import com.yalov4uk.dto.UserDto;
+import com.yalov4uk.dto.input.UserInputDto;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
-import com.yalov4uk.interfaces.*;
+import com.yalov4uk.interfaces.IBaseDao;
+import com.yalov4uk.interfaces.IRoleDao;
+import com.yalov4uk.interfaces.ISubjectDao;
+import com.yalov4uk.interfaces.IUserDao;
 import com.yalov4uk.interfaces.beans.IUserService;
-import com.yalov4uk.validators.UserValidator;
+import com.yalov4uk.interfaces.validators.DtoValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +27,11 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     private final IUserDao userDao;
     private final IRoleDao roleDao;
     private final ISubjectDao subjectDao;
-    private final UserValidator userValidator;
+    private final DtoValidator<UserDto> userValidator;
 
     @Autowired
     public UserService(ModelMapper modelMapper, IUserDao userDao, IRoleDao roleDao, ISubjectDao subjectDao,
-                       UserValidator userValidator) {
+                       DtoValidator<UserDto> userValidator) {
         super(modelMapper);
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -39,9 +43,9 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
         return userDao;
     }
 
-    @Deprecated
     @Override
     public UserDto create(UserDto userDto) {
+        userValidator.validate(userDto);
         User user = modelMapper.map(userDto, User.class);
         userDao.persist(user);
 
@@ -56,6 +60,28 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
         userDao.delete(key);
 
         roleDao.find(user.getRole().getId()).getUsers().remove(user);
+    }
+
+    @Override
+    public UserDto update(UserInputDto userInputDto) {
+        if (userInputDto == null || userInputDto.getLogin() == null || userInputDto.getName() == null
+                || userInputDto.getPassword() == null || userInputDto.getRoleId() == null) {
+            throw new ServiceUncheckedException("wrong input");
+        }
+
+        User user = userDao.find(userInputDto.getId());
+        Role role = roleDao.find(userInputDto.getRoleId());
+        if (role == null || user == null) {
+            throw new ServiceUncheckedException("role or user not found");
+        }
+
+        user.getRole().getUsers().remove(user);
+
+        user.setRole(role);
+        userDao.persist(user);
+
+        user.getRole().getUsers().add(user);
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
@@ -108,7 +134,7 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
         return UserDto.class;
     }
 
-    protected BaseDtoValidator<UserDto> getValidator() {
+    protected DtoValidator<UserDto> getValidator() {
         return userValidator;
     }
 }

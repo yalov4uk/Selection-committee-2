@@ -20,14 +20,14 @@ public class SubjectNameController extends BaseCrudController<SubjectNameDto> {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody SubjectNameDto subjectName) {
-        return createCrud(subjectName);
+    public ResponseEntity<SubjectNameDto> create(@RequestBody SubjectNameDto subjectName) {
+        return super.create(subjectName);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable Integer id, @RequestBody SubjectNameDto subjectName) {
         subjectName.setId(id);
-        return updateCrud(subjectName);
+        return super.update(subjectName);
     }
 
     protected IBaseCrudService<SubjectNameDto> getService() {

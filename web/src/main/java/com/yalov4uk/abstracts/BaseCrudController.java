@@ -13,12 +13,12 @@ public abstract class BaseCrudController<D extends Dto> {
 
     protected abstract IBaseCrudService<D> getService();
 
-    protected ResponseEntity<D> createCrud(D object) {
+    protected ResponseEntity<D> create(D object) {
         object = getService().create(object);
         return new ResponseEntity<>(object, HttpStatus.CREATED);
     }
 
-    protected ResponseEntity<D> updateCrud(D object) {
+    protected ResponseEntity<D> update(D object) {
         object = getService().update(object);
         return new ResponseEntity<>(object, HttpStatus.OK);
     }

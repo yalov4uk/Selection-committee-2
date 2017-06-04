@@ -1,0 +1,693 @@
+{
+	"variables": [],
+	"info": {
+		"name": "SelectionCommittee v3",
+		"_postman_id": "f9821584-fc29-c8d9-37b5-69078b8b0a12",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"description": "",
+			"item": [
+				{
+					"name": "create faculty",
+					"request": {
+						"url": "http://localhost:8080/faculties",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"maxSize\":100,\n\t\"name\":\"testFac1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update faculty",
+					"request": {
+						"url": "http://localhost:8080/faculties/18",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"maxSize\":100,\n\t\"name\":\"testFac1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete faculty",
+					"request": {
+						"url": "http://localhost:8080/faculties/18",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "add subjectName to faculty",
+					"request": {
+						"url": "http://localhost:8080/faculties/4/subjectNames",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"subjectNameId\":28\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete subjectName from faculty",
+					"request": {
+						"url": "http://localhost:8080/faculties/4/subjectNames/28",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create role",
+					"request": {
+						"url": "http://localhost:8080/roles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"testRole2\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get by id role",
+					"request": {
+						"url": "http://localhost:8080/roles/3",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update role",
+					"request": {
+						"url": "http://localhost:8080/roles/31",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"updated\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete role",
+					"request": {
+						"url": "http://localhost:8080/roles/31",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all roles",
+					"request": {
+						"url": "http://localhost:8080/roles",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"f\":\"test\",\n\t\"ida\":3,\n\t\"namea\":\"test\"\n}"
+						},
+						"description": "Localhost"
+					},
+					"response": []
+				},
+				{
+					"name": "get by id statement",
+					"request": {
+						"url": "http://localhost:8080/statements/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update statement",
+					"request": {
+						"url": "http://localhost:8080/statements/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\":2,\n\t\"facultyId\":1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete statement",
+					"request": {
+						"url": "http://localhost:8080/statements/6",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all statements",
+					"request": {
+						"url": "http://localhost:8080/statements",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create subjectName",
+					"request": {
+						"url": "http://localhost:8080/subjectNames",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"testSubjeName\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get by id subjectName",
+					"request": {
+						"url": "http://localhost:8080/subjectNames/28",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update subjectName",
+					"request": {
+						"url": "http://localhost:8080/subjectNames/28",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"updatedSubj\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete subjectName",
+					"request": {
+						"url": "http://localhost:8080/subjectNames/4",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all subjectNames",
+					"request": {
+						"url": "http://localhost:8080/subjectNames",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create subject",
+					"request": {
+						"url": "http://localhost:8080/subjects",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\":99,\n\t\"subjectNameId\":28,\n\t\"userId\":342\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get by id subject",
+					"request": {
+						"url": "http://localhost:8080/subjects/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update subject",
+					"request": {
+						"url": "http://localhost:8080/subjects/3",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\":90,\n\t\"subjectNameId\":28,\n\t\"userId\":375\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete subject",
+					"request": {
+						"url": "http://localhost:8080/subjects/355",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all subjects",
+					"request": {
+						"url": "http://localhost:8080/subjects",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all users",
+					"request": {
+						"url": "http://localhost:8080/users",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get by id user",
+					"request": {
+						"url": "http://localhost:8080/users/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"url": "http://localhost:8080/users/341",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"updated\",\n\t\"login\":\"updated\",\n\t\"password\":\"updated\",\n\t\"roleId\":1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"url": "http://localhost:8080/users/32",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all user's subjects",
+					"request": {
+						"url": "http://localhost:8080/users/2/subjects",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin and enrollee",
+			"description": "",
+			"item": [
+				{
+					"name": "get by id faculty (enrollee, admin)",
+					"request": {
+						"url": "http://localhost:8080/faculties/4",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all faculties (enrollee, admin)",
+					"request": {
+						"url": "http://localhost:8080/faculties",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all subjectNames of faculty (enrollee, admin)",
+					"request": {
+						"url": "http://localhost:8080/faculties/3/subjectNames",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get self",
+					"request": {
+						"url": "http://localhost:8080/self",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update self",
+					"request": {
+						"url": "http://localhost:8080/self",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"admin\",\n\t\"login\":\"admin\",\n\t\"password\":\"admin\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin main",
+			"description": "",
+			"item": [
+				{
+					"name": "get all registered to faculty users",
+					"request": {
+						"url": "http://localhost:8080/faculties/3/users",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create statement",
+					"request": {
+						"url": "http://localhost:8080/statements",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\":375,\n\t\"facultyId\":3\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "calculate past entrants",
+					"request": {
+						"url": "http://localhost:8080/faculties/3/pastEntrants",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authentication",
+			"description": "",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"url": "http://localhost:8080/auth/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"login\":\"admin\",\n\t\"password\":\"admin\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "registration",
+					"request": {
+						"url": "http://localhost:8080/auth/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"testv7\",\n\t\"login\":\"testv7\",\n\t\"password\":\"testv7\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"url": "http://localhost:8080/logout",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "enrollee",
+			"description": "",
+			"item": [
+				{
+					"name": "register to faculty (enrollee)",
+					"request": {
+						"url": "http://localhost:8080/faculties/3/users",
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create my subject (enrollee)",
+					"request": {
+						"url": "http://localhost:8080/self/subjects",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\":99,\n\t\"subjectNameId\":4\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete my subject (enrollee)",
+					"request": {
+						"url": "http://localhost:8080/self/subjects/233",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get my subjects",
+					"request": {
+						"url": "http://localhost:8080/self/subjects",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

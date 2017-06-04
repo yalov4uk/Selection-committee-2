@@ -1,6 +1,5 @@
 package com.yalov4uk.security;
 
-import com.yalov4uk.security.details.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,28 +35,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
 
-                .antMatchers(HttpMethod.GET, "/faculties/*").hasAnyRole("enrollee", "admin")
                 .antMatchers(HttpMethod.GET, "/faculties").hasAnyRole("enrollee", "admin")
-                .antMatchers(HttpMethod.GET, "/faculties/*/subjects").hasAnyRole("enrollee", "admin")
+                .antMatchers(HttpMethod.GET, "/faculties/*").hasAnyRole("enrollee", "admin")
+                .antMatchers(HttpMethod.GET, "/faculties/*/subjectNames").hasAnyRole("enrollee", "admin")
+
+                .antMatchers("/self").authenticated()
 
                 .antMatchers(HttpMethod.POST, "/faculties/*/users").hasRole("enrollee")
+                .antMatchers("/self/subjects/**").hasRole("enrollee")
 
-                .antMatchers(HttpMethod.POST, "/subjects").hasAnyRole("enrollee", "admin")
-
-                .antMatchers(HttpMethod.POST, "/users").anonymous()
-                .antMatchers(HttpMethod.POST, "/login").anonymous()
-                .antMatchers(HttpMethod.GET, "/logout").authenticated()
-
-                .antMatchers(HttpMethod.GET, "/users/myAccount").hasAnyRole("enrollee", "admin")
-                .antMatchers(HttpMethod.GET, "/users/myAccount/subjects").hasRole("enrollee")
-
-                .antMatchers(HttpMethod.POST, "/auth/*").permitAll()
+                .antMatchers("/auth/*").permitAll()
 
                 .anyRequest().hasRole("admin")
 
                 .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)
+                .permitAll()
 
                 .and()
                 .exceptionHandling()

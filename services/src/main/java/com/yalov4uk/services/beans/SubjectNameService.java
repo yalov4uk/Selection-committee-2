@@ -1,13 +1,12 @@
 package com.yalov4uk.services.beans;
 
 import com.yalov4uk.abstracts.BaseCrudService;
-import com.yalov4uk.abstracts.BaseDtoValidator;
 import com.yalov4uk.beans.SubjectName;
 import com.yalov4uk.dto.SubjectNameDto;
 import com.yalov4uk.interfaces.IBaseDao;
 import com.yalov4uk.interfaces.ISubjectNameDao;
 import com.yalov4uk.interfaces.beans.ISubjectNameService;
-import com.yalov4uk.validators.SubjectNameValidator;
+import com.yalov4uk.interfaces.validators.DtoValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,11 @@ public class SubjectNameService extends BaseCrudService<SubjectName, SubjectName
 
     private final ISubjectNameDao subjectNameDao;
 
-    private final SubjectNameValidator subjectNameValidator;
+    private final DtoValidator<SubjectNameDto> subjectNameValidator;
 
     @Autowired
     public SubjectNameService(ModelMapper modelMapper, ISubjectNameDao subjectNameDao,
-                              SubjectNameValidator subjectNameValidator) {
+                              DtoValidator<SubjectNameDto> subjectNameValidator) {
         super(modelMapper);
         this.subjectNameDao = subjectNameDao;
         this.subjectNameValidator = subjectNameValidator;
@@ -39,7 +38,7 @@ public class SubjectNameService extends BaseCrudService<SubjectName, SubjectName
         return SubjectNameDto.class;
     }
 
-    protected BaseDtoValidator<SubjectNameDto> getValidator() {
+    protected DtoValidator<SubjectNameDto> getValidator() {
         return subjectNameValidator;
     }
 }
