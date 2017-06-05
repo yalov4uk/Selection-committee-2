@@ -83,10 +83,16 @@ public class FacultyController extends BaseCrudController<FacultyDto> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{facultyId}/pastEntrants", method = RequestMethod.GET)
+    @RequestMapping(value = "/{facultyId}/pastStatements", method = RequestMethod.GET)
     public ResponseEntity calculateEntrants(@PathVariable Integer facultyId) {
         List<StatementDto> statements = adminService.calculateEntrants(facultyId);
         return new ResponseEntity<>(statements, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{facultyId}/pastEntrants", method = RequestMethod.GET)
+    public ResponseEntity calculateEntrantsBeautifulOutput(@PathVariable Integer facultyId) {
+        List<String> strings = adminService.calculateEntrantsBeautifulOutput(facultyId);
+        return new ResponseEntity<>(strings, HttpStatus.OK);
     }
 
     protected IBaseCrudService<FacultyDto> getService() {

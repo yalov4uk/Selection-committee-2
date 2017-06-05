@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,7 +55,7 @@ public class AdminService extends BaseService implements IAdminService {
         }
         return statementDao.getAll()
                 .stream()
-                .filter(statement -> statement.getFaculty().equals(faculty))
+                .filter(statement -> Objects.equals(statement.getFaculty().getId(), faculty.getId()))
                 .sorted((a, b) -> {
                     int x = a.getUser().getAverageScore(a.getFaculty());
                     int y = b.getUser().getAverageScore(b.getFaculty());
@@ -62,6 +63,25 @@ public class AdminService extends BaseService implements IAdminService {
                 })
                 .limit(faculty.getMaxSize())
                 .map(statement -> modelMapper.map(statement, StatementDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> calculateEntrantsBeautifulOutput(Integer facultyId) {
+        Faculty faculty = facultyDao.find(facultyId);
+        if (faculty == null) {
+            throw new ServiceUncheckedException("faculty not found");
+        }
+        return statementDao.getAll()
+                .stream()
+                .filter(statement -> Objects.equals(statement.getFaculty().getId(), faculty.getId()))
+                .sorted((a, b) -> {
+                    int x = a.getUser().getAverageScore(a.getFaculty());
+                    int y = b.getUser().getAverageScore(b.getFaculty());
+                    return y - x;
+                })
+                .limit(faculty.getMaxSize())
+                .map(statement -> String.format("%s - %d", statement.getUser().getLogin(),
+                        statement.getUser().getAverageScore(faculty)))
                 .collect(Collectors.toList());
     }
 }

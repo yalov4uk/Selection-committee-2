@@ -10,4 +10,6 @@ public interface IAdminService extends IBaseService {
     StatementDto registerStatement(Integer userId, Integer facultyId);
 
     List<StatementDto> calculateEntrants(Integer facultyId);
+
+    List<String> calculateEntrantsBeautifulOutput(Integer facultyId);
 }

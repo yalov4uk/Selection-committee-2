@@ -41,8 +41,8 @@ public class SubjectService extends BaseCrudService<Subject, SubjectDto> impleme
         Subject subject = modelMapper.map(subjectDto, Subject.class);
         subjectDao.persist(subject);
 
-        subject.getUser().getSubjects().add(subject);
-        subject.getSubjectName().getSubjects().add(subject);
+        userDao.find(subject.getUser().getId()).getSubjects().add(subject);
+        subjectNameDao.find(subject.getSubjectName().getId()).getSubjects().add(subject);
 
         return modelMapper.map(subject, SubjectDto.class);
     }
@@ -52,8 +52,8 @@ public class SubjectService extends BaseCrudService<Subject, SubjectDto> impleme
         Subject subject = subjectDao.find(key);
         subjectDao.delete(key);
 
-        subject.getUser().getSubjects().remove(subject);
-        subject.getSubjectName().getSubjects().remove(subject);
+        userDao.find(subject.getUser().getId()).getSubjects().remove(subject);
+        subjectNameDao.find(subject.getSubjectName().getId()).getSubjects().remove(subject);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class SubjectService extends BaseCrudService<Subject, SubjectDto> impleme
         subject.setUser(user);
         subjectDao.persist(subject);
 
-        subject.getUser().getSubjects().add(subject);
-        subject.getSubjectName().getSubjects().add(subject);
+        userDao.find(subject.getUser().getId()).getSubjects().add(subject);
+        subjectNameDao.find(subject.getSubjectName().getId()).getSubjects().add(subject);
         return modelMapper.map(subject, SubjectDto.class);
     }
 
@@ -93,15 +93,15 @@ public class SubjectService extends BaseCrudService<Subject, SubjectDto> impleme
         if (subject == null || subjectName == null || user == null) {
             throw new ServiceUncheckedException("subject or subjectName or user not found");
         }
-        subject.getUser().getSubjects().remove(subject);
-        subject.getSubjectName().getSubjects().remove(subject);
+        userDao.find(subject.getUser().getId()).getSubjects().remove(subject);
+        subjectNameDao.find(subject.getSubjectName().getId()).getSubjects().remove(subject);
 
         subject.setSubjectName(subjectName);
         subject.setUser(user);
         subjectDao.persist(subject);
 
-        subject.getUser().getSubjects().add(subject);
-        subject.getSubjectName().getSubjects().add(subject);
+        user.getSubjects().add(subject);
+        subjectName.getSubjects().add(subject);
         return modelMapper.map(subject, SubjectDto.class);
     }
 

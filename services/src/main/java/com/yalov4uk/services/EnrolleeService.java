@@ -57,7 +57,10 @@ public class EnrolleeService extends BaseService implements IEnrolleeService {
             throw new ServiceUncheckedException("user or faculty not found");
         }
         List<Statement> statements = new ArrayList<>(faculty.getStatements());
-        if (faculty.getRegisteredUsers().contains(user) || user.getStatements().stream().anyMatch(statements::contains)) {
+        if (faculty.getRegisteredUsers().contains(user) || user
+                .getStatements()
+                .stream()
+                .anyMatch(statements::contains)) {
             throw new ServiceUncheckedException("you already registered or have statement");
         }
 

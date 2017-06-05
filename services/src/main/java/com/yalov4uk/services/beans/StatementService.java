@@ -41,8 +41,8 @@ public class StatementService extends BaseCrudService<Statement, StatementDto> i
         Statement statement = modelMapper.map(statementDto, Statement.class);
         statementDao.persist(statement);
 
-        statement.getFaculty().getStatements().add(statement);
-        statement.getUser().getStatements().add(statement);
+        facultyDao.find(statement.getFaculty().getId()).getStatements().add(statement);
+        userDao.find(statement.getUser().getId()).getStatements().add(statement);
 
         return modelMapper.map(statement, StatementDto.class);
     }
@@ -52,8 +52,8 @@ public class StatementService extends BaseCrudService<Statement, StatementDto> i
         Statement statement = statementDao.find(key);
         statementDao.delete(key);
 
-        statement.getFaculty().getStatements().remove(statement);
-        statement.getUser().getStatements().remove(statement);
+        facultyDao.find(statement.getFaculty().getId()).getStatements().remove(statement);
+        userDao.find(statement.getUser().getId()).getStatements().remove(statement);
     }
 
     @Override
@@ -68,8 +68,8 @@ public class StatementService extends BaseCrudService<Statement, StatementDto> i
         if (statement == null || user == null || faculty == null) {
             throw new ServiceUncheckedException("statement or user or faculty not found");
         }
-        statement.getFaculty().getStatements().remove(statement);
-        statement.getUser().getStatements().remove(statement);
+        facultyDao.find(statement.getFaculty().getId()).getStatements().remove(statement);
+        userDao.find(statement.getUser().getId()).getStatements().remove(statement);
 
         statement.setUser(user);
         statement.setFaculty(faculty);

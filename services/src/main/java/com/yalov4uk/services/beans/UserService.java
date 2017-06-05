@@ -75,12 +75,12 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
             throw new ServiceUncheckedException("role or user not found");
         }
 
-        user.getRole().getUsers().remove(user);
+        roleDao.find(user.getRole().getId()).getUsers().remove(user);
 
         user.setRole(role);
         userDao.persist(user);
 
-        user.getRole().getUsers().add(user);
+        role.getUsers().add(user);
         return modelMapper.map(user, UserDto.class);
     }
 
