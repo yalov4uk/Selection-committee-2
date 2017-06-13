@@ -1,5 +1,6 @@
 package com.yalov4uk.security;
 
+import com.yalov4uk.services.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

@@ -21,16 +21,6 @@ public class User extends Bean {
     private Set<Faculty> faculties;
     private Set<Statement> statements;
 
-    public Integer getAverageScore(Faculty faculty) {
-        Integer result = 0;
-        for (Subject subject : subjects) {
-            if (faculty.getRequiredSubjects().contains(subject.getSubjectName())) {
-                result += subject.getValue();
-            }
-        }
-        return result;
-    }
-
     public User() {
         subjects = new HashSet<>();
         faculties = new HashSet<>();
@@ -55,6 +45,16 @@ public class User extends Bean {
         this.login = login;
         this.password = password;
         this.role = role;
+    }
+
+    public Integer getAverageScore(Faculty faculty) {
+        Integer result = 0;
+        for (Subject subject : subjects) {
+            if (faculty.getRequiredSubjects().contains(subject.getSubjectName())) {
+                result += subject.getValue();
+            }
+        }
+        return result;
     }
 
     @Column(name = "name")

@@ -1,4 +1,4 @@
-package com.yalov4uk.security;
+package com.yalov4uk.services.security;
 
 import com.yalov4uk.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;

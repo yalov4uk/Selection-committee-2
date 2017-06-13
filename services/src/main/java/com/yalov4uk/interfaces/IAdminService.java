@@ -1,7 +1,7 @@
 package com.yalov4uk.interfaces;
 
-import com.yalov4uk.interfaces.abstracts.IBaseService;
 import com.yalov4uk.dto.StatementDto;
+import com.yalov4uk.interfaces.abstracts.IBaseService;
 
 import java.util.List;
 

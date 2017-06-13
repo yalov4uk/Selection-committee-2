@@ -1,7 +1,7 @@
 {
 	"variables": [],
 	"info": {
-		"name": "SelectionCommittee v3",
+		"name": "SelectionCommittee",
 		"_postman_id": "f9821584-fc29-c8d9-37b5-69078b8b0a12",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
@@ -25,7 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"maxSize\":100,\n\t\"name\":\"testFac1\"\n}"
+							"raw": "{\n\t\"maxSize\":3,\n\t\"name\":\"lastTest\"\n}"
 						},
 						"description": ""
 					},
@@ -34,7 +34,7 @@
 				{
 					"name": "update faculty",
 					"request": {
-						"url": "http://localhost:8080/faculties/18",
+						"url": "http://localhost:8080/faculties/3",
 						"method": "PUT",
 						"header": [
 							{
@@ -45,7 +45,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"maxSize\":100,\n\t\"name\":\"testFac1\"\n}"
+							"raw": "{\n\t\"maxSize\":6,\n\t\"name\":\"fac3\"\n}"
 						},
 						"description": ""
 					},
@@ -68,7 +68,7 @@
 				{
 					"name": "add subjectName to faculty",
 					"request": {
-						"url": "http://localhost:8080/faculties/4/subjectNames",
+						"url": "http://localhost:8080/faculties/27/subjectNames",
 						"method": "POST",
 						"header": [
 							{
@@ -79,7 +79,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"subjectNameId\":28\n}\n"
+							"raw": "{\n\t\"subjectNameId\":5\n}\n"
 						},
 						"description": ""
 					},
@@ -88,7 +88,7 @@
 				{
 					"name": "delete subjectName from faculty",
 					"request": {
-						"url": "http://localhost:8080/faculties/4/subjectNames/28",
+						"url": "http://localhost:8080/faculties/27/subjectNames/5",
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -364,7 +364,7 @@
 				{
 					"name": "delete subject",
 					"request": {
-						"url": "http://localhost:8080/subjects/355",
+						"url": "http://localhost:8080/subjects/474",
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -554,7 +554,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"userId\":375,\n\t\"facultyId\":3\n}"
+							"raw": "{\n\t\"userId\":395,\n\t\"facultyId\":3\n}"
 						},
 						"description": ""
 					},
@@ -564,6 +564,17 @@
 					"name": "calculate past entrants",
 					"request": {
 						"url": "http://localhost:8080/faculties/3/pastEntrants",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "calculate past statements",
+					"request": {
+						"url": "http://localhost:8080/faculties/3/pastStatements",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -591,7 +602,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"login\":\"admin\",\n\t\"password\":\"admin\"\n}"
+							"raw": "{\n\t\"login\":\"testv10\",\n\t\"password\":\"testv10\"\n}"
 						},
 						"description": ""
 					},
@@ -611,7 +622,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\":\"testv7\",\n\t\"login\":\"testv7\",\n\t\"password\":\"testv7\"\n}"
+							"raw": "{\n\t\"name\":\"testv10\",\n\t\"login\":\"testv10\",\n\t\"password\":\"testv10\"\n}"
 						},
 						"description": ""
 					},
@@ -659,7 +670,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"value\":99,\n\t\"subjectNameId\":4\n}"
+							"raw": "{\n\t\"value\":90,\n\t\"subjectNameId\":4\n}"
 						},
 						"description": ""
 					},
@@ -668,7 +679,7 @@
 				{
 					"name": "delete my subject (enrollee)",
 					"request": {
-						"url": "http://localhost:8080/self/subjects/233",
+						"url": "http://localhost:8080/self/subjects/458",
 						"method": "DELETE",
 						"header": [],
 						"body": {},

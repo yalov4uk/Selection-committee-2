@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 
 public abstract class BaseCrudService<T extends Bean, D extends Dto> extends BaseService implements IBaseCrudService<D> {
 
+    public BaseCrudService(ModelMapper modelMapper) {
+        super(modelMapper);
+    }
+
     protected abstract IBaseDao<T> getDao();
 
     protected abstract Class<T> getBeanClass();
@@ -58,9 +62,5 @@ public abstract class BaseCrudService<T extends Bean, D extends Dto> extends Bas
 
     private void validate(D dto) {
         getValidator().validate(dto);
-    }
-
-    public BaseCrudService(ModelMapper modelMapper) {
-        super(modelMapper);
     }
 }

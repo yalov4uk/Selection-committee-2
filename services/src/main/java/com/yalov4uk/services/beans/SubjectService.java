@@ -69,7 +69,13 @@ public class SubjectService extends BaseCrudService<Subject, SubjectDto> impleme
         if (subjectName == null || user == null) {
             throw new ServiceUncheckedException("subjectName or user not found");
         }
-        Subject subject = new Subject(subjectInputDto.getValue());
+
+        Subject subject = subjectDao.findBySubjectNameAndUserIds(subjectName.getId(), user.getId());
+        if (subject != null) {
+            throw new ServiceUncheckedException("the subject already exist");
+        }
+
+        subject = new Subject(subjectInputDto.getValue());
         subject.setSubjectName(subjectName);
         subject.setUser(user);
         subjectDao.persist(subject);

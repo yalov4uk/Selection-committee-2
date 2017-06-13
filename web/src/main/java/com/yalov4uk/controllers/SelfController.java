@@ -5,7 +5,7 @@ import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.dto.input.SubjectInputDto;
 import com.yalov4uk.interfaces.beans.ISubjectService;
 import com.yalov4uk.interfaces.beans.IUserService;
-import com.yalov4uk.security.CustomUserDetails;
+import com.yalov4uk.services.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +62,7 @@ public class SelfController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private UserDto getSelf(){
+    private UserDto getSelf() {
         return ((CustomUserDetails) SecurityContextHolder
                 .getContext()
                 .getAuthentication()

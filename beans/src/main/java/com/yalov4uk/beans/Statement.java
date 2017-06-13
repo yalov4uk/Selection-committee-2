@@ -15,13 +15,13 @@ public class Statement extends Bean implements Comparable<Object> {
     private User user;
     private Faculty faculty;
 
+    public Statement() {
+        this.date = new Date();
+    }
+
     @Override
     public int compareTo(Object o) {
         return user.getAverageScore(faculty).compareTo(((Statement) o).getUser().getAverageScore(faculty));
-    }
-
-    public Statement() {
-        this.date = new Date();
     }
 
     @Column(name = "date")

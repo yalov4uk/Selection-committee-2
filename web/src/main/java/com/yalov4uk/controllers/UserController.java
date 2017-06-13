@@ -34,13 +34,13 @@ public class UserController extends BaseCrudController<UserDto> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity update(@PathVariable int id, @RequestBody UserInputDto user) {
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody UserInputDto user) {
         user.setId(id);
         return new ResponseEntity<>(userService.update(user), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}/subjects", method = RequestMethod.GET)
-    public ResponseEntity getSubjects(@PathVariable int userId) {
+    public ResponseEntity getSubjects(@PathVariable Integer userId) {
         List<SubjectDto> subjects = userService.getSubjects(userId);
         return new ResponseEntity<>(subjects, HttpStatus.OK);
     }

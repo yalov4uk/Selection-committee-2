@@ -10,7 +10,7 @@ import com.yalov4uk.interfaces.IAdminService;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.abstracts.IBaseCrudService;
 import com.yalov4uk.interfaces.beans.IFacultyService;
-import com.yalov4uk.security.CustomUserDetails;
+import com.yalov4uk.services.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ public class FacultyController extends BaseCrudController<FacultyDto> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity update(@PathVariable int id, @RequestBody FacultyDto faculty) {
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody FacultyDto faculty) {
         faculty.setId(id);
         return super.update(faculty);
     }

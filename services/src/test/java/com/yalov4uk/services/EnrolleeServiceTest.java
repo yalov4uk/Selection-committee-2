@@ -1,9 +1,9 @@
 package com.yalov4uk.services;
 
 import com.yalov4uk.abstracts.Dto;
+import com.yalov4uk.dto.*;
 import com.yalov4uk.interfaces.IEnrolleeService;
 import com.yalov4uk.interfaces.beans.*;
-import com.yalov4uk.dto.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

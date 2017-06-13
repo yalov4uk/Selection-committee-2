@@ -1,10 +1,10 @@
 package com.yalov4uk.services;
 
+import com.yalov4uk.dto.RoleDto;
+import com.yalov4uk.dto.UserDto;
 import com.yalov4uk.exceptions.ServiceUncheckedException;
 import com.yalov4uk.interfaces.beans.IRoleService;
 import com.yalov4uk.interfaces.beans.IUserService;
-import com.yalov4uk.dto.RoleDto;
-import com.yalov4uk.dto.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

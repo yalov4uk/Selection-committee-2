@@ -106,10 +106,11 @@ public class UserService extends BaseCrudService<User, UserDto> implements IUser
     public void deleteSubject(Integer userId, Integer subjectId) {
         User user = userDao.find(userId);
         Subject subject = subjectDao.find(subjectId);
-        if (user == null || subject == null || user.getSubjects().contains(subject)) {
+        if (user == null || subject == null || !user.getSubjects().contains(subject)) {
             throw new ServiceUncheckedException("wrong input or user hasn't this subject");
         }
 
+        subjectDao.delete(subjectId);
         user.getSubjects().remove(subject);
     }
 
